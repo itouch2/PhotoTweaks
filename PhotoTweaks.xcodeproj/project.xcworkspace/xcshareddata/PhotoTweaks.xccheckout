@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>F6B6C3E5-ABF7-4307-97CD-5615215C3360</string>
+	<key>IDESourceControlProjectName</key>
+	<string>PhotoTweaks</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>69DED6FD9E7FD7F98E45C3020DA22B3A6748FD94</key>
+		<string>https://github.com/itouch2/PhotoTweaks.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>PhotoTweaks.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>69DED6FD9E7FD7F98E45C3020DA22B3A6748FD94</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/itouch2/PhotoTweaks.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>69DED6FD9E7FD7F98E45C3020DA22B3A6748FD94</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>69DED6FD9E7FD7F98E45C3020DA22B3A6748FD94</string>
+			<key>IDESourceControlWCCName</key>
+			<string>PhotoTweaks</string>
+		</dict>
+	</array>
+</dict>
+</plist>

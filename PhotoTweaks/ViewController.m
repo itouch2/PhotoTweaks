@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "PhotoView.h"
 
 @interface ViewController ()
+
+@property (strong, nonatomic) PhotoView *photoView;
 
 @end
 
@@ -17,6 +20,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+    
+    self.photoView = [[PhotoView alloc] initWithImage:[UIImage imageNamed:@"photo"]];
+    
+    self.photoView.center = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, 250);
+    [self.view addSubview:self.photoView];
+    
+    UIView *t = [UIView new];
+    t.backgroundColor = [UIColor redColor];
+    t.frame = CGRectMake(20, 20, 100, 100);
+    t.transform = CGAffineTransformMakeRotation(M_PI_2 / 8);
+    
+    t.frame = CGRectMake(20, 20, 100, 100);
+    NSLog(@"%@", NSStringFromCGRect(t.frame));
+    NSLog(@"%@", NSStringFromCGRect(t.bounds));
+    
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, 400, 60, 20)];
+    [btn setTitle:@"zoom" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+}
+
+- (void)btnClicked:(id)sender
+{
+    [self.photoView zoom];
 }
 
 - (void)didReceiveMemoryWarning {
