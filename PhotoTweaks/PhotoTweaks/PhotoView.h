@@ -10,7 +10,7 @@
 
 @interface PhotoView : UIView
 
-- (instancetype)initWithImage:(UIImage *)image;
+- (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image;
 - (void)zoom;
 
 @end

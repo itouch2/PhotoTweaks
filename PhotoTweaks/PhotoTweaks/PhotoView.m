@@ -7,8 +7,21 @@
 //
 
 #import "PhotoView.h"
+#import <math.h>
 
-#define kInstruction
+static const int kGridLines = 2;
+static const CGFloat kCenterY = 220;
+static const CGFloat kCropVieHotArea = 16;
+
+static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
+{
+    return sqrt(pow(point1.x - point0.x, 2) + pow(point1.y - point0.y, 2));
+}
+
+//#define kInstruction
+//#define kCanCrop
+#define kShowMask
+#define kShowGrid
 
 @interface PhotoContentView : UIView
 
@@ -47,6 +60,7 @@
 
 @property (assign, nonatomic) CGFloat distance;
 @property (assign, nonatomic) CGRect originalFrame;
+@property (strong, nonatomic) PhotoContentView *photoContentView;
 
 @end
 
@@ -81,13 +95,10 @@
 
 - (CGFloat)realScale
 {
-    UIView *view = self.subviews[0];
-    
-    CGFloat heightRatio = self.bounds.size.height / view.bounds.size.height;
-    CGFloat widthRatio = self.bounds.size.width / view.bounds.size.width;
-    CGFloat maxRatio = heightRatio > widthRatio ? heightRatio : widthRatio;
-    
-    return maxRatio;
+    CGFloat widthScale = self.bounds.size.width / self.photoContentView.bounds.size.width;
+    CGFloat heigthScale = self.bounds.size.height / self.photoContentView.bounds.size.height;
+    CGFloat maxScale = MAX(widthScale, heigthScale);
+    return maxScale;
 }
 
 - (void)setContentOffset:(CGPoint)contentOffset
@@ -95,45 +106,54 @@
     [super setContentOffset:contentOffset];
 }
 
-- (void)updateSubviews
+- (void)updatePhotoContentView
 {
-    UIView *view = self.subviews[0];
-    
-    CGFloat heightRatio = self.bounds.size.height / view.bounds.size.height;
-    CGFloat widthRatio = self.bounds.size.width / view.bounds.size.width;
-    CGFloat maxRatio = heightRatio > widthRatio ? heightRatio : widthRatio;
+    CGFloat widthScale = self.bounds.size.width / self.photoContentView.bounds.size.width;
+    CGFloat heightScale = self.bounds.size.height / self.photoContentView.bounds.size.height;
+    CGFloat maxScale = MAX(widthScale, heightScale);
 
-    if (maxRatio > 1) {
-        view.frame = CGRectMake(0, 0, maxRatio * view.bounds.size.width, maxRatio * view.bounds.size.height);
+    if (maxScale > 1) {
+        self.photoContentView.frame = CGRectMake(0, 0, maxScale * self.photoContentView.bounds.size.width, maxScale * self.photoContentView.bounds.size.height);
         
-        if (heightRatio > widthRatio) {
+        if (heightScale > widthScale) {
             
-            self.contentOffsetX = (view.frame.size.width - self.bounds.size.width) / 2;
+            self.contentOffsetX = (self.photoContentView.frame.size.width - self.bounds.size.width) / 2;
             
-            self.minimumZoomScale = maxRatio;
+            self.minimumZoomScale = maxScale;
             NSLog(@"contentoffset x : %lf", self.contentOffset.x);
             
         } else {
             
         }
-        
-        NSLog(@"content offset %@", NSStringFromCGPoint(self.contentOffset));
     }
 }
 
 - (void)printParams
 {
-    UIView *view = self.subviews[0];
-    NSLog(@"view bounds %@", NSStringFromCGRect(view.bounds));
-    NSLog(@"self bounds %@", NSStringFromCGRect(self.bounds));
+    NSLog(@"view bounds %@", NSStringFromCGRect(self.photoContentView.bounds));
+    NSLog(@"self bounds %@", NSStringFromCGRect(self.photoContentView.bounds));
     
-    NSLog(@"view frame %@", NSStringFromCGRect(view.frame));
+    NSLog(@"view frame %@", NSStringFromCGRect(self.frame));
     NSLog(@"self frame %@", NSStringFromCGRect(self.frame));
 }
 
 @end
 
+@class CropView;
+
+@protocol CropViewDelegate <NSObject>
+
+- (void)cropEnded:(CropView *)cropView;
+- (void)cropMoved:(CropView *)cropView;
+- (void)cropViewBoundsChanged:(CropView *)cropView;
+
+@end
+
 @interface CropView : UIView
+
+@property (weak, nonatomic) id<CropViewDelegate> delegate;
+@property (strong, nonatomic) NSMutableArray *horizontalLines;
+@property (strong, nonatomic) NSMutableArray *verticalLines;
 
 @end
 
@@ -144,13 +164,118 @@
     if (self = [super initWithFrame:frame]) {
         self.layer.borderColor = [UIColor colorWithWhite:1.0 alpha:0.7].CGColor;
         self.layer.borderWidth = 2;
+        
+        self.horizontalLines = [NSMutableArray array];
+        for (int i = 0; i < kGridLines; i++) {
+            UIView *line = [UIView new];
+            line.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+            [self.horizontalLines addObject:line];
+            [self addSubview:line];
+        }
+        
+        self.verticalLines = [NSMutableArray array];
+        for (int i = 0; i < kGridLines; i++) {
+            UIView *line = [UIView new];
+            line.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+            [self.verticalLines addObject:line];
+            [self addSubview:line];
+        }
     }
     return self;
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if ([touches count] == 1) {
+        
+    }
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if ([touches count] == 1) {
+        CGPoint location = [[touches anyObject] locationInView:self];
+        CGRect frame = self.frame;
+        
+        CGPoint p0 = CGPointMake(0, 0);
+        CGPoint p1 = CGPointMake(self.frame.size.width, 0);
+        CGPoint p2 = CGPointMake(0, self.frame.size.height);
+        CGPoint p3 = CGPointMake(self.frame.size.width, self.frame.size.height);
+        
+        if (distanceBetweenPoints(location, p0) < kCropVieHotArea) {
+            frame.origin.x += location.x;
+            frame.size.width -= location.x;
+            frame.origin.y += location.y;
+            frame.size.height -= location.y;
+        } else if (distanceBetweenPoints(location, p1) < kCropVieHotArea) {
+            frame.size.width = location.x;
+            frame.origin.y += location.y;
+            frame.size.height -= location.y;
+        } else if (distanceBetweenPoints(location, p2) < kCropVieHotArea) {
+            frame.origin.x += location.x;
+            frame.size.width -= location.x;
+            frame.size.height = location.y;
+        } else if (distanceBetweenPoints(location, p3) < kCropVieHotArea) {
+            frame.size.width = location.x;
+            frame.size.height = location.y;
+        } else if (fabs(location.x - frame.origin.x) < kCropVieHotArea) {
+            frame.origin.x += location.x;
+            frame.size.width -= location.x;
+        } else if (fabs(location.x - (frame.origin.x + frame.size.width)) < kCropVieHotArea) {
+            frame.size.width = location.x;
+        } else if (fabs(location.y - frame.origin.y < kCropVieHotArea)) {
+            frame.origin.y += location.y;
+            frame.size.height -= frame.size.height;
+        } else if (fabs(location.y - (frame.origin.y + frame.size.height)) < kCropVieHotArea) {
+            frame.size.height = location.y;
+        }
+        
+        self.frame = frame;
+        
+        if ([self.delegate respondsToSelector:@selector(cropMoved:)]) {
+            [self.delegate cropMoved:self];
+        }
+    }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if ([self.delegate respondsToSelector:@selector(cropEnded:)]) {
+        [self.delegate cropEnded:self];
+    }
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+#ifdef kShowGrid
+    
+    [self.horizontalLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        UIView *line = (UIView *)obj;
+        line.frame = CGRectMake(0, (self.frame.size.height / (kGridLines + 1)) * (idx + 1), self.frame.size.width, 1);
+    }];
+    
+    [self.verticalLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        UIView *line = (UIView *)obj;
+        line.frame = CGRectMake((self.frame.size.width / (kGridLines + 1)) * (idx + 1), 0, 1, self.frame.size.height);
+    }];
+    
+#endif
+    
+    if ([self.delegate respondsToSelector:@selector(cropViewBoundsChanged:)]) {
+        [self.delegate cropViewBoundsChanged:self];
+    }
+}
+
 @end
 
-@interface PhotoView () <UIScrollViewDelegate>
+@interface PhotoView () <UIScrollViewDelegate, CropViewDelegate>
 
 @property (strong, nonatomic) PhotoScrollView *scrollView;
 @property (strong, nonatomic) PhotoContentView *contentImageView;
@@ -160,11 +285,17 @@
 @property (assign, nonatomic) CGFloat angle;
 @property (assign, nonatomic) CGSize originalSize;
 
+// masks
+@property (strong, nonatomic) UIView *topMask;
+@property (strong, nonatomic) UIView *leftMask;
+@property (strong, nonatomic) UIView *bottomMask;
+@property (strong, nonatomic) UIView *rightMask;
+
 @end
 
 @implementation PhotoView
 
-- (instancetype)initWithImage:(UIImage *)image
+- (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image
 {
     if (self = [super init]) {
         
@@ -172,20 +303,20 @@
         self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
 #endif
         self.image = image;
+        self.frame = frame;
         
         // scale the image
-        
-        CGFloat scale = 0.65;
+        CGFloat scale = 0.90;
         
         CGFloat width = (int)(scale * image.size.width);
         CGFloat height = (int)(scale * image.size.height);
-        self.frame = CGRectMake(0, 0, width, height + 50);
+        
+        CGRect bounds = CGRectMake(0, 0, width, height);
         
         self.originalSize = self.frame.size;
         
-        CGRect bounds = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - 50);
         self.scrollView = [[PhotoScrollView alloc] initWithFrame:bounds];
-
+        self.scrollView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, kCenterY);
         self.scrollView.bounces = YES;
         self.scrollView.layer.anchorPoint = CGPointMake(0.5, 0.5);
         self.scrollView.alwaysBounceVertical = YES;
@@ -210,22 +341,39 @@
         self.contentImageView.frame = self.scrollView.bounds;
         self.contentImageView.backgroundColor = [UIColor clearColor];
         self.contentImageView.userInteractionEnabled = YES;
+        
+        self.scrollView.photoContentView = self.contentImageView;
 #ifdef kInstruction
         self.contentImageView.alpha = 0.35;
 #endif
         [self.scrollView addSubview:self.contentImageView];
         
+        self.cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
+        self.cropView.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, kCenterY);
+        self.cropView.delegate = self;
+        [self addSubview:self.cropView];
+        
+        UIColor *maskColor = [UIColor colorWithWhite:0 alpha:0.5];
+        self.topMask = [UIView new];
+        self.topMask.backgroundColor = maskColor;
+        [self addSubview:self.topMask];
+        self.leftMask = [UIView new];
+        self.leftMask.backgroundColor = maskColor;
+        [self addSubview:self.leftMask];
+        self.bottomMask = [UIView new];
+        self.bottomMask.backgroundColor = maskColor;
+        [self addSubview:self.bottomMask];
+        self.rightMask = [UIView new];
+        self.rightMask.backgroundColor = maskColor;
+        [self addSubview:self.rightMask];
+        
         self.slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 240, 20)];
-        self.slider.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 25);
+        self.slider.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 105);
         self.slider.minimumValue = 0.0f;
         self.slider.maximumValue = 1.0f;
         [self.slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
         self.slider.value = 0.5;
         [self addSubview:self.slider];
-        
-        self.cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
-        self.cropView.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) / 2 - 50 / 2);
-        [self addSubview:self.cropView];
     }
     return self;
 }
@@ -237,9 +385,12 @@
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-    CGRect rect = self.slider.frame;
-    if (CGRectContainsPoint(rect, point)) {
+    if (CGRectContainsPoint(self.slider.frame, point)) {
         return self.slider;
+    } else if (CGRectContainsPoint(CGRectInset(self.cropView.frame, -kCropVieHotArea, -kCropVieHotArea), point) && !CGRectContainsPoint(CGRectInset(self.cropView.frame, kCropVieHotArea, kCropVieHotArea), point)) {
+#ifdef kCanCrop
+        return self.cropView;
+#endif
     }
     return self.scrollView;
 }
@@ -247,6 +398,56 @@
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     return self.contentImageView;
+}
+
+#pragma mark - Crop View Delegate
+
+- (void)cropMoved:(CropView *)cropView
+{
+    
+}
+
+- (void)cropEnded:(CropView *)cropView
+{
+    CGFloat scaleX = self.originalSize.width / cropView.frame.size.width;
+    CGFloat scaleY = self.originalSize.height / cropView.frame.size.height;
+    
+    CGFloat scale = MIN(scaleX, scaleY);
+    
+    CGRect frame = cropView.frame;
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        cropView.bounds = CGRectMake(0, 0, cropView.bounds.size.width * scale, cropView.bounds.size.height * scale);
+        cropView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, kCenterY);
+        
+        [self.scrollView zoomToRect:frame animated:YES];
+    }];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self checkScrollViewContentOffset];
+    });
+}
+
+- (void)cropViewBoundsChanged:(CropView *)cropView
+{
+#ifdef kShowMask
+    self.topMask.frame = CGRectMake(0, 0, cropView.frame.origin.x + cropView.frame.size.width, cropView.frame.origin.y);
+    self.leftMask.frame = CGRectMake(0, cropView.frame.origin.y, cropView.frame.origin.x, self.frame.size.height - cropView.frame.origin.y);
+    self.bottomMask.frame = CGRectMake(cropView.frame.origin.x, cropView.frame.origin.y + cropView.frame.size.height, self.frame.size.width - cropView.frame.origin.x, self.frame.size.height - (cropView.frame.origin.y + cropView.frame.size.height));
+    self.rightMask.frame = CGRectMake(cropView.frame.origin.x + cropView.frame.size.width, 0, self.frame.size.width - (cropView.frame.origin.x + cropView.frame.size.width), cropView.frame.origin.y + cropView.frame.size.height);
+#endif
+}
+
+- (void)checkScrollViewContentOffset
+{
+    if (self.scrollView.contentSize.height - self.scrollView.contentOffset.y <= self.scrollView.bounds.size.height) {
+        self.scrollView.contentOffsetY = self.scrollView.contentSize.height - self.scrollView.bounds.size.height;
+    }
+    
+    if (self.scrollView.contentSize.width - self.scrollView.contentOffset.x <= self.scrollView.bounds.size.width) {
+        self.scrollView.contentOffsetX = self.scrollView.contentSize.width - self.scrollView.bounds.size.width;
+    }
 }
 
 - (void)sliderValueChanged:(id)sender
@@ -290,7 +491,7 @@
 //    CGFloat zoomScale = zoomScaleX > zoomScaleY ? zoomScaleX : zoomScaleY;
 //    [self.scrollView setZoomScale:zoomScale];
 
-    [self.scrollView updateSubviews];
+    [self.scrollView updatePhotoContentView];
 }
 
 @end

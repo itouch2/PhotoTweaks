@@ -22,9 +22,8 @@
     // Do any additional setup after loading the view, typically from a nib.
     self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
     
-    self.photoView = [[PhotoView alloc] initWithImage:[UIImage imageNamed:@"photo"]];
-    
-    self.photoView.center = CGPointMake(CGRectGetWidth(self.view.bounds) / 2, 250);
+    self.photoView = [[PhotoView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"photo"]];
+    self.photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.photoView];
     
     UIView *t = [UIView new];
@@ -39,12 +38,17 @@
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, 400, 60, 20)];
     [btn setTitle:@"zoom" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn];
+//    [self.view addSubview:btn];
 }
 
 - (void)btnClicked:(id)sender
 {
     [self.photoView zoom];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning {
