@@ -26,27 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PhotoTweaks/PhotoTweaks/PhotoView.m"
-            timestampString = "439317644.222848"
+            timestampString = "439395235.698197"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "658"
-            endingLineNumber = "658">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PhotoTweaks/PhotoTweaks/PhotoView.m"
-            timestampString = "439317644.222848"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "457"
-            endingLineNumber = "457"
-            landmarkName = "-cropEnded:"
-            landmarkType = "5">
+            startingLineNumber = "641"
+            endingLineNumber = "641">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
