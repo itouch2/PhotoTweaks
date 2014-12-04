@@ -30,15 +30,19 @@
     t.backgroundColor = [UIColor redColor];
     t.frame = CGRectMake(20, 20, 100, 100);
     t.transform = CGAffineTransformMakeRotation(M_PI_2 / 8);
+    NSLog(@"%@", NSStringFromCGRect(t.frame));
+    NSLog(@"%@", NSStringFromCGRect(t.bounds));
     
     t.frame = CGRectMake(20, 20, 100, 100);
     NSLog(@"%@", NSStringFromCGRect(t.frame));
     NSLog(@"%@", NSStringFromCGRect(t.bounds));
     
+    
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, 400, 60, 20)];
     [btn setTitle:@"zoom" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:btn];
+    [self.view addSubview:btn];
+    
 }
 
 - (void)btnClicked:(id)sender
