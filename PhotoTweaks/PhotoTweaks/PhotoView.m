@@ -437,11 +437,12 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     // calculate the zoom area of scroll view
     CGRect scaleFrame = cropView.frame;
     if (scaleFrame.size.width >= self.scrollView.bounds.size.width) {
-        scaleFrame.size.width -= 1;
+        scaleFrame.size.width = self.scrollView.bounds.size.width - 1;
     }
     if (scaleFrame.size.height >= self.scrollView.bounds.size.height) {
-        scaleFrame.size.height -= 1;
+        scaleFrame.size.height = self.scrollView.bounds.size.height - 1;
     }
+
     CGRect zoomRect = [self convertRect:scaleFrame toView:self.scrollView.photoContentView];
     
     [UIView animateWithDuration:0.25 animations:^{
