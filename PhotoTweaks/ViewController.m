@@ -25,7 +25,7 @@
     UIImage *image0 = [UIImage imageNamed:@"photo"];
     UIImage *image1 = [UIImage imageNamed:@"brave-pixar-poster.jpg"];
     
-    self.photoView = [[PhotoView alloc] initWithFrame:self.view.bounds image:image1];
+    self.photoView = [[PhotoView alloc] initWithFrame:self.view.bounds image:image0];
     self.photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.photoView];
     

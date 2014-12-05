@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B71706101A31E40D00A6CC10 /* UIImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = B717060F1A31E40D00A6CC10 /* UIImage+Crop.m */; };
 		B7E76DD01A319AB10025E527 /* brave-pixar-poster@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B7E76DCF1A319AB10025E527 /* brave-pixar-poster@2x.jpg */; };
+		CB3496FC1A3207E800C7EB0E /* PhotoTweaksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB3496FB1A3207E800C7EB0E /* PhotoTweaksViewController.m */; };
 		CBD5FA591A28425300D4D520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA581A28425300D4D520 /* main.m */; };
 		CBD5FA5C1A28425300D4D520 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA5B1A28425300D4D520 /* AppDelegate.m */; };
 		CBD5FA5F1A28425300D4D520 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA5E1A28425300D4D520 /* ViewController.m */; };
@@ -34,6 +35,8 @@
 		B717060E1A31E40D00A6CC10 /* UIImage+Crop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Crop.h"; sourceTree = "<group>"; };
 		B717060F1A31E40D00A6CC10 /* UIImage+Crop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Crop.m"; sourceTree = "<group>"; };
 		B7E76DCF1A319AB10025E527 /* brave-pixar-poster@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "brave-pixar-poster@2x.jpg"; sourceTree = "<group>"; };
+		CB3496FA1A3207E800C7EB0E /* PhotoTweaksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTweaksViewController.h; sourceTree = "<group>"; };
+		CB3496FB1A3207E800C7EB0E /* PhotoTweaksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTweaksViewController.m; sourceTree = "<group>"; };
 		CBD5FA531A28425300D4D520 /* PhotoTweaks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoTweaks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBD5FA571A28425300D4D520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CBD5FA581A28425300D4D520 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -135,6 +138,8 @@
 		CBDE57B41A2CA9EE00285CFF /* PhotoTweaks */ = {
 			isa = PBXGroup;
 			children = (
+				CB3496FA1A3207E800C7EB0E /* PhotoTweaksViewController.h */,
+				CB3496FB1A3207E800C7EB0E /* PhotoTweaksViewController.m */,
 				CBDE57B51A2CAA0600285CFF /* PhotoView.h */,
 				CBDE57B61A2CAA0600285CFF /* PhotoView.m */,
 				B717060E1A31E40D00A6CC10 /* UIImage+Crop.h */,
@@ -249,6 +254,7 @@
 				CBD5FA5C1A28425300D4D520 /* AppDelegate.m in Sources */,
 				B71706101A31E40D00A6CC10 /* UIImage+Crop.m in Sources */,
 				CBD5FA591A28425300D4D520 /* main.m in Sources */,
+				CB3496FC1A3207E800C7EB0E /* PhotoTweaksViewController.m in Sources */,
 				CBDE57B71A2CAA0700285CFF /* PhotoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

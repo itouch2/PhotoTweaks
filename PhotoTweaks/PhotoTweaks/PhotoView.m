@@ -23,6 +23,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 }
 
 //#define kInstruction
+//#define kShowCanvas
 
 @interface PhotoContentView : UIView
 
@@ -326,7 +327,8 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         
         // scale the image
         
-        self.maximumCanvasSize = CGSizeMake(kMaximumCanvasWidth * self.frame.size.width, kMaximumCanvasHeight * self.frame.size.height - kCanvasHeaderHeigth);
+        self.maximumCanvasSize = CGSizeMake(kMaximumCanvasWidth * self.frame.size.width,
+                                            kMaximumCanvasHeight * self.frame.size.height - kCanvasHeaderHeigth);
         
         CGFloat scaleX = image.size.width / self.maximumCanvasSize.width;
         CGFloat scaleY = image.size.height / self.maximumCanvasSize.height;
@@ -336,10 +338,12 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         
         self.centerY = self.maximumCanvasSize.height / 2 + kCanvasHeaderHeigth;
         
+#ifdef kShowCanvas
         UIView *canvas = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.maximumCanvasSize.width, self.maximumCanvasSize.height)];
         canvas.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
         canvas.backgroundColor = [UIColor colorWithRed:0.8 green:0.6 blue:0.3 alpha:0.5];
         [self addSubview:canvas];
+#endif
         
         self.scrollView = [[PhotoScrollView alloc] initWithFrame:bounds];
         self.scrollView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
@@ -353,13 +357,12 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         self.scrollView.showsVerticalScrollIndicator = NO;
         self.scrollView.showsHorizontalScrollIndicator = NO;
         self.scrollView.clipsToBounds = NO;
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width / 2, self.scrollView.bounds.size.height / 2);
+        self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width, self.scrollView.bounds.size.height);
 #ifdef kInstruction
         self.scrollView.layer.borderColor = [UIColor redColor].CGColor;
         self.scrollView.layer.borderWidth = 1;
         self.scrollView.showsVerticalScrollIndicator = YES;
         self.scrollView.showsHorizontalScrollIndicator = YES;
-        self.scrollView.backgroundColor = [UIColor orangeColor];
 #endif
         [self addSubview:self.scrollView];
         
@@ -368,10 +371,10 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         self.contentImageView.backgroundColor = [UIColor clearColor];
         self.contentImageView.userInteractionEnabled = YES;
         
-        self.scrollView.photoContentView = self.contentImageView;
 #ifdef kInstruction
         self.contentImageView.alpha = 0.35;
 #endif
+        self.scrollView.photoContentView = self.contentImageView;
         [self.scrollView addSubview:self.contentImageView];
         
         self.cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
