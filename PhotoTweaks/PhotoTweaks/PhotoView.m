@@ -10,16 +10,19 @@
 #import <math.h>
 
 static const int kGridLines = 2;
-static const CGFloat kCenterY = 220;
+
 static const CGFloat kCropViewHotArea = 16;
 static const CGFloat kMinimumCropArea = 40;
+static const CGFloat kMaximumCanvasWidth = 0.9;
+static const CGFloat kMaximumCanvasHeight = 0.70;
+static const CGFloat kCanvasHeaderHeigth = 60;
 
 static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 {
     return sqrt(pow(point1.x - point0.x, 2) + pow(point1.y - point0.y, 2));
 }
 
-#define kInstruction
+//#define kInstruction
 
 @interface PhotoContentView : UIView
 
@@ -163,6 +166,8 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
             [self.verticalLines addObject:line];
             [self addSubview:line];
         }
+        
+        [self updateLines:NO];
     }
     return self;
 }
@@ -301,6 +306,10 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 @property (strong, nonatomic) UIView *bottomMask;
 @property (strong, nonatomic) UIView *rightMask;
 
+// constants
+@property (assign, nonatomic) CGSize maximumCanvasSize;
+@property (assign, nonatomic) CGFloat centerY;
+
 @end
 
 @implementation PhotoView
@@ -316,17 +325,24 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         self.frame = frame;
         
         // scale the image
-        CGFloat scale = 0.90;
         
-        CGFloat width = (int)(scale * image.size.width);
-        CGFloat height = (int)(scale * image.size.height);
+        self.maximumCanvasSize = CGSizeMake(kMaximumCanvasWidth * self.frame.size.width, kMaximumCanvasHeight * self.frame.size.height - kCanvasHeaderHeigth);
         
-        CGRect bounds = CGRectMake(0, 0, width, height);
-        
+        CGFloat scaleX = image.size.width / self.maximumCanvasSize.width;
+        CGFloat scaleY = image.size.height / self.maximumCanvasSize.height;
+        CGFloat scale = MAX(scaleX, scaleY);
+        CGRect bounds = CGRectMake(0, 0, image.size.width / scale, image.size.height / scale);
         self.originalSize = bounds.size;
         
+        self.centerY = self.maximumCanvasSize.height / 2 + kCanvasHeaderHeigth;
+        
+        UIView *canvas = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.maximumCanvasSize.width, self.maximumCanvasSize.height)];
+        canvas.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
+        canvas.backgroundColor = [UIColor colorWithRed:0.8 green:0.6 blue:0.3 alpha:0.5];
+        [self addSubview:canvas];
+        
         self.scrollView = [[PhotoScrollView alloc] initWithFrame:bounds];
-        self.scrollView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, kCenterY);
+        self.scrollView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
         self.scrollView.bounces = YES;
         self.scrollView.layer.anchorPoint = CGPointMake(0.5, 0.5);
         self.scrollView.alwaysBounceVertical = YES;
@@ -359,7 +375,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         [self.scrollView addSubview:self.contentImageView];
         
         self.cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
-        self.cropView.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, kCenterY);
+        self.cropView.center = self.scrollView.center;
         self.cropView.delegate = self;
         [self addSubview:self.cropView];
         
@@ -442,13 +458,13 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     if (scaleFrame.size.height >= self.scrollView.bounds.size.height) {
         scaleFrame.size.height = self.scrollView.bounds.size.height - 1;
     }
-
+    
     CGRect zoomRect = [self convertRect:scaleFrame toView:self.scrollView.photoContentView];
     
     [UIView animateWithDuration:0.25 animations:^{
         // animate crop view
         cropView.bounds = CGRectMake(0, 0, newCropBounds.size.width, newCropBounds.size.height);
-        cropView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, kCenterY);
+        cropView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
         
         // zoom the specified area of scroll view
         [self.scrollView zoomToRect:zoomRect animated:NO];
@@ -527,7 +543,8 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     
     [self checkScrollViewContentOffset];
     
-    if (self.scrollView.contentSize.width / self.scrollView.bounds.size.width > 1.2) {
+    if (self.scrollView.contentSize.width / self.scrollView.bounds.size.width > 1.0
+        && self.scrollView.contentSize.height / self.scrollView.bounds.size.height > 1.0) {
         return ;
     }
     

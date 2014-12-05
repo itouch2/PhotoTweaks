@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B7E76DD01A319AB10025E527 /* brave-pixar-poster@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B7E76DCF1A319AB10025E527 /* brave-pixar-poster@2x.jpg */; };
 		CBD5FA591A28425300D4D520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA581A28425300D4D520 /* main.m */; };
 		CBD5FA5C1A28425300D4D520 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA5B1A28425300D4D520 /* AppDelegate.m */; };
 		CBD5FA5F1A28425300D4D520 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA5E1A28425300D4D520 /* ViewController.m */; };
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B7E76DCF1A319AB10025E527 /* brave-pixar-poster@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "brave-pixar-poster@2x.jpg"; sourceTree = "<group>"; };
 		CBD5FA531A28425300D4D520 /* PhotoTweaks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoTweaks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBD5FA571A28425300D4D520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CBD5FA581A28425300D4D520 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				CBD5FA5D1A28425300D4D520 /* ViewController.h */,
 				CBD5FA5E1A28425300D4D520 /* ViewController.m */,
 				CBDE57B81A2CAF4900285CFF /* photo@2x.png */,
+				B7E76DCF1A319AB10025E527 /* brave-pixar-poster@2x.jpg */,
 				CBD5FA601A28425300D4D520 /* Main.storyboard */,
 				CBD5FA631A28425300D4D520 /* Images.xcassets */,
 				CBD5FA651A28425300D4D520 /* LaunchScreen.xib */,
@@ -219,6 +222,7 @@
 				CBD5FA671A28425300D4D520 /* LaunchScreen.xib in Resources */,
 				CBD5FA641A28425300D4D520 /* Images.xcassets in Resources */,
 				CBDE57B91A2CAF4900285CFF /* photo@2x.png in Resources */,
+				B7E76DD01A319AB10025E527 /* brave-pixar-poster@2x.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
