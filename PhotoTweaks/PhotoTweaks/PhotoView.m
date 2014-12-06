@@ -7,12 +7,13 @@
 //
 
 #import "PhotoView.h"
+#import "UIColor+Tweak.h"
 #import <math.h>
 
 static const int kGridLines = 2;
 
 static const CGFloat kCropViewHotArea = 16;
-static const CGFloat kMinimumCropArea = 40;
+static const CGFloat kMinimumCropArea = 60;
 static const CGFloat kMaximumCanvasWidth = 0.9;
 static const CGFloat kMaximumCanvasHeight = 0.70;
 static const CGFloat kCanvasHeaderHeigth = 60;
@@ -149,13 +150,13 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.layer.borderColor = [UIColor colorWithWhite:1.0 alpha:0.7].CGColor;
-        self.layer.borderWidth = 2;
+        self.layer.borderColor = [UIColor cropLineColor].CGColor;
+        self.layer.borderWidth = 1;
         
         self.horizontalLines = [NSMutableArray array];
         for (int i = 0; i < kGridLines; i++) {
             UIView *line = [UIView new];
-            line.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+            line.backgroundColor = [UIColor cropLineColor];
             [self.horizontalLines addObject:line];
             [self addSubview:line];
         }
@@ -163,12 +164,10 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         self.verticalLines = [NSMutableArray array];
         for (int i = 0; i < kGridLines; i++) {
             UIView *line = [UIView new];
-            line.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+            line.backgroundColor = [UIColor cropLineColor];
             [self.verticalLines addObject:line];
             [self addSubview:line];
         }
-        
-        [self updateLines:NO];
     }
     return self;
 }
@@ -176,7 +175,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if ([touches count] == 1) {
-        
+        [self updateLines:NO];
     }
 }
 
@@ -273,12 +272,12 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     void (^animationBlock)(void) = ^(void) {
         [self.horizontalLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             UIView *line = (UIView *)obj;
-            line.frame = CGRectMake(0, (self.frame.size.height / (kGridLines + 1)) * (idx + 1), self.frame.size.width, 1);
+            line.frame = CGRectMake(0, (self.frame.size.height / (kGridLines + 1)) * (idx + 1), self.frame.size.width, 1 / [UIScreen mainScreen].scale);
         }];
         
         [self.verticalLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             UIView *line = (UIView *)obj;
-            line.frame = CGRectMake((self.frame.size.width / (kGridLines + 1)) * (idx + 1), 0, 1, self.frame.size.height);
+            line.frame = CGRectMake((self.frame.size.width / (kGridLines + 1)) * (idx + 1), 0, 1 / [UIScreen mainScreen].scale, self.frame.size.height);
         }];
     };
     

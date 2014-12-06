@@ -8,6 +8,7 @@
 
 #import "PhotoTweaksViewController.h"
 #import "PhotoView.h"
+#import "UIColor+Tweak.h"
 
 @interface PhotoTweaksViewController ()
 
@@ -29,21 +30,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBarHidden = YES;
-    self.view.backgroundColor = [UIColor blackColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.view.backgroundColor = [UIColor photoTweakCanvasBackgroundColor];
+  
     self.photoView = [[PhotoView alloc] initWithFrame:self.view.bounds image:self.image];
     self.photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.photoView];
     
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    cancelBtn.frame = CGRectMake(20, CGRectGetHeight(self.view.frame) - 50, 60, 40);
-    [cancelBtn setTitle:@"cancel" forState:UIControlStateNormal];
+    cancelBtn.frame = CGRectMake(8, CGRectGetHeight(self.view.frame) - 40, 60, 40);
+    cancelBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [cancelBtn setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor cancelButtonColor] forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor cancelButtonHighlightedColor] forState:UIControlStateHighlighted];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [cancelBtn addTarget:self action:@selector(cancelBtnTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cancelBtn];
     
     UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    saveBtn.frame = CGRectMake(CGRectGetWidth(self.view.frame) - 80, CGRectGetHeight(self.view.frame) - 50, 60, 40);
-    [saveBtn setTitle:@"save" forState:UIControlStateNormal];
+    saveBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    saveBtn.frame = CGRectMake(CGRectGetWidth(self.view.frame) - 60, CGRectGetHeight(self.view.frame) - 40, 60, 40);
+    [saveBtn setTitle:@"Done" forState:UIControlStateNormal];
+    [saveBtn setTitleColor:[UIColor saveButtonColor] forState:UIControlStateNormal];
+    [saveBtn setTitleColor:[UIColor saveButtonHighlightedColor] forState:UIControlStateHighlighted];
+    saveBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [saveBtn addTarget:self action:@selector(saveBtnTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:saveBtn];
 }

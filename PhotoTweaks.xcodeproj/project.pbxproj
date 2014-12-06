@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B71706101A31E40D00A6CC10 /* UIImage+Crop.m in Sources */ = {isa = PBXBuildFile; fileRef = B717060F1A31E40D00A6CC10 /* UIImage+Crop.m */; };
+		B71706151A32A18D00A6CC10 /* UIColor+Tweak.m in Sources */ = {isa = PBXBuildFile; fileRef = B71706141A32A18D00A6CC10 /* UIColor+Tweak.m */; };
 		B7E76DD01A319AB10025E527 /* brave-pixar-poster@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B7E76DCF1A319AB10025E527 /* brave-pixar-poster@2x.jpg */; };
 		CB3496FC1A3207E800C7EB0E /* PhotoTweaksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB3496FB1A3207E800C7EB0E /* PhotoTweaksViewController.m */; };
 		CBD5FA591A28425300D4D520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA581A28425300D4D520 /* main.m */; };
@@ -34,6 +35,8 @@
 /* Begin PBXFileReference section */
 		B717060E1A31E40D00A6CC10 /* UIImage+Crop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Crop.h"; sourceTree = "<group>"; };
 		B717060F1A31E40D00A6CC10 /* UIImage+Crop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Crop.m"; sourceTree = "<group>"; };
+		B71706131A32A18D00A6CC10 /* UIColor+Tweak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Tweak.h"; sourceTree = "<group>"; };
+		B71706141A32A18D00A6CC10 /* UIColor+Tweak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Tweak.m"; sourceTree = "<group>"; };
 		B7E76DCF1A319AB10025E527 /* brave-pixar-poster@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "brave-pixar-poster@2x.jpg"; sourceTree = "<group>"; };
 		CB3496FA1A3207E800C7EB0E /* PhotoTweaksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTweaksViewController.h; sourceTree = "<group>"; };
 		CB3496FB1A3207E800C7EB0E /* PhotoTweaksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTweaksViewController.m; sourceTree = "<group>"; };
@@ -144,6 +147,8 @@
 				CBDE57B61A2CAA0600285CFF /* PhotoView.m */,
 				B717060E1A31E40D00A6CC10 /* UIImage+Crop.h */,
 				B717060F1A31E40D00A6CC10 /* UIImage+Crop.m */,
+				B71706131A32A18D00A6CC10 /* UIColor+Tweak.h */,
+				B71706141A32A18D00A6CC10 /* UIColor+Tweak.m */,
 			);
 			path = PhotoTweaks;
 			sourceTree = "<group>";
@@ -252,6 +257,7 @@
 			files = (
 				CBD5FA5F1A28425300D4D520 /* ViewController.m in Sources */,
 				CBD5FA5C1A28425300D4D520 /* AppDelegate.m in Sources */,
+				B71706151A32A18D00A6CC10 /* UIColor+Tweak.m in Sources */,
 				B71706101A31E40D00A6CC10 /* UIImage+Crop.m in Sources */,
 				CBD5FA591A28425300D4D520 /* main.m in Sources */,
 				CB3496FC1A3207E800C7EB0E /* PhotoTweaksViewController.m in Sources */,
