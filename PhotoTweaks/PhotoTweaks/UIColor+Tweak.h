@@ -17,6 +17,8 @@
 + (UIColor *)saveButtonHighlightedColor;
 
 + (UIColor *)cropLineColor;
++ (UIColor *)gridLineColor;
++ (UIColor *)maskColor;
 + (UIColor *)photoTweakCanvasBackgroundColor;
 
 @end

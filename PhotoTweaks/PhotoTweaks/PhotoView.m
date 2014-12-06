@@ -10,7 +10,8 @@
 #import "UIColor+Tweak.h"
 #import <math.h>
 
-static const int kGridLines = 2;
+static const int kCropLines = 2;
+static const int kGridLines = 9;
 
 static const CGFloat kCropViewHotArea = 16;
 static const CGFloat kMinimumCropArea = 60;
@@ -139,8 +140,14 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 
 @interface CropView : UIView
 
-@property (strong, nonatomic) NSMutableArray *horizontalLines;
-@property (strong, nonatomic) NSMutableArray *verticalLines;
+@property (strong, nonatomic) NSMutableArray *horizontalCropLines;
+@property (strong, nonatomic) NSMutableArray *verticalCropLines;
+@property (assign, nonatomic) BOOL cropLinesDismissed;
+
+@property (strong, nonatomic) NSMutableArray *horizontalGridLines;
+@property (strong, nonatomic) NSMutableArray *verticalGridLines;
+@property (assign, nonatomic) BOOL gridLinesDismissed;
+
 @property (weak, nonatomic) id<CropViewDelegate> delegate;
 
 @end
@@ -153,21 +160,40 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         self.layer.borderColor = [UIColor cropLineColor].CGColor;
         self.layer.borderWidth = 1;
         
-        self.horizontalLines = [NSMutableArray array];
-        for (int i = 0; i < kGridLines; i++) {
+        self.horizontalCropLines = [NSMutableArray array];
+        for (int i = 0; i < kCropLines; i++) {
             UIView *line = [UIView new];
             line.backgroundColor = [UIColor cropLineColor];
-            [self.horizontalLines addObject:line];
+            [self.horizontalCropLines addObject:line];
             [self addSubview:line];
         }
         
-        self.verticalLines = [NSMutableArray array];
-        for (int i = 0; i < kGridLines; i++) {
+        self.verticalCropLines = [NSMutableArray array];
+        for (int i = 0; i < kCropLines; i++) {
             UIView *line = [UIView new];
             line.backgroundColor = [UIColor cropLineColor];
-            [self.verticalLines addObject:line];
+            [self.verticalCropLines addObject:line];
             [self addSubview:line];
         }
+        
+        self.horizontalGridLines = [NSMutableArray array];
+        for (int i = 0; i < kGridLines; i++) {
+            UIView *line = [UIView new];
+            line.backgroundColor = [UIColor gridLineColor];
+            [self.horizontalGridLines addObject:line];
+            [self addSubview:line];
+        }
+        
+        self.verticalGridLines = [NSMutableArray array];
+        for (int i = 0; i < kGridLines; i++) {
+            UIView *line = [UIView new];
+            line.backgroundColor = [UIColor gridLineColor];
+            [self.verticalGridLines addObject:line];
+            [self addSubview:line];
+        }
+        
+        self.cropLinesDismissed = YES;
+        self.gridLinesDismissed = YES;
     }
     return self;
 }
@@ -175,7 +201,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if ([touches count] == 1) {
-        [self updateLines:NO];
+        [self updateCropLines:NO];
     }
 }
 
@@ -247,7 +273,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         
         self.frame = frame;
         
-        [self updateLines:NO];
+        [self updateCropLines:NO];
         
         if ([self.delegate respondsToSelector:@selector(cropMoved:)]) {
             [self.delegate cropMoved:self];
@@ -267,18 +293,16 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     
 }
 
-- (void)updateLines:(BOOL)animate
+- (void)updateCropLines:(BOOL)animate
 {
+    // show
+    if (self.cropLinesDismissed) {
+        [self showCropLines];
+    }
+    
     void (^animationBlock)(void) = ^(void) {
-        [self.horizontalLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            UIView *line = (UIView *)obj;
-            line.frame = CGRectMake(0, (self.frame.size.height / (kGridLines + 1)) * (idx + 1), self.frame.size.width, 1 / [UIScreen mainScreen].scale);
-        }];
-        
-        [self.verticalLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            UIView *line = (UIView *)obj;
-            line.frame = CGRectMake((self.frame.size.width / (kGridLines + 1)) * (idx + 1), 0, 1 / [UIScreen mainScreen].scale, self.frame.size.height);
-        }];
+        [self updateLines:self.horizontalCropLines horizontal:YES];
+        [self updateLines:self.verticalCropLines horizontal:NO];
     };
     
     if (animate) {
@@ -286,6 +310,96 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     } else {
         animationBlock();
     }
+}
+
+- (void)updateGridLines:(BOOL)animate
+{
+    // show
+    if (self.gridLinesDismissed) {
+        [self showGridLines];
+    }
+    
+    void (^animationBlock)(void) = ^(void) {
+        
+        [self updateLines:self.horizontalGridLines horizontal:YES];
+        [self updateLines:self.verticalGridLines horizontal:NO];
+    };
+    
+    if (animate) {
+        [UIView animateWithDuration:0.25 animations:animationBlock];
+    } else {
+        animationBlock();
+    }
+}
+
+- (void)updateLines:(NSArray *)lines horizontal:(BOOL)horizontal
+{
+    [lines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        UIView *line = (UIView *)obj;
+        if (horizontal) {
+            line.frame = CGRectMake(0,
+                                    (self.frame.size.height / (lines.count + 1)) * (idx + 1),
+                                    self.frame.size.width,
+                                    1 / [UIScreen mainScreen].scale);
+        } else {
+            line.frame = CGRectMake((self.frame.size.width / (lines.count + 1)) * (idx + 1),
+                                    0,
+                                    1 / [UIScreen mainScreen].scale,
+                                    self.frame.size.height);
+        }
+    }];
+}
+
+- (void)dismissCropLines
+{
+    [UIView animateWithDuration:0.2 animations:^{
+        [self dismissLines:self.horizontalCropLines];
+        [self dismissLines:self.verticalCropLines];
+    } completion:^(BOOL finished) {
+        self.cropLinesDismissed = YES;
+    }];
+}
+
+- (void)dismissGridLines
+{
+    [UIView animateWithDuration:0.2 animations:^{
+        [self dismissLines:self.horizontalGridLines];
+        [self dismissLines:self.verticalGridLines];
+    } completion:^(BOOL finished) {
+        self.gridLinesDismissed = YES;
+    }];
+}
+
+- (void)dismissLines:(NSArray *)lines
+{
+    [lines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        ((UIView *)obj).alpha = 0.0f;
+    }];
+}
+
+- (void)showCropLines
+{
+    self.cropLinesDismissed = NO;
+    [UIView animateWithDuration:0.2 animations:^{
+        [self showLines:self.horizontalCropLines];
+        [self showLines:self.verticalCropLines];
+    }];
+}
+
+- (void)showGridLines
+{
+    self.gridLinesDismissed = NO;
+    [UIView animateWithDuration:0.2 animations:^{
+        [self showLines:self.horizontalGridLines];
+        [self showLines:self.verticalGridLines];
+    }];
+}
+
+- (void)showLines:(NSArray *)lines
+{
+    [lines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        ((UIView *)obj).alpha = 1.0f;
+    }];
 }
 
 @end
@@ -381,7 +495,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         self.cropView.delegate = self;
         [self addSubview:self.cropView];
         
-        UIColor *maskColor = [UIColor colorWithWhite:0 alpha:0.5];
+        UIColor *maskColor = [UIColor maskColor];
         self.topMask = [UIView new];
         self.topMask.backgroundColor = maskColor;
         [self addSubview:self.topMask];
@@ -394,12 +508,14 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         self.rightMask = [UIView new];
         self.rightMask.backgroundColor = maskColor;
         [self addSubview:self.rightMask];
+        [self updateMasks:NO];
         
         self.slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 240, 20)];
         self.slider.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 105);
         self.slider.minimumValue = 0.0f;
         self.slider.maximumValue = 1.0f;
         [self.slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+        [self.slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
         self.slider.value = 0.5;
         [self addSubview:self.slider];
     }
@@ -483,7 +599,9 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     [self updateMasks:YES];
     
     // update lines in crop view
-    [self.cropView updateLines:YES];
+    [self.cropView updateCropLines:YES];
+    
+    [self.cropView dismissCropLines];
     
     CGFloat scaleH = self.scrollView.bounds.size.height / self.scrollView.contentSize.height;
     CGFloat scaleW = self.scrollView.bounds.size.width / self.scrollView.contentSize.width;
@@ -532,6 +650,8 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     self.angle = self.slider.value - 0.5;
     self.scrollView.transform = CGAffineTransformMakeRotation(self.angle);
     
+    [self.cropView updateGridLines:NO];
+    
     // position scroll view
     CGFloat width = cos(fabs(self.angle)) * self.cropView.frame.size.width + sin(fabs(self.angle)) * self.cropView.frame.size.height;
     CGFloat height = sin(fabs(self.angle)) * self.cropView.frame.size.width + cos(fabs(self.angle)) * self.cropView.frame.size.height;
@@ -553,6 +673,11 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     [self.scrollView setZoomScale:[self.scrollView realScale] animated:NO];
     
     [self.scrollView updatePhotoContentView];
+}
+
+- (void)sliderTouchEnded:(id)sender
+{
+    [self.cropView dismissGridLines];
 }
 
 @end

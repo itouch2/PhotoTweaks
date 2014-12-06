@@ -30,14 +30,24 @@
     return [UIColor colorWithRed:0.26 green:0.23 blue:0.13 alpha:1];
 }
 
++ (UIColor *)maskColor
+{
+    return [UIColor colorWithWhite:0.0 alpha:0.5];
+}
+
 + (UIColor *)cropLineColor
 {
     return [UIColor colorWithWhite:1.0 alpha:1.0];
 }
 
++ (UIColor *)gridLineColor
+{
+    return [UIColor colorWithRed:0.52 green:0.48 blue:0.47 alpha:0.8];
+}
+
 + (UIColor *)photoTweakCanvasBackgroundColor
 {
-    return [UIColor colorWithRed:0.11 green:0.11 blue:0.11 alpha:1];
+    return [UIColor colorWithRed:0.20 green:0.20 blue:0.20 alpha:1];
 }
 
 @end
