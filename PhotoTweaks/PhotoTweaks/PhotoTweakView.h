@@ -38,7 +38,7 @@
 
 @end
 
-@interface PhotoView : UIView
+@interface PhotoTweakView : UIView
 
 @property (assign, nonatomic) CGFloat angle;
 @property (strong, nonatomic) PhotoContentView *photoContentView;

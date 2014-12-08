@@ -15,7 +15,7 @@
 		CBD5FA641A28425300D4D520 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBD5FA631A28425300D4D520 /* Images.xcassets */; };
 		CBD5FA671A28425300D4D520 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBD5FA651A28425300D4D520 /* LaunchScreen.xib */; };
 		CBD5FA731A28425300D4D520 /* PhotoTweaksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA721A28425300D4D520 /* PhotoTweaksTests.m */; };
-		CBDE57B71A2CAA0700285CFF /* PhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDE57B61A2CAA0600285CFF /* PhotoView.m */; };
+		CBDE57B71A2CAA0700285CFF /* PhotoTweakView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDE57B61A2CAA0600285CFF /* PhotoTweakView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,8 +44,8 @@
 		CBD5FA6C1A28425300D4D520 /* PhotoTweaksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoTweaksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBD5FA711A28425300D4D520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CBD5FA721A28425300D4D520 /* PhotoTweaksTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoTweaksTests.m; sourceTree = "<group>"; };
-		CBDE57B51A2CAA0600285CFF /* PhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoView.h; sourceTree = "<group>"; };
-		CBDE57B61A2CAA0600285CFF /* PhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoView.m; sourceTree = "<group>"; };
+		CBDE57B51A2CAA0600285CFF /* PhotoTweakView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTweakView.h; sourceTree = "<group>"; };
+		CBDE57B61A2CAA0600285CFF /* PhotoTweakView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTweakView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,8 +129,8 @@
 			children = (
 				CB3496FA1A3207E800C7EB0E /* PhotoTweaksViewController.h */,
 				CB3496FB1A3207E800C7EB0E /* PhotoTweaksViewController.m */,
-				CBDE57B51A2CAA0600285CFF /* PhotoView.h */,
-				CBDE57B61A2CAA0600285CFF /* PhotoView.m */,
+				CBDE57B51A2CAA0600285CFF /* PhotoTweakView.h */,
+				CBDE57B61A2CAA0600285CFF /* PhotoTweakView.m */,
 				B71706131A32A18D00A6CC10 /* UIColor+Tweak.h */,
 				B71706141A32A18D00A6CC10 /* UIColor+Tweak.m */,
 			);
@@ -241,7 +241,7 @@
 				B71706151A32A18D00A6CC10 /* UIColor+Tweak.m in Sources */,
 				CBD5FA591A28425300D4D520 /* main.m in Sources */,
 				CB3496FC1A3207E800C7EB0E /* PhotoTweaksViewController.m in Sources */,
-				CBDE57B71A2CAA0700285CFF /* PhotoView.m in Sources */,
+				CBDE57B71A2CAA0700285CFF /* PhotoTweakView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

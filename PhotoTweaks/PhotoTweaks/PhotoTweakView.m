@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Tu You. All rights reserved.
 //
 
-#import "PhotoView.h"
+#import "PhotoTweakView.h"
 #import "UIColor+Tweak.h"
 #import <math.h>
 
@@ -373,7 +373,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 
 @end
 
-@interface PhotoView () <UIScrollViewDelegate, CropViewDelegate>
+@interface PhotoTweakView () <UIScrollViewDelegate, CropViewDelegate>
 
 @property (strong, nonatomic) PhotoScrollView *scrollView;
 @property (strong, nonatomic) PhotoContentView *contentImageView;
@@ -395,7 +395,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 
 @end
 
-@implementation PhotoView
+@implementation PhotoTweakView
 
 - (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image
 {

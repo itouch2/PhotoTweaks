@@ -7,13 +7,13 @@
 //
 
 #import "PhotoTweaksViewController.h"
-#import "PhotoView.h"
+#import "PhotoTweakView.h"
 #import "UIColor+Tweak.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
 @interface PhotoTweaksViewController ()
 
-@property (strong, nonatomic) PhotoView *photoView;
+@property (strong, nonatomic) PhotoTweakView *photoView;
 @property (strong, nonatomic) UIImage *image;
 
 @end
@@ -36,10 +36,11 @@
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-
+    
+    self.view.clipsToBounds = YES;
     self.view.backgroundColor = [UIColor photoTweakCanvasBackgroundColor];
     
-    self.photoView = [[PhotoView alloc] initWithFrame:self.view.bounds image:self.image];
+    self.photoView = [[PhotoTweakView alloc] initWithFrame:self.view.bounds image:self.image];
     self.photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.photoView];
     
