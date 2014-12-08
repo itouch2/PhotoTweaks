@@ -54,8 +54,6 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 
 @interface PhotoScrollView : UIScrollView
 
-@property (assign, nonatomic) CGFloat distance;
-@property (assign, nonatomic) CGRect originalFrame;
 @property (strong, nonatomic) PhotoContentView *photoContentView;
 
 @end
@@ -81,38 +79,26 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     self.contentOffset = contentOffset;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:frame]) {
-        self.originalFrame = frame;
-    }
-    return self;
-}
-
 - (CGFloat)realScale
 {
-    CGFloat widthScale = self.bounds.size.width / self.photoContentView.bounds.size.width;
-    CGFloat heigthScale = self.bounds.size.height / self.photoContentView.bounds.size.height;
-    CGFloat maxScale = MAX(widthScale, heigthScale);
-    return maxScale;
+    CGFloat scaleWidth = self.bounds.size.width / self.photoContentView.bounds.size.width;
+    CGFloat scaleHeight = self.bounds.size.height / self.photoContentView.bounds.size.height;
+    CGFloat max = MAX(scaleWidth, scaleHeight);
+    return max;
 }
 
 - (void)updatePhotoContentView
 {
-    CGFloat widthScale = self.bounds.size.width / self.photoContentView.bounds.size.width;
-    CGFloat heightScale = self.bounds.size.height / self.photoContentView.bounds.size.height;
-    CGFloat maxScale = MAX(widthScale, heightScale);
+    CGFloat scaleWidth = self.bounds.size.width / self.photoContentView.bounds.size.width;
+    CGFloat scaleHeight = self.bounds.size.height / self.photoContentView.bounds.size.height;
+    CGFloat max = MAX(scaleWidth, scaleHeight);
     
-    if (maxScale > 1) {
-        self.photoContentView.frame = CGRectMake(0, 0, maxScale * self.photoContentView.bounds.size.width, maxScale * self.photoContentView.bounds.size.height);
+    if (max > 1) {
+        self.photoContentView.frame = CGRectMake(0, 0, max * self.photoContentView.bounds.size.width, max * self.photoContentView.bounds.size.height);
         
-        if (heightScale > widthScale) {
-            
+        if (scaleHeight > scaleWidth) {
             self.contentOffsetX = (self.photoContentView.frame.size.width - self.bounds.size.width) / 2;
-            
-            self.minimumZoomScale = maxScale;
-            NSLog(@"contentoffset x : %lf", self.contentOffset.x);
-            
+            self.minimumZoomScale = max;
         } else {
             
         }
@@ -376,7 +362,6 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 @interface PhotoTweakView () <UIScrollViewDelegate, CropViewDelegate>
 
 @property (strong, nonatomic) PhotoScrollView *scrollView;
-@property (strong, nonatomic) PhotoContentView *contentImageView;
 
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) UISlider *slider;
@@ -448,14 +433,12 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 #endif
         [self addSubview:self.scrollView];
         
-        self.contentImageView = [[PhotoContentView alloc] initWithImage:image];
-        self.contentImageView.frame = self.scrollView.bounds;
-        self.contentImageView.backgroundColor = [UIColor clearColor];
-        self.contentImageView.userInteractionEnabled = YES;
-        
-        self.scrollView.photoContentView = self.contentImageView;
-        self.photoContentView = self.contentImageView;
-        [self.scrollView addSubview:self.contentImageView];
+        self.photoContentView = [[PhotoContentView alloc] initWithImage:image];
+        self.photoContentView.frame = self.scrollView.bounds;
+        self.photoContentView.backgroundColor = [UIColor clearColor];
+        self.photoContentView.userInteractionEnabled = YES;
+        self.scrollView.photoContentView = self.photoContentView;
+        [self.scrollView addSubview:self.photoContentView];
         
         self.cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
         self.cropView.center = self.scrollView.center;
@@ -486,7 +469,6 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         self.slider.value = 0.5;
         [self addSubview:self.slider];
         
-        
         self.originalPoint = [self convertPoint:self.scrollView.center toView:self];
     }
     return self;
@@ -515,7 +497,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-    return self.contentImageView;
+    return self.photoContentView;
 }
 
 #pragma mark - Crop View Delegate
