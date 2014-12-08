@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PhotoTweaks/ViewController.m"
-            timestampString = "439317243.976042"
+            timestampString = "439729481.75108"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "-didReceiveMemoryWarning"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "-preferredStatusBarStyle"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,12 +25,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PhotoTweaks/PhotoTweaks/PhotoView.m"
-            timestampString = "439395235.698197"
+            filePath = "PhotoTweaks/PhotoTweaks/UIImage+Crop.m"
+            timestampString = "439734629.010189"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "641"
-            endingLineNumber = "641">
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "-crop:angle:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -39,13 +41,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PhotoTweaks/ViewController.m"
-            timestampString = "439317243.976042"
+            filePath = "PhotoTweaks/PhotoTweaks/UIImage+Crop.m"
+            timestampString = "439734629.010189"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "-crop:angle:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhotoTweaks/PhotoTweaks/UIImage+Crop.m"
+            timestampString = "439734629.010189"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "-crop:angle:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
