@@ -47,7 +47,7 @@
 
 + (UIColor *)photoTweakCanvasBackgroundColor
 {
-    return [UIColor colorWithRed:0.20 green:0.20 blue:0.20 alpha:1];
+    return [UIColor colorWithWhite:0.0 alpha:1.0];
 }
 
 @end

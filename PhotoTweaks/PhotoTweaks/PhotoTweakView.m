@@ -18,6 +18,7 @@ static const CGFloat kMinimumCropArea = 60;
 static const CGFloat kMaximumCanvasWidth = 0.9;
 static const CGFloat kMaximumCanvasHeight = 0.70;
 static const CGFloat kCanvasHeaderHeigth = 60;
+static const CGFloat kCropViewCornerLength = 22;
 
 static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 {
@@ -99,11 +100,76 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         if (scaleHeight > scaleWidth) {
             self.contentOffsetX = (self.photoContentView.frame.size.width - self.bounds.size.width) / 2;
             self.minimumZoomScale = max;
-        } else {
-            
         }
     }
 }
+
+@end
+
+typedef NS_ENUM(NSInteger, CropCornerType) {
+    CropCornerTypeUpperLeft,
+    CropCornerTypeUpperRight,
+    CropCornerTypeLowerRight,
+    CropCornerTypeLowerLeft
+};
+
+@interface CropCornerView : UIView
+
+@end
+
+@implementation CropCornerView
+
+- (instancetype)initWithCornerType:(CropCornerType)type
+{
+    if (self = [super init]) {
+        self.frame = CGRectMake(0, 0, kCropViewCornerLength, kCropViewCornerLength);
+        self.backgroundColor = [UIColor clearColor];
+        
+        CGFloat lineWidth = 2;
+        UIView *horizontal = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kCropViewCornerLength, lineWidth)];
+        horizontal.backgroundColor = [UIColor cropLineColor];
+        [self addSubview:horizontal];
+        
+        UIView *vertical = [[UIView alloc] initWithFrame:CGRectMake(0, 0, lineWidth, kCropViewCornerLength)];
+        vertical.backgroundColor = [UIColor cropLineColor];
+        [self addSubview:vertical];
+        
+        if (type == CropCornerTypeUpperLeft) {
+            horizontal.center = CGPointMake(kCropViewCornerLength / 2, lineWidth / 2);
+            vertical.center = CGPointMake(lineWidth / 2, kCropViewCornerLength / 2);
+        } else if (type == CropCornerTypeUpperRight) {
+            horizontal.center = CGPointMake(kCropViewCornerLength / 2, lineWidth / 2);
+            vertical.center = CGPointMake(kCropViewCornerLength - lineWidth / 2, kCropViewCornerLength / 2);
+        } else if (type == CropCornerTypeLowerRight) {
+            horizontal.center = CGPointMake(kCropViewCornerLength / 2, kCropViewCornerLength - lineWidth / 2);
+            vertical.center = CGPointMake(kCropViewCornerLength - lineWidth / 2, kCropViewCornerLength / 2);
+        } else if (type == CropCornerTypeLowerLeft) {
+            horizontal.center = CGPointMake(kCropViewCornerLength / 2, kCropViewCornerLength - lineWidth / 2);
+            vertical.center = CGPointMake(lineWidth / 2, kCropViewCornerLength / 2);
+        }
+    }
+    return self;
+}
+
+@end
+
+@interface CropView ()
+
+@property (strong, nonatomic) CropCornerView *upperLeft;
+@property (strong, nonatomic) CropCornerView *upperRight;
+@property (strong, nonatomic) CropCornerView *lowerRight;
+@property (strong, nonatomic) CropCornerView *lowerLeft;
+
+@property (strong, nonatomic) NSMutableArray *horizontalCropLines;
+@property (strong, nonatomic) NSMutableArray *verticalCropLines;
+
+@property (strong, nonatomic) NSMutableArray *horizontalGridLines;
+@property (strong, nonatomic) NSMutableArray *verticalGridLines;
+
+@property (weak, nonatomic) id<CropViewDelegate> delegate;
+
+@property (assign, nonatomic) BOOL cropLinesDismissed;
+@property (assign, nonatomic) BOOL gridLinesDismissed;
 
 @end
 
@@ -149,6 +215,26 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         
         self.cropLinesDismissed = YES;
         self.gridLinesDismissed = YES;
+        
+        self.upperLeft = [[CropCornerView alloc] initWithCornerType:CropCornerTypeUpperLeft];
+        self.upperLeft.center = CGPointMake(kCropViewCornerLength / 2, kCropViewCornerLength / 2);
+        self.upperLeft.autoresizingMask = UIViewAutoresizingNone;
+        [self addSubview:self.upperLeft];
+        
+        self.upperRight = [[CropCornerView alloc] initWithCornerType:CropCornerTypeUpperRight];
+        self.upperRight.center = CGPointMake(self.frame.size.width - kCropViewCornerLength / 2, kCropViewCornerLength / 2);
+        self.upperRight.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        [self addSubview:self.upperRight];
+        
+        self.lowerRight = [[CropCornerView alloc] initWithCornerType:CropCornerTypeLowerRight];
+        self.lowerRight.center = CGPointMake(self.frame.size.width - kCropViewCornerLength / 2, self.frame.size.height - kCropViewCornerLength / 2);
+        self.lowerRight.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+        [self addSubview:self.lowerRight];
+        
+        self.lowerLeft = [[CropCornerView alloc] initWithCornerType:CropCornerTypeLowerLeft];
+        self.lowerLeft.center = CGPointMake(kCropViewCornerLength / 2, self.frame.size.height - kCropViewCornerLength / 2);
+        self.lowerLeft.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        [self addSubview:self.lowerLeft];
     }
     return self;
 }
@@ -228,6 +314,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         
         self.frame = frame;
         
+        // update crop lines
         [self updateCropLines:NO];
         
         if ([self.delegate respondsToSelector:@selector(cropMoved:)]) {
@@ -440,11 +527,6 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         self.scrollView.photoContentView = self.photoContentView;
         [self.scrollView addSubview:self.photoContentView];
         
-        self.cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
-        self.cropView.center = self.scrollView.center;
-        self.cropView.delegate = self;
-        [self addSubview:self.cropView];        
-        
         UIColor *maskColor = [UIColor maskColor];
         self.topMask = [UIView new];
         self.topMask.backgroundColor = maskColor;
@@ -460,6 +542,11 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         [self addSubview:self.rightMask];
         [self updateMasks:NO];
         
+        self.cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
+        self.cropView.center = self.scrollView.center;
+        self.cropView.delegate = self;
+        [self addSubview:self.cropView];
+        
         self.slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 240, 20)];
         self.slider.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 105);
         self.slider.minimumValue = 0.0f;
@@ -472,17 +559,6 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
         self.originalPoint = [self convertPoint:self.scrollView.center toView:self];
     }
     return self;
-}
-
-- (void)zoom
-{
-    static BOOL flag = YES;
-    if (flag) {
-        [self.scrollView zoomToRect:CGRectMake(0, 0, 250, 241) animated:YES];
-    } else {
-        [self.scrollView zoomToRect:CGRectMake(0, 0, 100, 100) animated:YES];
-    }
-    flag = !flag;
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
@@ -549,9 +625,6 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     
     // update masks
     [self updateMasks:YES];
-    
-    // update lines in crop view
-    [self.cropView updateCropLines:YES];
     
     [self.cropView dismissCropLines];
     
@@ -639,7 +712,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
                         self.scrollView.contentSize.height / 2 - self.scrollView.contentOffset.y);
     
     CGPoint scrollOrigin = CGPointMake(self.scrollView.frame.origin.x, self.scrollView.frame.origin.y);
-
+    
     // calculate the coordinate of center of content image view
     CGFloat angleToOrigin = atan(fabs(point.y) / fabs(point.x));
     
@@ -647,7 +720,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     if (self.angle > 0) {
         offsetX = cos(self.angle + angleToOrigin) * distanceBetweenPoints(point, CGPointZero) + sin(self.angle) * self.scrollView.bounds.size.height;
         offsetY = sin(self.angle + angleToOrigin) * distanceBetweenPoints(point, CGPointZero);
-
+        
         if (point.x < 0 && point.y > 0) {
             offsetX = -sin(M_PI_2 + self.angle - angleToOrigin) * distanceBetweenPoints(point, CGPointZero) + sin(self.angle) * self.scrollView.bounds.size.height;
             offsetY = cos(M_PI_2 + self.angle - angleToOrigin) * distanceBetweenPoints(point, CGPointZero);
