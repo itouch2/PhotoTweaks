@@ -32,7 +32,7 @@
 
 + (UIColor *)maskColor
 {
-    return [UIColor colorWithWhite:0.0 alpha:0.5];
+    return [UIColor colorWithWhite:0.0 alpha:0.6];
 }
 
 + (UIColor *)cropLineColor

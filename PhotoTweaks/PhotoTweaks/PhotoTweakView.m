@@ -15,8 +15,8 @@ static const int kGridLines = 9;
 
 static const CGFloat kCropViewHotArea = 16;
 static const CGFloat kMinimumCropArea = 60;
-static const CGFloat kMaximumCanvasWidth = 0.9;
-static const CGFloat kMaximumCanvasHeight = 0.70;
+static const CGFloat kMaximumCanvasWidthRatio = 0.9;
+static const CGFloat kMaximumCanvasHeightRatio = 0.7;
 static const CGFloat kCanvasHeaderHeigth = 60;
 static const CGFloat kCropViewCornerLength = 22;
 
@@ -85,6 +85,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     CGFloat scaleWidth = self.bounds.size.width / self.photoContentView.bounds.size.width;
     CGFloat scaleHeight = self.bounds.size.height / self.photoContentView.bounds.size.height;
     CGFloat max = MAX(scaleWidth, scaleHeight);
+    
     return max;
 }
 
@@ -312,6 +313,8 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
             }
         }
         
+        // ....
+        
         self.frame = frame;
         
         // update crop lines
@@ -460,6 +463,8 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 @property (strong, nonatomic) UIView *bottomMask;
 @property (strong, nonatomic) UIView *rightMask;
 
+@property (assign, nonatomic) BOOL manualZoomed;
+
 // constants
 @property (assign, nonatomic) CGSize maximumCanvasSize;
 @property (assign, nonatomic) CGFloat centerY;
@@ -481,8 +486,8 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         
         // scale the image
         
-        self.maximumCanvasSize = CGSizeMake(kMaximumCanvasWidth * self.frame.size.width,
-                                            kMaximumCanvasHeight * self.frame.size.height - kCanvasHeaderHeigth);
+        self.maximumCanvasSize = CGSizeMake(kMaximumCanvasWidthRatio * self.frame.size.width,
+                                            kMaximumCanvasHeightRatio * self.frame.size.height - kCanvasHeaderHeigth);
         
         CGFloat scaleX = image.size.width / self.maximumCanvasSize.width;
         CGFloat scaleY = image.size.height / self.maximumCanvasSize.height;
@@ -527,6 +532,11 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         self.scrollView.photoContentView = self.photoContentView;
         [self.scrollView addSubview:self.photoContentView];
         
+        self.cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
+        self.cropView.center = self.scrollView.center;
+        self.cropView.delegate = self;
+        [self addSubview:self.cropView];
+        
         UIColor *maskColor = [UIColor maskColor];
         self.topMask = [UIView new];
         self.topMask.backgroundColor = maskColor;
@@ -541,11 +551,6 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         self.rightMask.backgroundColor = maskColor;
         [self addSubview:self.rightMask];
         [self updateMasks:NO];
-        
-        self.cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
-        self.cropView.center = self.scrollView.center;
-        self.cropView.delegate = self;
-        [self addSubview:self.cropView];
         
         self.slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 240, 20)];
         self.slider.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 105);
@@ -574,6 +579,11 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     return self.photoContentView;
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
+{
+    self.manualZoomed = YES;
 }
 
 #pragma mark - Crop View Delegate
@@ -623,6 +633,8 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         self.scrollView.center = center;
     }];
     
+    self.manualZoomed = YES;
+    
     // update masks
     [self updateMasks:YES];
     
@@ -660,6 +672,9 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 - (void)checkScrollViewContentOffset
 {
+    self.scrollView.contentOffsetX = MAX(self.scrollView.contentOffset.x, 0);
+    self.scrollView.contentOffsetY = MAX(self.scrollView.contentOffset.y, 0);
+    
     if (self.scrollView.contentSize.height - self.scrollView.contentOffset.y <= self.scrollView.bounds.size.height) {
         self.scrollView.contentOffsetY = self.scrollView.contentSize.height - self.scrollView.bounds.size.height;
     }
@@ -671,33 +686,38 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 - (void)sliderValueChanged:(id)sender
 {
-    // rotate scoll view
+    // update masks
+    [self updateMasks:NO];
+    
+    // update grids
+    [self.cropView updateGridLines:NO];
+    
+    // rotate scroll view
     self.angle = self.slider.value - 0.5;
     self.scrollView.transform = CGAffineTransformMakeRotation(self.angle);
-    
-    [self.cropView updateGridLines:NO];
     
     // position scroll view
     CGFloat width = cos(fabs(self.angle)) * self.cropView.frame.size.width + sin(fabs(self.angle)) * self.cropView.frame.size.height;
     CGFloat height = sin(fabs(self.angle)) * self.cropView.frame.size.width + cos(fabs(self.angle)) * self.cropView.frame.size.height;
     CGPoint center = self.scrollView.center;
+    
     CGPoint contentOffset = self.scrollView.contentOffset;
+    CGPoint contentOffsetCenter = CGPointMake(contentOffset.x + self.scrollView.bounds.size.width / 2, contentOffset.y + self.scrollView.bounds.size.height / 2);
     self.scrollView.bounds = CGRectMake(0, 0, width, height);
-    self.scrollView.contentOffset = contentOffset;
+    CGPoint newContentOffset = CGPointMake(contentOffsetCenter.x - self.scrollView.bounds.size.width / 2, contentOffsetCenter.y - self.scrollView.bounds.size.height / 2);
+    self.scrollView.contentOffset = newContentOffset;
     self.scrollView.center = center;
     
-    self.scrollView.minimumZoomScale = [self.scrollView realScale];
-    
-    [self checkScrollViewContentOffset];
-    
-    if (self.scrollView.contentSize.width / self.scrollView.bounds.size.width > 1.0
-        && self.scrollView.contentSize.height / self.scrollView.bounds.size.height > 1.0) {
-        return ;
+    // scale scroll view
+    BOOL shouldScale = self.scrollView.contentSize.width / self.scrollView.bounds.size.width <= 1.0 || self.scrollView.contentSize.height / self.scrollView.bounds.size.height <= 1.0;
+    if (!self.manualZoomed || shouldScale) {
+        [self.scrollView setZoomScale:[self.scrollView realScale] animated:NO];
+        self.scrollView.minimumZoomScale = [self.scrollView realScale];
+        [self.scrollView updatePhotoContentView];
+        self.manualZoomed = NO;
     }
     
-    [self.scrollView setZoomScale:[self.scrollView realScale] animated:NO];
-    
-    [self.scrollView updatePhotoContentView];
+    [self checkScrollViewContentOffset];
 }
 
 - (void)sliderTouchEnded:(id)sender
@@ -757,6 +777,13 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     point = CGPointMake(scrollOrigin.x + offsetX, scrollOrigin.y + offsetY);
     _photoContentOffset = CGPointMake(point.x - self.originalPoint.x, point.y - self.originalPoint.y);
     return _photoContentOffset;
+}
+
+- (CGPoint)photoAnchorPoint
+{
+    CGFloat x = self.scrollView.contentSize.width / 2 - self.photoContentOffset.x;
+    CGFloat y = self.scrollView.contentSize.height / 2 - self.photoContentOffset.y;
+    return CGPointMake(x / self.scrollView.contentSize.width, y / self.scrollView.contentSize.height);
 }
 
 @end
