@@ -457,13 +457,13 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 @property (strong, nonatomic) UISlider *slider;
 @property (assign, nonatomic) CGSize originalSize;
 
+@property (assign, nonatomic) BOOL manualZoomed;
+
 // masks
 @property (strong, nonatomic) UIView *topMask;
 @property (strong, nonatomic) UIView *leftMask;
 @property (strong, nonatomic) UIView *bottomMask;
 @property (strong, nonatomic) UIView *rightMask;
-
-@property (assign, nonatomic) BOOL manualZoomed;
 
 // constants
 @property (assign, nonatomic) CGSize maximumCanvasSize;
@@ -511,7 +511,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         self.scrollView.alwaysBounceHorizontal = YES;
         self.scrollView.delegate = self;
         self.scrollView.minimumZoomScale = 1;
-        self.scrollView.maximumZoomScale = 4;
+        self.scrollView.maximumZoomScale = 10;
         self.scrollView.showsVerticalScrollIndicator = NO;
         self.scrollView.showsHorizontalScrollIndicator = NO;
         self.scrollView.clipsToBounds = NO;
@@ -615,7 +615,14 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         scaleFrame.size.height = self.scrollView.bounds.size.height - 1;
     }
     
-    CGRect zoomRect = [self convertRect:scaleFrame toView:self.scrollView.photoContentView];
+    CGPoint contentOffset = self.scrollView.contentOffset;
+    CGPoint contentOffsetCenter = CGPointMake(contentOffset.x + self.scrollView.bounds.size.width / 2, contentOffset.y + self.scrollView.bounds.size.height / 2);
+    CGRect bounds = self.scrollView.bounds;
+    bounds.size.width = width;
+    bounds.size.height = height;
+    self.scrollView.bounds = CGRectMake(0, 0, width, height);
+    CGPoint newContentOffset = CGPointMake(contentOffsetCenter.x - self.scrollView.bounds.size.width / 2, contentOffsetCenter.y - self.scrollView.bounds.size.height / 2);
+    self.scrollView.contentOffset = newContentOffset;
     
     [UIView animateWithDuration:0.25 animations:^{
         // animate crop view
@@ -623,16 +630,10 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         cropView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
         
         // zoom the specified area of scroll view
+        CGRect zoomRect = [self convertRect:scaleFrame toView:self.scrollView.photoContentView];
         [self.scrollView zoomToRect:zoomRect animated:NO];
-        
-        // animate the new bounds of scroll view
-        CGPoint center = self.scrollView.center;
-        CGPoint contentOffset = self.scrollView.contentOffset;
-        self.scrollView.bounds = CGRectMake(0, 0, width, height);
-        self.scrollView.contentOffset = contentOffset;
-        self.scrollView.center = center;
     }];
-    
+
     self.manualZoomed = YES;
     
     // update masks
