@@ -25,7 +25,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     return sqrt(pow(point1.x - point0.x, 2) + pow(point1.y - point0.y, 2));
 }
 
-//#define kInstruction
+#define kInstruction
 #define kShowCanvas
 
 @implementation PhotoContentView
@@ -566,6 +566,35 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     return self;
 }
 
+- (void)setWidthRatio:(CGFloat)widthRatio heightRatio:(CGFloat)heightRatio
+{
+    // calculate the target rect
+    CGFloat ratioW2H = self.maximumCanvasSize.width / self.maximumCanvasSize.height;
+    CGFloat currentRatioW2H = widthRatio / heightRatio;
+    CGSize targetSize;
+    if (currentRatioW2H < ratioW2H) {
+        targetSize = CGSizeMake(currentRatioW2H * self.maximumCanvasSize.height, self.maximumCanvasSize.height);
+    } else {
+        targetSize = CGSizeMake(self.maximumCanvasSize.width, self.maximumCanvasSize.width / currentRatioW2H);
+    }
+    
+    // set the frame of crop view
+    self.cropView.bounds = CGRectMake(0, 0, targetSize.width, targetSize.height);
+    self.cropView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
+    [self updateMasks:NO];
+    
+    // set the bounds scale and contentoffset of scroll view
+    CGPoint center = self.scrollView.center;
+    self.scrollView.bounds = self.cropView.bounds;
+    self.scrollView.center = center;
+    [self.scrollView setZoomScale:[self.scrollView realScale] animated:NO];
+    
+    CGPoint contentOffset = CGPointMake((self.scrollView.contentSize.width - self.scrollView.bounds.size.width) / 2, (self.scrollView.contentSize.height - self.scrollView.bounds.size.height) / 2);
+    self.scrollView.contentOffset = contentOffset;
+    
+    self.originalSize = targetSize;
+}
+
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
     if (CGRectContainsPoint(self.slider.frame, point)) {
@@ -778,13 +807,6 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     point = CGPointMake(scrollOrigin.x + offsetX, scrollOrigin.y + offsetY);
     _photoContentOffset = CGPointMake(point.x - self.originalPoint.x, point.y - self.originalPoint.y);
     return _photoContentOffset;
-}
-
-- (CGPoint)photoAnchorPoint
-{
-    CGFloat x = self.scrollView.contentSize.width / 2 - self.photoContentOffset.x;
-    CGFloat y = self.scrollView.contentSize.height / 2 - self.photoContentOffset.y;
-    return CGPointMake(x / self.scrollView.contentSize.width, y / self.scrollView.contentSize.height);
 }
 
 @end
