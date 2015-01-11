@@ -25,7 +25,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     return sqrt(pow(point1.x - point0.x, 2) + pow(point1.y - point0.y, 2));
 }
 
-#define kInstruction
+//#define kInstruction
 #define kShowCanvas
 
 @implementation PhotoContentView
@@ -33,13 +33,14 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 - (instancetype)initWithImage:(UIImage *)image
 {
     if (self = [super init]) {
-        self.image = image;
+        _image = image;
         
         self.frame = CGRectMake(0, 0, image.size.width, image.size.height);
-        self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-        self.imageView.image = self.image;
-        self.imageView.userInteractionEnabled = YES;
-        [self addSubview:self.imageView];
+        
+        _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        _imageView.image = self.image;
+        _imageView.userInteractionEnabled = YES;
+        [self addSubview:_imageView];
     }
     return self;
 }
@@ -61,11 +62,6 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 
 @implementation PhotoScrollView
 
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
-{
-    return self;
-}
-
 - (void)setContentOffsetY:(CGFloat)offsetY
 {
     CGPoint contentOffset = self.contentOffset;
@@ -80,29 +76,13 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
     self.contentOffset = contentOffset;
 }
 
-- (CGFloat)realScale
+- (CGFloat)zoomScaleToBound
 {
-    CGFloat scaleWidth = self.bounds.size.width / self.photoContentView.bounds.size.width;
-    CGFloat scaleHeight = self.bounds.size.height / self.photoContentView.bounds.size.height;
-    CGFloat max = MAX(scaleWidth, scaleHeight);
+    CGFloat scaleW = self.bounds.size.width / self.photoContentView.bounds.size.width;
+    CGFloat scaleH = self.bounds.size.height / self.photoContentView.bounds.size.height;
+    CGFloat max = MAX(scaleW, scaleH);
     
     return max;
-}
-
-- (void)updatePhotoContentView
-{
-    CGFloat scaleWidth = self.bounds.size.width / self.photoContentView.bounds.size.width;
-    CGFloat scaleHeight = self.bounds.size.height / self.photoContentView.bounds.size.height;
-    CGFloat max = MAX(scaleWidth, scaleHeight);
-    
-    if (max > 1) {
-        self.photoContentView.frame = CGRectMake(0, 0, max * self.photoContentView.bounds.size.width, max * self.photoContentView.bounds.size.height);
-        
-        if (scaleHeight > scaleWidth) {
-            self.contentOffsetX = (self.photoContentView.frame.size.width - self.bounds.size.width) / 2;
-            self.minimumZoomScale = max;
-        }
-    }
 }
 
 @end
@@ -156,21 +136,21 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 @interface CropView ()
 
-@property (strong, nonatomic) CropCornerView *upperLeft;
-@property (strong, nonatomic) CropCornerView *upperRight;
-@property (strong, nonatomic) CropCornerView *lowerRight;
-@property (strong, nonatomic) CropCornerView *lowerLeft;
+@property (nonatomic, strong) CropCornerView *upperLeft;
+@property (nonatomic, strong) CropCornerView *upperRight;
+@property (nonatomic, strong) CropCornerView *lowerRight;
+@property (nonatomic, strong) CropCornerView *lowerLeft;
 
-@property (strong, nonatomic) NSMutableArray *horizontalCropLines;
-@property (strong, nonatomic) NSMutableArray *verticalCropLines;
+@property (nonatomic, strong) NSMutableArray *horizontalCropLines;
+@property (nonatomic, strong) NSMutableArray *verticalCropLines;
 
-@property (strong, nonatomic) NSMutableArray *horizontalGridLines;
-@property (strong, nonatomic) NSMutableArray *verticalGridLines;
+@property (nonatomic, strong) NSMutableArray *horizontalGridLines;
+@property (nonatomic, strong) NSMutableArray *verticalGridLines;
 
-@property (weak, nonatomic) id<CropViewDelegate> delegate;
+@property (nonatomic, weak) id<CropViewDelegate> delegate;
 
-@property (assign, nonatomic) BOOL cropLinesDismissed;
-@property (assign, nonatomic) BOOL gridLinesDismissed;
+@property (nonatomic, assign) BOOL cropLinesDismissed;
+@property (nonatomic, assign) BOOL gridLinesDismissed;
 
 @end
 
@@ -182,60 +162,60 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         self.layer.borderColor = [UIColor cropLineColor].CGColor;
         self.layer.borderWidth = 1;
         
-        self.horizontalCropLines = [NSMutableArray array];
+        _horizontalCropLines = [NSMutableArray array];
         for (int i = 0; i < kCropLines; i++) {
             UIView *line = [UIView new];
             line.backgroundColor = [UIColor cropLineColor];
-            [self.horizontalCropLines addObject:line];
+            [_horizontalCropLines addObject:line];
             [self addSubview:line];
         }
         
-        self.verticalCropLines = [NSMutableArray array];
+        _verticalCropLines = [NSMutableArray array];
         for (int i = 0; i < kCropLines; i++) {
             UIView *line = [UIView new];
             line.backgroundColor = [UIColor cropLineColor];
-            [self.verticalCropLines addObject:line];
+            [_verticalCropLines addObject:line];
             [self addSubview:line];
         }
         
-        self.horizontalGridLines = [NSMutableArray array];
+        _horizontalGridLines = [NSMutableArray array];
         for (int i = 0; i < kGridLines; i++) {
             UIView *line = [UIView new];
             line.backgroundColor = [UIColor gridLineColor];
-            [self.horizontalGridLines addObject:line];
+            [_horizontalGridLines addObject:line];
             [self addSubview:line];
         }
         
-        self.verticalGridLines = [NSMutableArray array];
+        _verticalGridLines = [NSMutableArray array];
         for (int i = 0; i < kGridLines; i++) {
             UIView *line = [UIView new];
             line.backgroundColor = [UIColor gridLineColor];
-            [self.verticalGridLines addObject:line];
+            [_verticalGridLines addObject:line];
             [self addSubview:line];
         }
         
-        self.cropLinesDismissed = YES;
-        self.gridLinesDismissed = YES;
+        _cropLinesDismissed = YES;
+        _gridLinesDismissed = YES;
         
-        self.upperLeft = [[CropCornerView alloc] initWithCornerType:CropCornerTypeUpperLeft];
-        self.upperLeft.center = CGPointMake(kCropViewCornerLength / 2, kCropViewCornerLength / 2);
-        self.upperLeft.autoresizingMask = UIViewAutoresizingNone;
-        [self addSubview:self.upperLeft];
+        _upperLeft = [[CropCornerView alloc] initWithCornerType:CropCornerTypeUpperLeft];
+        _upperLeft.center = CGPointMake(kCropViewCornerLength / 2, kCropViewCornerLength / 2);
+        _upperLeft.autoresizingMask = UIViewAutoresizingNone;
+        [self addSubview:_upperLeft];
         
-        self.upperRight = [[CropCornerView alloc] initWithCornerType:CropCornerTypeUpperRight];
-        self.upperRight.center = CGPointMake(self.frame.size.width - kCropViewCornerLength / 2, kCropViewCornerLength / 2);
-        self.upperRight.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        [self addSubview:self.upperRight];
+        _upperRight = [[CropCornerView alloc] initWithCornerType:CropCornerTypeUpperRight];
+        _upperRight.center = CGPointMake(self.frame.size.width - kCropViewCornerLength / 2, kCropViewCornerLength / 2);
+        _upperRight.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        [self addSubview:_upperRight];
         
-        self.lowerRight = [[CropCornerView alloc] initWithCornerType:CropCornerTypeLowerRight];
-        self.lowerRight.center = CGPointMake(self.frame.size.width - kCropViewCornerLength / 2, self.frame.size.height - kCropViewCornerLength / 2);
-        self.lowerRight.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-        [self addSubview:self.lowerRight];
+        _lowerRight = [[CropCornerView alloc] initWithCornerType:CropCornerTypeLowerRight];
+        _lowerRight.center = CGPointMake(self.frame.size.width - kCropViewCornerLength / 2, self.frame.size.height - kCropViewCornerLength / 2);
+        _lowerRight.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+        [self addSubview:_lowerRight];
         
-        self.lowerLeft = [[CropCornerView alloc] initWithCornerType:CropCornerTypeLowerLeft];
-        self.lowerLeft.center = CGPointMake(kCropViewCornerLength / 2, self.frame.size.height - kCropViewCornerLength / 2);
-        self.lowerLeft.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        [self addSubview:self.lowerLeft];
+        _lowerLeft = [[CropCornerView alloc] initWithCornerType:CropCornerTypeLowerLeft];
+        _lowerLeft.center = CGPointMake(kCropViewCornerLength / 2, self.frame.size.height - kCropViewCornerLength / 2);
+        _lowerLeft.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        [self addSubview:_lowerLeft];
     }
     return self;
 }
@@ -313,8 +293,6 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
             }
         }
         
-        // ....
-        
         self.frame = frame;
         
         // update crop lines
@@ -340,7 +318,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 - (void)updateCropLines:(BOOL)animate
 {
-    // show
+    // show crop lines
     if (self.cropLinesDismissed) {
         [self showCropLines];
     }
@@ -359,7 +337,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 - (void)updateGridLines:(BOOL)animate
 {
-    // show
+    // show grid lines
     if (self.gridLinesDismissed) {
         [self showGridLines];
     }
@@ -451,24 +429,24 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 @interface PhotoTweakView () <UIScrollViewDelegate, CropViewDelegate>
 
-@property (strong, nonatomic) PhotoScrollView *scrollView;
+@property (nonatomic, strong) PhotoScrollView *scrollView;
 
-@property (strong, nonatomic) UIImage *image;
-@property (strong, nonatomic) UISlider *slider;
-@property (assign, nonatomic) CGSize originalSize;
+@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) UISlider *slider;
+@property (nonatomic, assign) CGSize originalSize;
 
-@property (assign, nonatomic) BOOL manualZoomed;
+@property (nonatomic, assign) BOOL manualZoomed;
 
 // masks
-@property (strong, nonatomic) UIView *topMask;
-@property (strong, nonatomic) UIView *leftMask;
-@property (strong, nonatomic) UIView *bottomMask;
-@property (strong, nonatomic) UIView *rightMask;
+@property (nonatomic, strong) UIView *topMask;
+@property (nonatomic, strong) UIView *leftMask;
+@property (nonatomic, strong) UIView *bottomMask;
+@property (nonatomic, strong) UIView *rightMask;
 
 // constants
-@property (assign, nonatomic) CGSize maximumCanvasSize;
-@property (assign, nonatomic) CGFloat centerY;
-@property (assign, nonatomic) CGPoint originalPoint;
+@property (nonatomic, assign) CGSize maximumCanvasSize;
+@property (nonatomic, assign) CGFloat centerY;
+@property (nonatomic, assign) CGPoint originalPoint;
 
 @end
 
@@ -478,24 +456,21 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 {
     if (self = [super init]) {
         
-#ifdef kInstruction
-        self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
-#endif
-        self.image = image;
         self.frame = frame;
         
-        // scale the image
+        _image = image;
         
-        self.maximumCanvasSize = CGSizeMake(kMaximumCanvasWidthRatio * self.frame.size.width,
+        // scale the image
+        _maximumCanvasSize = CGSizeMake(kMaximumCanvasWidthRatio * self.frame.size.width,
                                             kMaximumCanvasHeightRatio * self.frame.size.height - kCanvasHeaderHeigth);
         
         CGFloat scaleX = image.size.width / self.maximumCanvasSize.width;
         CGFloat scaleY = image.size.height / self.maximumCanvasSize.height;
         CGFloat scale = MAX(scaleX, scaleY);
         CGRect bounds = CGRectMake(0, 0, image.size.width / scale, image.size.height / scale);
-        self.originalSize = bounds.size;
+        _originalSize = bounds.size;
         
-        self.centerY = self.maximumCanvasSize.height / 2 + kCanvasHeaderHeigth;
+        _centerY = self.maximumCanvasSize.height / 2 + kCanvasHeaderHeigth;
         
 #ifdef kShowCanvas
         UIView *canvas = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.maximumCanvasSize.width, self.maximumCanvasSize.height)];
@@ -503,96 +478,66 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         [self addSubview:canvas];
 #endif
         
-        self.scrollView = [[PhotoScrollView alloc] initWithFrame:bounds];
-        self.scrollView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
-        self.scrollView.bounces = YES;
-        self.scrollView.layer.anchorPoint = CGPointMake(0.5, 0.5);
-        self.scrollView.alwaysBounceVertical = YES;
-        self.scrollView.alwaysBounceHorizontal = YES;
-        self.scrollView.delegate = self;
-        self.scrollView.minimumZoomScale = 1;
-        self.scrollView.maximumZoomScale = 10;
-        self.scrollView.showsVerticalScrollIndicator = NO;
-        self.scrollView.showsHorizontalScrollIndicator = NO;
-        self.scrollView.clipsToBounds = NO;
-        self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width, self.scrollView.bounds.size.height);
-        
+        _scrollView = [[PhotoScrollView alloc] initWithFrame:bounds];
+        _scrollView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
+        _scrollView.bounces = YES;
+        _scrollView.layer.anchorPoint = CGPointMake(0.5, 0.5);
+        _scrollView.alwaysBounceVertical = YES;
+        _scrollView.alwaysBounceHorizontal = YES;
+        _scrollView.delegate = self;
+        _scrollView.minimumZoomScale = 1;
+        _scrollView.maximumZoomScale = 10;
+        _scrollView.showsVerticalScrollIndicator = NO;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.clipsToBounds = NO;
+        _scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width, self.scrollView.bounds.size.height);
+        [self addSubview:_scrollView];
 #ifdef kInstruction
-        self.scrollView.layer.borderColor = [UIColor redColor].CGColor;
-        self.scrollView.layer.borderWidth = 1;
-        self.scrollView.showsVerticalScrollIndicator = YES;
-        self.scrollView.showsHorizontalScrollIndicator = YES;
+        _scrollView.layer.borderColor = [UIColor redColor].CGColor;
+        _scrollView.layer.borderWidth = 1;
+        _scrollView.showsVerticalScrollIndicator = YES;
+        _scrollView.showsHorizontalScrollIndicator = YES;
 #endif
-        [self addSubview:self.scrollView];
         
-        self.photoContentView = [[PhotoContentView alloc] initWithImage:image];
-        self.photoContentView.frame = self.scrollView.bounds;
-        self.photoContentView.backgroundColor = [UIColor clearColor];
-        self.photoContentView.userInteractionEnabled = YES;
-        self.scrollView.photoContentView = self.photoContentView;
-        [self.scrollView addSubview:self.photoContentView];
+        _photoContentView = [[PhotoContentView alloc] initWithImage:image];
+        _photoContentView.frame = self.scrollView.bounds;
+        _photoContentView.backgroundColor = [UIColor clearColor];
+        _photoContentView.userInteractionEnabled = YES;
+        _scrollView.photoContentView = self.photoContentView;
+        [self.scrollView addSubview:_photoContentView];
         
-        self.cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
-        self.cropView.center = self.scrollView.center;
-        self.cropView.delegate = self;
-        [self addSubview:self.cropView];
+        _cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
+        _cropView.center = self.scrollView.center;
+        _cropView.delegate = self;
+        [self addSubview:_cropView];
         
         UIColor *maskColor = [UIColor maskColor];
-        self.topMask = [UIView new];
-        self.topMask.backgroundColor = maskColor;
-        [self addSubview:self.topMask];
-        self.leftMask = [UIView new];
-        self.leftMask.backgroundColor = maskColor;
-        [self addSubview:self.leftMask];
-        self.bottomMask = [UIView new];
-        self.bottomMask.backgroundColor = maskColor;
-        [self addSubview:self.bottomMask];
-        self.rightMask = [UIView new];
-        self.rightMask.backgroundColor = maskColor;
-        [self addSubview:self.rightMask];
+        _topMask = [UIView new];
+        _topMask.backgroundColor = maskColor;
+        [self addSubview:_topMask];
+        _leftMask = [UIView new];
+        _leftMask.backgroundColor = maskColor;
+        [self addSubview:_leftMask];
+        _bottomMask = [UIView new];
+        _bottomMask.backgroundColor = maskColor;
+        [self addSubview:_bottomMask];
+        _rightMask = [UIView new];
+        _rightMask.backgroundColor = maskColor;
+        [self addSubview:_rightMask];
         [self updateMasks:NO];
         
-        self.slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 240, 20)];
-        self.slider.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 105);
-        self.slider.minimumValue = 0.0f;
-        self.slider.maximumValue = 1.0f;
-        [self.slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
-        [self.slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
-        self.slider.value = 0.5;
-        [self addSubview:self.slider];
+        _slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 240, 20)];
+        _slider.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 105);
+        _slider.minimumValue = 0.0f;
+        _slider.maximumValue = 1.0f;
+        [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+        [_slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
+        _slider.value = 0.5;
+        [self addSubview:_slider];
         
-        self.originalPoint = [self convertPoint:self.scrollView.center toView:self];
+        _originalPoint = [self convertPoint:self.scrollView.center toView:self];
     }
     return self;
-}
-
-- (void)setWidthRatio:(CGFloat)widthRatio heightRatio:(CGFloat)heightRatio
-{
-    // calculate the target rect
-    CGFloat ratioW2H = self.maximumCanvasSize.width / self.maximumCanvasSize.height;
-    CGFloat currentRatioW2H = widthRatio / heightRatio;
-    CGSize targetSize;
-    if (currentRatioW2H < ratioW2H) {
-        targetSize = CGSizeMake(currentRatioW2H * self.maximumCanvasSize.height, self.maximumCanvasSize.height);
-    } else {
-        targetSize = CGSizeMake(self.maximumCanvasSize.width, self.maximumCanvasSize.width / currentRatioW2H);
-    }
-    
-    // set the frame of crop view
-    self.cropView.bounds = CGRectMake(0, 0, targetSize.width, targetSize.height);
-    self.cropView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
-    [self updateMasks:NO];
-    
-    // set the bounds scale and contentoffset of scroll view
-    CGPoint center = self.scrollView.center;
-    self.scrollView.bounds = self.cropView.bounds;
-    self.scrollView.center = center;
-    [self.scrollView setZoomScale:[self.scrollView realScale] animated:NO];
-    
-    CGPoint contentOffset = CGPointMake((self.scrollView.contentSize.width - self.scrollView.bounds.size.width) / 2, (self.scrollView.contentSize.height - self.scrollView.bounds.size.height) / 2);
-    self.scrollView.contentOffset = contentOffset;
-    
-    self.originalSize = targetSize;
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
@@ -741,9 +686,9 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     // scale scroll view
     BOOL shouldScale = self.scrollView.contentSize.width / self.scrollView.bounds.size.width <= 1.0 || self.scrollView.contentSize.height / self.scrollView.bounds.size.height <= 1.0;
     if (!self.manualZoomed || shouldScale) {
-        [self.scrollView setZoomScale:[self.scrollView realScale] animated:NO];
-        self.scrollView.minimumZoomScale = [self.scrollView realScale];
-        [self.scrollView updatePhotoContentView];
+        [self.scrollView setZoomScale:[self.scrollView zoomScaleToBound] animated:NO];
+        self.scrollView.minimumZoomScale = [self.scrollView zoomScaleToBound];
+
         self.manualZoomed = NO;
     }
     

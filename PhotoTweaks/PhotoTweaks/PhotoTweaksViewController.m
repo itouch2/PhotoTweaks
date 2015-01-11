@@ -54,15 +54,15 @@
     [cancelBtn addTarget:self action:@selector(cancelBtnTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cancelBtn];
     
-    UIButton *saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    saveBtn.titleLabel.textAlignment = NSTextAlignmentRight;
-    saveBtn.frame = CGRectMake(CGRectGetWidth(self.view.frame) - 60, CGRectGetHeight(self.view.frame) - 40, 60, 40);
-    [saveBtn setTitle:@"Crop" forState:UIControlStateNormal];
-    [saveBtn setTitleColor:[UIColor saveButtonColor] forState:UIControlStateNormal];
-    [saveBtn setTitleColor:[UIColor saveButtonHighlightedColor] forState:UIControlStateHighlighted];
-    saveBtn.titleLabel.font = [UIFont systemFontOfSize:17];
-    [saveBtn addTarget:self action:@selector(saveBtnTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:saveBtn];
+    UIButton *cropBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    cropBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    cropBtn.frame = CGRectMake(CGRectGetWidth(self.view.frame) - 60, CGRectGetHeight(self.view.frame) - 40, 60, 40);
+    [cropBtn setTitle:@"Crop" forState:UIControlStateNormal];
+    [cropBtn setTitleColor:[UIColor saveButtonColor] forState:UIControlStateNormal];
+    [cropBtn setTitleColor:[UIColor saveButtonHighlightedColor] forState:UIControlStateHighlighted];
+    cropBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+    [cropBtn addTarget:self action:@selector(saveBtnTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:cropBtn];
 }
 
 - (void)cancelBtnTapped

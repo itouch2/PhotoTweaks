@@ -35,6 +35,5 @@
 @property (strong, nonatomic) CropView *cropView;
 
 - (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image;
-- (void)setWidthRatio:(CGFloat)widthRatio heightRatio:(CGFloat)heightRatio;
 
 @end
