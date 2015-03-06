@@ -700,58 +700,12 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     [self.cropView dismissGridLines];
 }
 
-- (CGPoint)photoContentOffset
+- (CGPoint)photoTranslation
 {
-    CGPoint point = [self convertPoint:self.scrollView.center toView:self];
-    point = CGPointMake(self.scrollView.contentSize.width / 2 - self.scrollView.contentOffset.x,
-                        self.scrollView.contentSize.height / 2 - self.scrollView.contentOffset.y);
-    
-    CGPoint scrollOrigin = CGPointMake(self.scrollView.frame.origin.x, self.scrollView.frame.origin.y);
-    
-    // calculate the coordinate of center of content image view
-    CGFloat angleToOrigin = atan(fabs(point.y) / fabs(point.x));
-    
-    CGFloat offsetX, offsetY;
-    if (self.angle > 0) {
-        offsetX = cos(self.angle + angleToOrigin) * distanceBetweenPoints(point, CGPointZero) + sin(self.angle) * self.scrollView.bounds.size.height;
-        offsetY = sin(self.angle + angleToOrigin) * distanceBetweenPoints(point, CGPointZero);
-        
-        if (point.x < 0 && point.y > 0) {
-            offsetX = -sin(M_PI_2 + self.angle - angleToOrigin) * distanceBetweenPoints(point, CGPointZero) + sin(self.angle) * self.scrollView.bounds.size.height;
-            offsetY = cos(M_PI_2 + self.angle - angleToOrigin) * distanceBetweenPoints(point, CGPointZero);
-        } else if (point.x > 0 && point.y < 0) {
-            offsetX = offsetX;
-            offsetY = offsetY;
-        } else {
-            if (point.x < 0) {
-                offsetX = -cos(self.angle + angleToOrigin) * distanceBetweenPoints(point, CGPointZero) + sin(self.angle) * self.scrollView.bounds.size.height;
-            }
-            if (point.y < 0) {
-                offsetY = -offsetY;
-            }
-        }
-    } else {
-        offsetX = cos(self.angle + angleToOrigin) * distanceBetweenPoints(point, CGPointZero);
-        offsetY = sin(self.angle + angleToOrigin) * distanceBetweenPoints(point, CGPointZero) + sin(fabs(self.angle)) * self.scrollView.bounds.size.width;
-        if (point.x < 0 && point.y > 0) {
-            offsetX = -sin(self.angle + M_PI_2 - angleToOrigin) * distanceBetweenPoints(point, CGPointZero);
-            offsetY = cos(self.angle + M_PI_2 - angleToOrigin) * distanceBetweenPoints(point, CGPointZero) + sin(fabs(self.angle)) * self.scrollView.bounds.size.width;
-        } else if (point.x > 0 && point.y < 0) {
-            offsetX = offsetX;
-            offsetY = offsetY;
-        } else {
-            if (point.x < 0) {
-                offsetX = -offsetX;
-            }
-            if (point.y < 0) {
-                offsetY = -sin(self.angle + angleToOrigin) * distanceBetweenPoints(point, CGPointZero) + sin(fabs(self.angle)) * self.scrollView.bounds.size.width;
-            }
-        }
-    }
-    
-    point = CGPointMake(scrollOrigin.x + offsetX, scrollOrigin.y + offsetY);
-    _photoContentOffset = CGPointMake(point.x - self.originalPoint.x, point.y - self.originalPoint.y);
-    return _photoContentOffset;
+    CGRect rect = [self.photoContentView convertRect:self.photoContentView.bounds toView:self];
+    CGPoint point = CGPointMake(rect.origin.x + rect.size.width / 2, rect.origin.y + rect.size.height / 2);
+    CGPoint zeroPoint = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
+    return CGPointMake(point.x - zeroPoint.x, point.y - zeroPoint.y);
 }
 
 @end

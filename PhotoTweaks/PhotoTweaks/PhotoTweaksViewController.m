@@ -75,9 +75,9 @@
     CGAffineTransform transform = CGAffineTransformIdentity;
     
     // translate
-    CGPoint translation = CGPointMake(self.photoView.photoContentOffset.x, self.photoView.photoContentOffset.y);
+    CGPoint translation = [self.photoView photoTranslation];
     transform = CGAffineTransformTranslate(transform, translation.x, translation.y);
-    
+
     // rotate
     transform = CGAffineTransformRotate(transform, self.photoView.angle);
     
