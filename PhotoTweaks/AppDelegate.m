@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "PhotoTweaksViewController.h"
 
-@interface AppDelegate () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface AppDelegate () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoTweaksViewControllerDelegate>
 
 @end
 
@@ -20,9 +20,9 @@
     // Override point for customization after application launch.
     
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.allowsEditing = NO;
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;
+    picker.allowsEditing = NO;
     picker.navigationBarHidden = YES;
     self.window.rootViewController = picker;
     
@@ -33,7 +33,14 @@
 {
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     PhotoTweaksViewController *photoTweaksViewController = [[PhotoTweaksViewController alloc] initWithImage:image];
+    photoTweaksViewController.delegate = self;
+    photoTweaksViewController.autoSaveToLibray = YES;
     [picker pushViewController:photoTweaksViewController animated:YES];
+}
+
+- (void)finishWithCroppedImage:(UIImage *)croppedImage
+{
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

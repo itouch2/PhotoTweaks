@@ -22,7 +22,7 @@
 
 + (UIColor *)saveButtonColor
 {
-    return [UIColor colorWithRed:0.9 green:0.72 blue:0.16 alpha:1];
+    return [UIColor colorWithRed:1 green:0.8 blue:0 alpha:1];
 }
 
 + (UIColor *)saveButtonHighlightedColor

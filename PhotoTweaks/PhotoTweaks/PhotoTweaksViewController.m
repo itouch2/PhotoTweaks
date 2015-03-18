@@ -14,7 +14,6 @@
 @interface PhotoTweaksViewController ()
 
 @property (strong, nonatomic) PhotoTweakView *photoView;
-@property (strong, nonatomic) UIImage *image;
 
 @end
 
@@ -23,12 +22,14 @@
 - (instancetype)initWithImage:(UIImage *)image
 {
     if (self = [super init]) {
-        self.image = image;
+        _image = image;
+        _autoSaveToLibray = YES;
     }
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     self.navigationController.navigationBarHidden = YES;
@@ -40,6 +41,11 @@
     self.view.clipsToBounds = YES;
     self.view.backgroundColor = [UIColor photoTweakCanvasBackgroundColor];
     
+    [self setupSubviews];
+}
+
+- (void)setupSubviews
+{
     self.photoView = [[PhotoTweakView alloc] initWithFrame:self.view.bounds image:self.image];
     self.photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.photoView];
@@ -57,7 +63,7 @@
     UIButton *cropBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     cropBtn.titleLabel.textAlignment = NSTextAlignmentRight;
     cropBtn.frame = CGRectMake(CGRectGetWidth(self.view.frame) - 60, CGRectGetHeight(self.view.frame) - 40, 60, 40);
-    [cropBtn setTitle:@"Crop" forState:UIControlStateNormal];
+    [cropBtn setTitle:@"Done" forState:UIControlStateNormal];
     [cropBtn setTitleColor:[UIColor saveButtonColor] forState:UIControlStateNormal];
     [cropBtn setTitleColor:[UIColor saveButtonHighlightedColor] forState:UIControlStateHighlighted];
     cropBtn.titleLabel.font = [UIFont systemFontOfSize:17];
@@ -95,13 +101,20 @@
                                            cropSize:self.photoView.cropView.frame.size
                                       imageViewSize:self.photoView.photoContentView.bounds.size];
     
-    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-    [library writeImageToSavedPhotosAlbum:imageRef metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
-        if (!error) {
-            NSLog(@"save");
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-    }];
+    UIImage *image = [UIImage imageWithCGImage:imageRef];
+    if ([self.delegate respondsToSelector:@selector(finishWithCroppedImage:)]) {
+        [self.delegate finishWithCroppedImage:image];
+    }
+    
+    if (self.autoSaveToLibray) {
+        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+        [library writeImageToSavedPhotosAlbum:imageRef metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+            if (!error) {
+            }
+        }];
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (CGImageRef)newScaledImage:(CGImageRef)source withOrientation:(UIImageOrientation)orientation toSize:(CGSize)size withQuality:(CGInterpolationQuality)quality
@@ -207,9 +220,9 @@
     return UIStatusBarStyleLightContent;
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end
