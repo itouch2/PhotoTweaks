@@ -3,7 +3,7 @@
 </p>
 <h1 align="center">PhotoTweaks</h1>
 
-PhotoTweaks is an interface to crop photo, and it can rotate and scale the image. You will find it mimics the interaction in photo library on iOS 7. :]
+PhotoTweaks is an interface to crop photos. It can let user drag, rotate, scale the image, and crop it. You will find it mimics the interaction in photo library on iOS 7. :]
 
 ## Usage
 
@@ -20,5 +20,5 @@ To use it,
 
 ## A Quick Peek
 
-![screenshots](https://cloud.githubusercontent.com/assets/4316898/6525485/ce2d65ae-c440-11e4-8a73-c461a3f31b5f.png)
+![screenshots](https://cloud.githubusercontent.com/assets/4316898/6712965/84ab1d16-cdca-11e4-912a-f437bbb02d42.gif)
 
