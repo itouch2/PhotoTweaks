@@ -7,7 +7,7 @@ PhotoTweaks is an interface to crop photos. It can let user drag, rotate, scale 
 
 ## Usage
 
-PhotoTweaksViewController offers all the operations to crop the photo, which include crop and rotate the photo.
+PhotoTweaksViewController offers all the operations to crop the photo, which includes translation, rotate and scale..
 
 To use it, 
 
