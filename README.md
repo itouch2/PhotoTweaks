@@ -12,11 +12,20 @@ PhotoTweaksViewController offers all the operations to crop the photo, which inc
 To use it, 
 
 ```objective-c
-  UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-  PhotoTweaksViewController *photoTweaksViewController = [[PhotoTweaksViewController alloc] initWithImage:image];
-  photoTweaksViewController.delegate = self;
-  [picker pushViewController:photoTweaksViewController animated:YES];
+UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+PhotoTweaksViewController *photoTweaksViewController = [[PhotoTweaksViewController alloc] initWithImage:image];
+photoTweaksViewController.delegate = self;
+[picker pushViewController:photoTweaksViewController animated:YES];
 ```
+Get the cropped image
+```objective-c
+- (void)finishWithCroppedImage:(UIImage *)croppedImage
+{
+    // cropped image
+}
+```
+
+
 
 ## A Quick Peek
 
