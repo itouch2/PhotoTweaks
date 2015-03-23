@@ -7,7 +7,7 @@ PhotoTweaks is an interface to crop photos. It can let user drag, rotate, scale 
 
 [![Build Status](https://travis-ci.org/itouch2/PhotoTweaks.svg)](https://travis-ci.org/itouch2/PhotoTweaks)
 [![Pod Version](http://img.shields.io/cocoapods/v/PhotoTweaks.svg?style=flat)](http://cocoapods.org/?q=PhotoTweaks)
-[![Platform](http://img.shields.io/cocoapods/p/PhotoTweaks.svg?style=flat)]()
+[![Platform](http://img.shields.io/cocoapods/p/PhotoTweaks.svg?style=flat)](http://cocoapods.org/?q=PhotoTweaks)
 [![License](http://img.shields.io/cocoapods/l/PhotoTweaks.svg?style=flat)](https://github.com/itouch2/PhotoTweaks/blob/master/LICENSE)
 
 ## Usage
@@ -29,6 +29,13 @@ Get the cropped image
     // cropped image
 }
 ```
+## Installation
+PhotoTweaks is available on [CocoaPods](http://cocoapods.org). Add the follwing to your Podfile:
+```ruby
+pod 'PhotoTweaks', '~> 1.0.0'
+```
+Alternatively, you can manually drag the ```PhotoTweaks``` folder into your Xcode project.
+
 
 ## A Quick Peek
 
