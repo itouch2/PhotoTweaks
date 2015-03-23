@@ -26,7 +26,6 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 }
 
 //#define kInstruction
-#define kShowCanvas
 
 @implementation PhotoContentView
 
@@ -433,6 +432,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) UISlider *slider;
+@property (nonatomic, strong) UIButton *resetBtn;
 @property (nonatomic, assign) CGSize originalSize;
 
 @property (nonatomic, assign) BOOL manualZoomed;
@@ -471,12 +471,6 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         _originalSize = bounds.size;
         
         _centerY = self.maximumCanvasSize.height / 2 + kCanvasHeaderHeigth;
-        
-#ifdef kShowCanvas
-        UIView *canvas = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.maximumCanvasSize.width, self.maximumCanvasSize.height)];
-        canvas.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
-        [self addSubview:canvas];
-#endif
         
         _scrollView = [[PhotoScrollView alloc] initWithFrame:bounds];
         _scrollView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
@@ -527,13 +521,23 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         [self updateMasks:NO];
         
         _slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 240, 20)];
-        _slider.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 105);
+        _slider.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 135);
         _slider.minimumValue = 0.0f;
         _slider.maximumValue = 1.0f;
         [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
         [_slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
         _slider.value = 0.5;
         [self addSubview:_slider];
+        
+        _resetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _resetBtn.frame = CGRectMake(0, 0, 60, 20);
+        _resetBtn.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 95);
+        _resetBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [_resetBtn setTitleColor:[UIColor resetButtonColor] forState:UIControlStateNormal];
+        [_resetBtn setTitleColor:[UIColor resetButtonHighlightedColor] forState:UIControlStateHighlighted];
+        [_resetBtn setTitle:@"RESET" forState:UIControlStateNormal];
+        [_resetBtn addTarget:self action:@selector(resetBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_resetBtn];
         
         _originalPoint = [self convertPoint:self.scrollView.center toView:self];
     }
@@ -544,6 +548,8 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 {
     if (CGRectContainsPoint(self.slider.frame, point)) {
         return self.slider;
+    } else if (CGRectContainsPoint(self.resetBtn.frame, point)) {
+        return self.resetBtn;
     } else if (CGRectContainsPoint(CGRectInset(self.cropView.frame, -kCropViewHotArea, -kCropViewHotArea), point) && !CGRectContainsPoint(CGRectInset(self.cropView.frame, kCropViewHotArea, kCropViewHotArea), point)) {
         return self.cropView;
     }
@@ -698,6 +704,25 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 - (void)sliderTouchEnded:(id)sender
 {
     [self.cropView dismissGridLines];
+}
+
+- (void)resetBtnTapped:(id)sender
+{
+    [UIView animateWithDuration:0.25 animations:^{
+        self.angle = 0;
+        
+        self.scrollView.transform = CGAffineTransformIdentity;
+        self.scrollView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
+        self.scrollView.bounds = CGRectMake(0, 0, self.originalSize.width, self.originalSize.height);
+        self.scrollView.minimumZoomScale = 1;
+        [self.scrollView setZoomScale:1 animated:NO];
+        
+        self.cropView.frame = self.scrollView.frame;
+        self.cropView.center = self.scrollView.center;
+        [self updateMasks:NO];
+        
+        [self.slider setValue:0.5 animated:YES];
+    }];
 }
 
 - (CGPoint)photoTranslation
