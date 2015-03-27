@@ -41,3 +41,5 @@ Alternatively, you can manually drag the ```PhotoTweaks``` folder into your Xcod
 
 ![screenshots](https://cloud.githubusercontent.com/assets/4316898/6712965/84ab1d16-cdca-11e4-912a-f437bbb02d42.gif)
 
+## Protip
+If using with an existing UIImagePickerController, be sure to set ```allowsEditing = NO``` otherwise you may force the user to crop with the native editing tool before showing PhotoTweaksViewController.
