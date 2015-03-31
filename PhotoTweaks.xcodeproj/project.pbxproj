@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00B1B9281ACAA90100A8E285 /* PhotoTweaks.strings in Resources */ = {isa = PBXBuildFile; fileRef = 00B1B92A1ACAA90100A8E285 /* PhotoTweaks.strings */; };
 		B71706151A32A18D00A6CC10 /* UIColor+Tweak.m in Sources */ = {isa = PBXBuildFile; fileRef = B71706141A32A18D00A6CC10 /* UIColor+Tweak.m */; };
 		CB3496FC1A3207E800C7EB0E /* PhotoTweaksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB3496FB1A3207E800C7EB0E /* PhotoTweaksViewController.m */; };
 		CBD5FA591A28425300D4D520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA581A28425300D4D520 /* main.m */; };
@@ -29,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00B1B9291ACAA90100A8E285 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/PhotoTweaks.strings; sourceTree = "<group>"; };
+		00B1B9361ACAA98400A8E285 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PhotoTweaks.strings"; sourceTree = "<group>"; };
 		B71706131A32A18D00A6CC10 /* UIColor+Tweak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Tweak.h"; sourceTree = "<group>"; };
 		B71706141A32A18D00A6CC10 /* UIColor+Tweak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Tweak.m"; sourceTree = "<group>"; };
 		CB3496FA1A3207E800C7EB0E /* PhotoTweaksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTweaksViewController.h; sourceTree = "<group>"; };
@@ -103,6 +106,7 @@
 			children = (
 				CBD5FA571A28425300D4D520 /* Info.plist */,
 				CBD5FA581A28425300D4D520 /* main.m */,
+				00B1B92A1ACAA90100A8E285 /* PhotoTweaks.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -200,6 +204,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = CBD5FA4A1A28425300D4D520;
 			productRefGroup = CBD5FA541A28425300D4D520 /* Products */;
@@ -217,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00B1B9281ACAA90100A8E285 /* PhotoTweaks.strings in Resources */,
 				CBD5FA621A28425300D4D520 /* Main.storyboard in Resources */,
 				CBD5FA671A28425300D4D520 /* LaunchScreen.xib in Resources */,
 				CBD5FA641A28425300D4D520 /* Images.xcassets in Resources */,
@@ -264,6 +270,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		00B1B92A1ACAA90100A8E285 /* PhotoTweaks.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00B1B9291ACAA90100A8E285 /* en */,
+				00B1B9361ACAA98400A8E285 /* zh-Hans */,
+			);
+			name = PhotoTweaks.strings;
+			sourceTree = "<group>";
+		};
 		CBD5FA601A28425300D4D520 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

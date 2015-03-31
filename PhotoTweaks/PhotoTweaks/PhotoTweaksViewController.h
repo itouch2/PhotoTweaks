@@ -31,6 +31,26 @@
 @property (nonatomic, weak) id<PhotoTweaksViewControllerDelegate> delegate;
 
 /**
+    save action button's default title color
+ */
+@property (nonatomic, strong) UIColor *saveButtonTitleColor;
+
+/**
+    save action button's highlight title color
+ */
+@property (nonatomic, strong) UIColor *saveButtonHighlightTitleColor;
+
+/**
+ cancel action button's default title color
+ */
+@property (nonatomic, strong) UIColor *cancelButtonTitleColor;
+
+/**
+ cancel action button's highlight title color
+ */
+@property (nonatomic, strong) UIColor *cancelButtonHighlightTitleColor;
+
+/**
  Creates a photo tweaks view controller with the image to process.
  */
 - (instancetype)initWithImage:(UIImage *)image;
