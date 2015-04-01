@@ -117,12 +117,14 @@
     
     if (self.autoSaveToLibray) {
         ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-        [library writeImageToSavedPhotosAlbum:imageRef metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+        [library writeImageToSavedPhotosAlbum:image.CGImage metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
             if (!error) {
             }
         }];
+    } else {
     }
     
+    CGImageRelease(imageRef);
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -222,7 +224,6 @@
     CGImageRelease(source);
     return resultRef;
 }
-
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
