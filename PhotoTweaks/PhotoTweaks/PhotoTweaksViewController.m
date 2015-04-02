@@ -40,7 +40,10 @@
     
     self.view.clipsToBounds = YES;
     self.view.backgroundColor = [UIColor photoTweakCanvasBackgroundColor];
-    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self setupSubviews];
 }
 
