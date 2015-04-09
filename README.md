@@ -14,7 +14,7 @@ PhotoTweaks is an interface to crop photos. It can let user drag, rotate, scale 
 
 PhotoTweaksViewController offers all the operations to crop the photo, which includes translation, rotate and scale..
 
-To use it, 
+To use it,
 
 ```objective-c
 UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -24,8 +24,9 @@ photoTweaksViewController.delegate = self;
 ```
 Get the cropped image
 ```objective-c
-- (void)finishWithCroppedImage:(UIImage *)croppedImage
+- (void)photoTweaksController:(PhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage
 {
+    [controller.navigationController dismissViewControllerAnimated:YES completion:nil];
     // cropped image
 }
 ```
