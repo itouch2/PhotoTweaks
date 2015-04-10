@@ -31,16 +31,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     self.navigationController.navigationBarHidden = YES;
-    
+
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
+
     self.view.clipsToBounds = YES;
     self.view.backgroundColor = [UIColor photoTweakCanvasBackgroundColor];
-    
+
     [self setupSubviews];
 }
 
@@ -49,7 +49,7 @@
     self.photoView = [[PhotoTweakView alloc] initWithFrame:self.view.bounds image:self.image];
     self.photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.photoView];
-    
+
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     cancelBtn.frame = CGRectMake(8, CGRectGetHeight(self.view.frame) - 40, 60, 40);
     cancelBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -63,7 +63,7 @@
     cancelBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [cancelBtn addTarget:self action:@selector(cancelBtnTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cancelBtn];
-    
+
     UIButton *cropBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     cropBtn.titleLabel.textAlignment = NSTextAlignmentRight;
     cropBtn.frame = CGRectMake(CGRectGetWidth(self.view.frame) - 60, CGRectGetHeight(self.view.frame) - 40, 60, 40);
@@ -71,7 +71,7 @@
     UIColor *saveButtonTitleColor = !self.saveButtonTitleColor ?
                                 [UIColor saveButtonColor] : self.saveButtonTitleColor;
     [cropBtn setTitleColor:saveButtonTitleColor forState:UIControlStateNormal];
-    
+
     UIColor *saveButtonHighlightTitleColor = !self.saveButtonHighlightTitleColor ?
                                             [UIColor saveButtonHighlightedColor] : self.saveButtonHighlightTitleColor;
     [cropBtn setTitleColor:saveButtonHighlightTitleColor forState:UIControlStateHighlighted];
@@ -88,20 +88,20 @@
 - (void)saveBtnTapped
 {
     CGAffineTransform transform = CGAffineTransformIdentity;
-    
+
     // translate
     CGPoint translation = [self.photoView photoTranslation];
     transform = CGAffineTransformTranslate(transform, translation.x, translation.y);
 
     // rotate
     transform = CGAffineTransformRotate(transform, self.photoView.angle);
-    
+
     // scale
     CGAffineTransform t = self.photoView.photoContentView.transform;
     CGFloat xScale =  sqrt(t.a * t.a + t.c * t.c);
     CGFloat yScale = sqrt(t.b * t.b + t.d * t.d);
     transform = CGAffineTransformScale(transform, xScale, yScale);
-    
+
     CGImageRef imageRef = [self newTransformedImage:transform
                                         sourceImage:self.image.CGImage
                                          sourceSize:self.image.size
@@ -109,12 +109,10 @@
                                         outputWidth:self.image.size.width
                                            cropSize:self.photoView.cropView.frame.size
                                       imageViewSize:self.photoView.photoContentView.bounds.size];
-    
+
     UIImage *image = [UIImage imageWithCGImage:imageRef];
-    if ([self.delegate respondsToSelector:@selector(finishWithCroppedImage:)]) {
-        [self.delegate finishWithCroppedImage:image];
-    }
-    
+    CGImageRelease(imageRef);
+
     if (self.autoSaveToLibray) {
         ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
         [library writeImageToSavedPhotosAlbum:image.CGImage metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
@@ -123,8 +121,12 @@
         }];
     } else {
     }
-    
-    CGImageRelease(imageRef);
+
+    if ([self.delegate respondsToSelector:@selector(photoTweaksController:didFinishWithCroppedImage:)]) {
+        [self.delegate photoTweaksController:self didFinishWithCroppedImage:image];
+        return;
+    }
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -132,7 +134,7 @@
 {
     CGSize srcSize = size;
     CGFloat rotation = 0.0;
-    
+
     switch(orientation)
     {
         case UIImageOrientationUp: {
@@ -152,7 +154,7 @@
         default:
             break;
     }
-    
+
     CGContextRef context = CGBitmapContextCreate(NULL,
                                                  size.width,
                                                  size.height,
@@ -161,20 +163,20 @@
                                                  CGImageGetColorSpace(source),
                                                  (CGBitmapInfo)kCGImageAlphaNoneSkipFirst  //CGImageGetBitmapInfo(source)
                                                  );
-    
+
     CGContextSetInterpolationQuality(context, quality);
     CGContextTranslateCTM(context,  size.width/2,  size.height/2);
     CGContextRotateCTM(context,rotation);
-    
+
     CGContextDrawImage(context, CGRectMake(-srcSize.width/2 ,
                                            -srcSize.height/2,
                                            srcSize.width,
                                            srcSize.height),
                        source);
-    
+
     CGImageRef resultRef = CGBitmapContextCreateImage(context);
     CGContextRelease(context);
-    
+
     return resultRef;
 }
 
@@ -190,10 +192,10 @@
                              withOrientation:sourceOrientation
                                       toSize:sourceSize
                                  withQuality:kCGInterpolationNone];
-    
+
     CGFloat aspect = cropSize.height/cropSize.width;
     CGSize outputSize = CGSizeMake(outputWidth, outputWidth*aspect);
-    
+
     CGContextRef context = CGBitmapContextCreate(NULL,
                                                  outputSize.width,
                                                  outputSize.height,
@@ -203,22 +205,22 @@
                                                  CGImageGetBitmapInfo(source));
     CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
     CGContextFillRect(context, CGRectMake(0, 0, outputSize.width, outputSize.height));
-    
+
     CGAffineTransform uiCoords = CGAffineTransformMakeScale(outputSize.width / cropSize.width,
                                                             outputSize.height / cropSize.height);
     uiCoords = CGAffineTransformTranslate(uiCoords, cropSize.width/2.0, cropSize.height / 2.0);
     uiCoords = CGAffineTransformScale(uiCoords, 1.0, -1.0);
     CGContextConcatCTM(context, uiCoords);
-    
+
     CGContextConcatCTM(context, transform);
     CGContextScaleCTM(context, 1.0, -1.0);
-    
+
     CGContextDrawImage(context, CGRectMake(-imageViewSize.width/2.0,
                                            -imageViewSize.height/2.0,
                                            imageViewSize.width,
                                            imageViewSize.height)
                        , source);
-    
+
     CGImageRef resultRef = CGBitmapContextCreateImage(context);
     CGContextRelease(context);
     CGImageRelease(source);
