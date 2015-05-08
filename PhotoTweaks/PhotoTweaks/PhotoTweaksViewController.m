@@ -113,9 +113,10 @@
     UIImage *image = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
 
+    
     if (self.autoSaveToLibray) {
         ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-        [library writeImageToSavedPhotosAlbum:image.CGImage metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
+        [library writeImageToSavedPhotosAlbum:image.CGImage orientation:(ALAssetOrientation)image.imageOrientation completionBlock:^(NSURL *assetURL, NSError *error) {
             if (!error) {
             }
         }];

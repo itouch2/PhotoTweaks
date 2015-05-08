@@ -281,7 +281,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
             if (canChangeWidth) {
                 frame.size.width = location.x;
             }
-        } else if (fabs(location.y - p0.y < kCropViewHotArea)) {
+        } else if (fabs(location.y - p0.y) < kCropViewHotArea) {
             if (canChangeHeight) {
                 frame.origin.y += location.y;
                 frame.size.height -= location.y;
