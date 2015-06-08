@@ -82,7 +82,7 @@
 
 - (void)cancelBtnTapped
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.delegate photoTweaksControllerDidCancel:self];
 }
 
 - (void)saveBtnTapped
@@ -113,22 +113,15 @@
     UIImage *image = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
 
-    
     if (self.autoSaveToLibray) {
         ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-        [library writeImageToSavedPhotosAlbum:image.CGImage orientation:(ALAssetOrientation)image.imageOrientation completionBlock:^(NSURL *assetURL, NSError *error) {
+        [library writeImageToSavedPhotosAlbum:image.CGImage metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
             if (!error) {
             }
         }];
-    } else {
     }
 
-    if ([self.delegate respondsToSelector:@selector(photoTweaksController:didFinishWithCroppedImage:)]) {
-        [self.delegate photoTweaksController:self didFinishWithCroppedImage:image];
-        return;
-    }
-
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.delegate photoTweaksController:self didFinishWithCroppedImage:image];
 }
 
 - (CGImageRef)newScaledImage:(CGImageRef)source withOrientation:(UIImageOrientation)orientation toSize:(CGSize)size withQuality:(CGInterpolationQuality)quality

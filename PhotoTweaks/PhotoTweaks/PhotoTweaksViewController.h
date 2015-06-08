@@ -62,10 +62,11 @@
  */
 @protocol PhotoTweaksViewControllerDelegate <NSObject>
 
-@optional
 /**
  Called on image cropped.
  */
 - (void)photoTweaksController:(PhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage;
+- (void)photoTweaksControllerDidCancel:(PhotoTweaksViewController *)controller;
+
 
 @end
