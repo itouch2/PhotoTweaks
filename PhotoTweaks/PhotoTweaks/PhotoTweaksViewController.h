@@ -66,7 +66,9 @@
  Called on image cropped.
  */
 - (void)photoTweaksController:(PhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage;
+/**
+ Called on cropping image canceled
+ */
 - (void)photoTweaksControllerDidCancel:(PhotoTweaksViewController *)controller;
-
 
 @end

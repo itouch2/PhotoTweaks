@@ -16,9 +16,10 @@
 @implementation AppDelegate
 
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     // Override point for customization after application launch.
-    
+
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;
@@ -40,10 +41,11 @@
 
 - (void)photoTweaksController:(PhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage
 {
-    [controller.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [controller.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)photoTweaksControllerDidCancel:(PhotoTweaksViewController *)controller {
+- (void)photoTweaksControllerDidCancel:(PhotoTweaksViewController *)controller
+{
     [controller.navigationController popViewControllerAnimated:YES];
 }
 
