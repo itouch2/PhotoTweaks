@@ -38,9 +38,13 @@
     [picker pushViewController:photoTweaksViewController animated:YES];
 }
 
-- (void)finishWithCroppedImage:(UIImage *)croppedImage
+- (void)photoTweaksController:(PhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage
 {
-    
+    [controller.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)photoTweaksControllerDidCancel:(PhotoTweaksViewController *)controller {
+    [controller.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
