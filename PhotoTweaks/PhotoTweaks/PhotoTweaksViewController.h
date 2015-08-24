@@ -31,44 +31,44 @@
 @property (nonatomic, weak) id<PhotoTweaksViewControllerDelegate> delegate;
 
 /**
-    save action button's default title color
+ Save action button's default title color
  */
 @property (nonatomic, strong) UIColor *saveButtonTitleColor;
 
 /**
-    save action button's highlight title color
+ Save action button's highlight title color
  */
 @property (nonatomic, strong) UIColor *saveButtonHighlightTitleColor;
 
 /**
- cancel action button's default title color
+ Cancel action button's default title color
  */
 @property (nonatomic, strong) UIColor *cancelButtonTitleColor;
 
 /**
- cancel action button's highlight title color
+ Cancel action button's highlight title color
  */
 @property (nonatomic, strong) UIColor *cancelButtonHighlightTitleColor;
+
+/**
+ Reset action button's default title color
+ */
+@property (nonatomic, strong) UIColor *resetButtonTitleColor;
+
+/**
+ Reset action button's highlight title color
+ */
+@property (nonatomic, strong) UIColor *resetButtonHighlightTitleColor;
+
+/**
+ Slider tint color
+ */
+@property (nonatomic, strong) UIColor *sliderTintColor;
 
 /**
  Creates a photo tweaks view controller with the image to process.
  */
 - (instancetype)initWithImage:(UIImage *)image;
-
-/**
- reset action button's default title color
- */
-@property (nonatomic, strong) UIColor *resetButtonTitleColor;
-
-/**
- reset action button's highlight title color
- */
-@property (nonatomic, strong) UIColor *resetButtonHighlightTitleColor;
-
-/**
- slider tint color
- */
-@property (nonatomic, strong) UIColor *sliderTintColor;
 
 @end
 
@@ -81,6 +81,7 @@
  Called on image cropped.
  */
 - (void)photoTweaksController:(PhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage;
+
 /**
  Called on cropping image canceled
  */

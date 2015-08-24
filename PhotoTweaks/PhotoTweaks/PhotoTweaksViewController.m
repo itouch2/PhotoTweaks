@@ -48,16 +48,6 @@
 {
     self.photoView = [[PhotoTweakView alloc] initWithFrame:self.view.bounds image:self.image];
     self.photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    
-    UIColor *resetButtonTitleColor = !self.resetButtonTitleColor ? [UIColor resetButtonColor] : self.resetButtonTitleColor;
-    UIColor *resetButtonHighlightTitleColor = !self.resetButtonHighlightTitleColor ? [UIColor resetButtonHighlightedColor] : self.resetButtonHighlightTitleColor;
-    UIColor *sliderTintColor = !self.sliderTintColor ? [UIColor resetButtonColor] : self.sliderTintColor;
-    
-    self.photoView.resetButtonTitleColor = resetButtonTitleColor;
-    self.photoView.resetButtonHighlightTitleColor = resetButtonHighlightTitleColor;
-    self.photoView.sliderTintColor = sliderTintColor;
-    [self.photoView updateColor];
-    
     [self.view addSubview:self.photoView];
     
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];

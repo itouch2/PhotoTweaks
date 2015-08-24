@@ -544,16 +544,6 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     return self;
 }
 
-- (void)updateColor {
-    UIColor *resetButtonTitleColor = !self.resetButtonTitleColor ? [UIColor resetButtonColor] : self.resetButtonTitleColor;
-    UIColor *resetButtonHighlightTitleColor = !self.resetButtonHighlightTitleColor ? [UIColor resetButtonHighlightedColor] : self.resetButtonHighlightTitleColor;
-    UIColor *sliderTintColor = !self.sliderTintColor ? [UIColor resetButtonColor] : self.sliderTintColor;
-    
-    _slider.tintColor = sliderTintColor;
-    [_resetBtn setTitleColor:resetButtonTitleColor forState:UIControlStateNormal];
-    [_resetBtn setTitleColor:resetButtonHighlightTitleColor forState:UIControlStateHighlighted];
-}
-
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
     if (CGRectContainsPoint(self.slider.frame, point)) {
