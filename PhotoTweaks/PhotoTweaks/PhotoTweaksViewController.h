@@ -55,6 +55,21 @@
  */
 - (instancetype)initWithImage:(UIImage *)image;
 
+/**
+ reset action button's default title color
+ */
+@property (nonatomic, strong) UIColor *resetButtonTitleColor;
+
+/**
+ reset action button's highlight title color
+ */
+@property (nonatomic, strong) UIColor *resetButtonHighlightTitleColor;
+
+/**
+ slider tint color
+ */
+@property (nonatomic, strong) UIColor *sliderTintColor;
+
 @end
 
 /**
