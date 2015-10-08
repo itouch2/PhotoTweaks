@@ -522,11 +522,10 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         
         _slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 240, 20)];
         _slider.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 135);
-        _slider.minimumValue = 0.0f;
-        _slider.maximumValue = 1.0f;
+        _slider.minimumValue = -2 * M_PI;
+        _slider.maximumValue = 2 * M_PI;
         [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
         [_slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
-        _slider.value = 0.5;
         [self addSubview:_slider];
         
         _resetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -583,8 +582,8 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     CGRect newCropBounds = CGRectMake(0, 0, scale * cropView.frame.size.width, scale * cropView.frame.size.height);
     
     // calculate the new bounds of scroll view
-    CGFloat width = cos(fabs(self.angle)) * newCropBounds.size.width + sin(fabs(self.angle)) * newCropBounds.size.height;
-    CGFloat height = sin(fabs(self.angle)) * newCropBounds.size.width + cos(fabs(self.angle)) * newCropBounds.size.height;
+    CGFloat width = fabs(cos(self.angle)) * newCropBounds.size.width + fabs(sin(self.angle)) * newCropBounds.size.height;
+    CGFloat height = fabs(sin(self.angle)) * newCropBounds.size.width + fabs(cos(self.angle)) * newCropBounds.size.height;
     
     // calculate the zoom area of scroll view
     CGRect scaleFrame = cropView.frame;
@@ -674,12 +673,12 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     [self.cropView updateGridLines:NO];
     
     // rotate scroll view
-    self.angle = self.slider.value - 0.5;
+    self.angle = self.slider.value;
     self.scrollView.transform = CGAffineTransformMakeRotation(self.angle);
     
     // position scroll view
-    CGFloat width = cos(fabs(self.angle)) * self.cropView.frame.size.width + sin(fabs(self.angle)) * self.cropView.frame.size.height;
-    CGFloat height = sin(fabs(self.angle)) * self.cropView.frame.size.width + cos(fabs(self.angle)) * self.cropView.frame.size.height;
+    CGFloat width = fabs(cos(self.angle)) * self.cropView.frame.size.width + fabs(sin(self.angle)) * self.cropView.frame.size.height;
+    CGFloat height = fabs(sin(self.angle)) * self.cropView.frame.size.width + fabs(cos(self.angle)) * self.cropView.frame.size.height;
     CGPoint center = self.scrollView.center;
     
     CGPoint contentOffset = self.scrollView.contentOffset;
