@@ -24,6 +24,7 @@
     if (self = [super init]) {
         _image = image;
         _autoSaveToLibray = YES;
+        _maxRotationAngle = kMaxRotationAngle;
     }
     return self;
 }
@@ -46,7 +47,7 @@
 
 - (void)setupSubviews
 {
-    self.photoView = [[PhotoTweakView alloc] initWithFrame:self.view.bounds image:self.image];
+    self.photoView = [[PhotoTweakView alloc] initWithFrame:self.view.bounds image:self.image maxRotationAngle:self.maxRotationAngle];
     self.photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.photoView];
     

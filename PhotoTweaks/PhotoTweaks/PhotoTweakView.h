@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern const CGFloat kMaxRotationAngle;
+
 @class CropView;
 
 @interface PhotoContentView : UIView
@@ -29,15 +31,22 @@
 
 @interface PhotoTweakView : UIView
 
-@property (assign, nonatomic) CGFloat angle;
-@property (strong, nonatomic) PhotoContentView *photoContentView;
-@property (assign, nonatomic) CGPoint photoContentOffset;
-@property (strong, nonatomic) CropView *cropView;
+@property (nonatomic, assign, readonly) CGFloat angle;
+@property (nonatomic, assign, readonly) CGPoint photoContentOffset;
 
+@property (nonatomic, strong, readonly) CropView *cropView;
+@property (nonatomic, strong, readonly) PhotoContentView *photoContentView;
 @property (nonatomic, strong, readonly) UISlider *slider;
 @property (nonatomic, strong, readonly) UIButton *resetBtn;
 
-- (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image;
+
+- (instancetype)initWithFrame:(CGRect)frame
+                        image:(UIImage *)image
+             maxRotationAngle:(CGFloat)maxRotationAngle;
+
+- (instancetype)initWithFrame:(CGRect)frame
+                        image:(UIImage *)image;
+
 - (CGPoint)photoTranslation;
 
 @end
