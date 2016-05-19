@@ -10,8 +10,8 @@
 #import "UIColor+Tweak.h"
 #import <math.h>
 
-static const int kCropLines = 2;
-static const int kGridLines = 9;
+static const NSUInteger kCropLines = 2;
+static const NSUInteger kGridLines = 9;
 
 static const CGFloat kCropViewHotArea = 16;
 static const CGFloat kMinimumCropArea = 60;
@@ -520,7 +520,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         [self addSubview:_rightMask];
         [self updateMasks:NO];
         
-        _slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 240, 20)];
+        _slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 260, 20)];
         _slider.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 135);
         _slider.minimumValue = -2 * M_PI;
         _slider.maximumValue = 2 * M_PI;
