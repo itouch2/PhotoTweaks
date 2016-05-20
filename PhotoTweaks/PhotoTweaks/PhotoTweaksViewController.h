@@ -26,6 +26,11 @@
 @property (nonatomic, assign) BOOL autoSaveToLibray;
 
 /**
+ Max rotation angle
+ */
+@property (nonatomic, assign) CGFloat maxRotationAngle;
+
+/**
  The optional photo tweaks controller delegate.
  */
 @property (nonatomic, weak) id<PhotoTweaksViewControllerDelegate> delegate;

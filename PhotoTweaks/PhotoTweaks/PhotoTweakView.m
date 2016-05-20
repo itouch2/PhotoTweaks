@@ -10,8 +10,9 @@
 #import "UIColor+Tweak.h"
 #import <math.h>
 
-static const int kCropLines = 2;
-static const int kGridLines = 9;
+const CGFloat kMaxRotationAngle = 0.5;
+static const NSUInteger kCropLines = 2;
+static const NSUInteger kGridLines = 9;
 
 static const CGFloat kCropViewHotArea = 16;
 static const CGFloat kMinimumCropArea = 60;
@@ -55,7 +56,7 @@ static CGFloat distanceBetweenPoints(CGPoint point0, CGPoint point1)
 
 @interface PhotoScrollView : UIScrollView
 
-@property (strong, nonatomic) PhotoContentView *photoContentView;
+@property (nonatomic, strong) PhotoContentView *photoContentView;
 
 @end
 
@@ -429,11 +430,13 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 @interface PhotoTweakView () <UIScrollViewDelegate, CropViewDelegate>
 
 @property (nonatomic, strong) PhotoScrollView *scrollView;
+@property (nonatomic, strong) CropView *cropView;
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) UISlider *slider;
 @property (nonatomic, strong) UIButton *resetBtn;
 @property (nonatomic, assign) CGSize originalSize;
+@property (nonatomic, assign) CGFloat angle;
 
 @property (nonatomic, assign) BOOL manualZoomed;
 
@@ -447,22 +450,26 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 @property (nonatomic, assign) CGSize maximumCanvasSize;
 @property (nonatomic, assign) CGFloat centerY;
 @property (nonatomic, assign) CGPoint originalPoint;
+@property (nonatomic, assign) CGFloat maxRotationAngle;
 
 @end
 
 @implementation PhotoTweakView
 
-- (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image
+- (instancetype)initWithFrame:(CGRect)frame
+                        image:(UIImage *)image
+             maxRotationAngle:(CGFloat)maxRotationAngle
 {
     if (self = [super init]) {
         
         self.frame = frame;
         
         _image = image;
+        _maxRotationAngle = maxRotationAngle;
         
         // scale the image
         _maximumCanvasSize = CGSizeMake(kMaximumCanvasWidthRatio * self.frame.size.width,
-                                            kMaximumCanvasHeightRatio * self.frame.size.height - kCanvasHeaderHeigth);
+                                        kMaximumCanvasHeightRatio * self.frame.size.height - kCanvasHeaderHeigth);
         
         CGFloat scaleX = image.size.width / self.maximumCanvasSize.width;
         CGFloat scaleY = image.size.height / self.maximumCanvasSize.height;
@@ -520,10 +527,10 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         [self addSubview:_rightMask];
         [self updateMasks:NO];
         
-        _slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 240, 20)];
+        _slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 260, 20)];
         _slider.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 135);
-        _slider.minimumValue = -2 * M_PI;
-        _slider.maximumValue = 2 * M_PI;
+        _slider.minimumValue = -self.maxRotationAngle;
+        _slider.maximumValue = self.maxRotationAngle;
         [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
         [_slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_slider];
@@ -541,6 +548,11 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         _originalPoint = [self convertPoint:self.scrollView.center toView:self];
     }
     return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image
+{
+    return [self initWithFrame:frame image:image maxRotationAngle:kMaxRotationAngle];
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
