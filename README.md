@@ -12,7 +12,7 @@ PhotoTweaks is an interface to crop photos. It can let user drag, rotate, scale 
 
 ## Usage
 
-PhotoTweaksViewController offers all the operations to crop the photo, which includes translation, rotate and scale..
+PhotoTweaksViewController offers all the operations to crop the photo, which includes translation, rotate and scale.
 
 To use it,
 
@@ -20,8 +20,13 @@ To use it,
 UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
 PhotoTweaksViewController *photoTweaksViewController = [[PhotoTweaksViewController alloc] initWithImage:image];
 photoTweaksViewController.delegate = self;
+photoTweaksViewController.autoSaveToLibray = YES;
+photoTweaksViewController.maxRotationAngle = M_PI_4;
 [picker pushViewController:photoTweaksViewController animated:YES];
 ```
+
+```maxRotationAngle``` is the property to set the maximum supported rotation angle.
+
 Get the cropped image
 ```objective-c
 - (void)photoTweaksController:(PhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage
@@ -33,7 +38,7 @@ Get the cropped image
 ## Installation
 PhotoTweaks is available on [CocoaPods](http://cocoapods.org). Add the follwing to your Podfile:
 ```ruby
-pod 'PhotoTweaks', '~> 1.0.2'
+pod 'PhotoTweaks', '~> 1.0.3'
 ```
 Alternatively, you can manually drag the ```PhotoTweaks``` folder into your Xcode project.
 
