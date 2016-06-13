@@ -732,7 +732,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         self.cropView.center = self.scrollView.center;
         [self updateMasks:NO];
         
-        [self.slider setValue:0.5 animated:YES];
+        [self.slider setValue:0 animated:YES];
     }];
 }
 
