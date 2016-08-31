@@ -150,14 +150,17 @@
             break;
     }
 
+    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+    
     CGContextRef context = CGBitmapContextCreate(NULL,
                                                  size.width,
                                                  size.height,
                                                  8,  //CGImageGetBitsPerComponent(source),
                                                  0,
-                                                 CGImageGetColorSpace(source),
-                                                 (CGBitmapInfo)kCGImageAlphaNoneSkipFirst  //CGImageGetBitmapInfo(source)
+                                                 rgbColorSpace,//CGImageGetColorSpace(source),
+                                                 kCGImageAlphaPremultipliedLast|kCGBitmapByteOrder32Big//(CGBitmapInfo)kCGImageAlphaNoneSkipFirst  //CGImageGetBitmapInfo(source)
                                                  );
+    CGColorSpaceRelease(rgbColorSpace);
 
     CGContextSetInterpolationQuality(context, quality);
     CGContextTranslateCTM(context,  size.width/2,  size.height/2);
