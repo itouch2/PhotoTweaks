@@ -2,4 +2,4 @@ language: objective-c
 xcode_project: PhotoTweaks.xcodeproj
 xcode_scheme: PhotoTweaks
 xcode_sdk:
-  - iphonesimulator10.0
+  - iphonesimulator9.3
