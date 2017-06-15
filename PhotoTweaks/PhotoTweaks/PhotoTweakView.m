@@ -728,7 +728,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         self.scrollView.minimumZoomScale = 1;
         [self.scrollView setZoomScale:1 animated:NO];
         
-        self.cropView.frame = self.scrollView.frame;
+        //self.cropView.frame = self.scrollView.frame;
         self.cropView.center = self.scrollView.center;
         [self updateMasks:NO];
         
