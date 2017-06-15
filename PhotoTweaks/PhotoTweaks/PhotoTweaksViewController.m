@@ -115,14 +115,16 @@
     CGImageRelease(imageRef);
 
     if (self.autoSaveToLibray) {
-        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-        [library writeImageToSavedPhotosAlbum:image.CGImage metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
-            if (!error) {
-            }
-        }];
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:finishedSavingWithError:contextInfo:), nil);
     }
 
     [self.delegate photoTweaksController:self didFinishWithCroppedImage:image];
+}
+
+- (void)image:(UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo {
+    if(error != nil) {
+        NSLog(@"ERROR :%@",[error localizedDescription]);
+    }
 }
 
 - (CGImageRef)newScaledImage:(CGImageRef)source withOrientation:(UIImageOrientation)orientation toSize:(CGSize)size withQuality:(CGInterpolationQuality)quality
