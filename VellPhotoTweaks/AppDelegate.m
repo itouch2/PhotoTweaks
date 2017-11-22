@@ -7,9 +7,9 @@
 //
 
 #import "AppDelegate.h"
-#import "PhotoTweaksViewController.h"
+#import "VellPhotoTweaksViewController.h"
 
-@interface AppDelegate () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoTweaksViewControllerDelegate>
+@interface AppDelegate () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, VellPhotoTweaksViewControllerDelegate>
 
 @end
 
@@ -33,19 +33,19 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    PhotoTweaksViewController *photoTweaksViewController = [[PhotoTweaksViewController alloc] initWithImage:image];
+    VellPhotoTweaksViewController *photoTweaksViewController = [[VellPhotoTweaksViewController alloc] initWithImage:image];
     photoTweaksViewController.delegate = self;
     photoTweaksViewController.autoSaveToLibray = YES;
     photoTweaksViewController.maxRotationAngle = M_PI_4;
     [picker pushViewController:photoTweaksViewController animated:YES];
 }
 
-- (void)photoTweaksController:(PhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage
+- (void)vellPhotoTweaksController:(VellPhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage
 {
     [controller.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)photoTweaksControllerDidCancel:(PhotoTweaksViewController *)controller
+- (void)vellPhotoTweaksControllerDidCancel:(VellPhotoTweaksViewController *)controller
 {
     [controller.navigationController popViewControllerAnimated:YES];
 }

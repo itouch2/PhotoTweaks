@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol PhotoTweaksViewControllerDelegate;
+@protocol VellPhotoTweaksViewControllerDelegate;
 
 /**
  The photo tweaks controller.
  */
-@interface PhotoTweaksViewController : UIViewController
+@interface VellPhotoTweaksViewController : UIViewController
 
 /**
  Image to process.
@@ -33,7 +33,7 @@
 /**
  The optional photo tweaks controller delegate.
  */
-@property (nonatomic, weak) id<PhotoTweaksViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<VellPhotoTweaksViewControllerDelegate> delegate;
 
 /**
  Save action button's default title color
@@ -80,16 +80,16 @@
 /**
  The photo tweaks controller delegate
  */
-@protocol PhotoTweaksViewControllerDelegate <NSObject>
+@protocol VellPhotoTweaksViewControllerDelegate <NSObject>
 
 /**
  Called on image cropped.
  */
-- (void)photoTweaksController:(PhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage;
+- (void)vellPhotoTweaksController:(VellPhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage;
 
 /**
  Called on cropping image canceled
  */
-- (void)photoTweaksControllerDidCancel:(PhotoTweaksViewController *)controller;
+- (void)vellPhotoTweaksControllerDidCancel:(VellPhotoTweaksViewController *)controller;
 
 @end

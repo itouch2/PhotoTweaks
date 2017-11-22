@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Tu You. All rights reserved.
 //
 
-#import "PhotoTweakView.h"
+#import "VellPhotoTweakView.h"
 #import "UIColor+Tweak.h"
 #import <math.h>
 
@@ -427,7 +427,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 @end
 
-@interface PhotoTweakView () <UIScrollViewDelegate, CropViewDelegate>
+@interface VellPhotoTweakView () <UIScrollViewDelegate, CropViewDelegate>
 
 @property (nonatomic, strong) PhotoScrollView *scrollView;
 @property (nonatomic, strong) CropView *cropView;
@@ -454,7 +454,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 @end
 
-@implementation PhotoTweakView
+@implementation VellPhotoTweakView
 
 - (instancetype)initWithFrame:(CGRect)frame
                         image:(UIImage *)image

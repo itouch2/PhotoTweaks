@@ -6,18 +6,18 @@
 //  Copyright (c) 2014年 Tu You. All rights reserved.
 //
 
-#import "PhotoTweaksViewController.h"
-#import "PhotoTweakView.h"
+#import "VellPhotoTweaksViewController.h"
+#import "VellPhotoTweakView.h"
 #import "UIColor+Tweak.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface PhotoTweaksViewController ()
+@interface VellPhotoTweaksViewController ()
 
-@property (strong, nonatomic) PhotoTweakView *photoView;
+@property (strong, nonatomic) VellPhotoTweakView *photoView;
 
 @end
 
-@implementation PhotoTweaksViewController
+@implementation VellPhotoTweaksViewController
 
 - (instancetype)initWithImage:(UIImage *)image
 {
@@ -47,7 +47,7 @@
 
 - (void)setupSubviews
 {
-    self.photoView = [[PhotoTweakView alloc] initWithFrame:self.view.bounds image:self.image maxRotationAngle:self.maxRotationAngle];
+    self.photoView = [[VellPhotoTweakView alloc] initWithFrame:self.view.bounds image:self.image maxRotationAngle:self.maxRotationAngle];
     self.photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.photoView];
     
@@ -83,7 +83,7 @@
 
 - (void)cancelBtnTapped
 {
-    [self.delegate photoTweaksControllerDidCancel:self];
+    [self.delegate vellPhotoTweaksControllerDidCancel:self];
 }
 
 - (void)saveBtnTapped
@@ -122,7 +122,7 @@
         }];
     }
 
-    [self.delegate photoTweaksController:self didFinishWithCroppedImage:image];
+    [self.delegate vellPhotoTweaksController:self didFinishWithCroppedImage:image];
 }
 
 - (CGImageRef)newScaledImage:(CGImageRef)source withOrientation:(UIImageOrientation)orientation toSize:(CGSize)size withQuality:(CGInterpolationQuality)quality

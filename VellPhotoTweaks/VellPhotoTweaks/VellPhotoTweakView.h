@@ -29,7 +29,7 @@ extern const CGFloat kMaxRotationAngle;
 @interface CropView : UIView
 @end
 
-@interface PhotoTweakView : UIView
+@interface VellPhotoTweakView : UIView
 
 @property (nonatomic, assign, readonly) CGFloat angle;
 @property (nonatomic, assign, readonly) CGPoint photoContentOffset;

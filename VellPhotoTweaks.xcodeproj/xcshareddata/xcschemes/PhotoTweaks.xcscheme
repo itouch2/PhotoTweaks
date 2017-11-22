@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CBD5FA521A28425300D4D520"
-               BuildableName = "PhotoTweaks.app"
-               BlueprintName = "PhotoTweaks"
-               ReferencedContainer = "container:PhotoTweaks.xcodeproj">
+               BuildableName = "VellPhotoTweaks.app"
+               BlueprintName = "VellPhotoTweaks"
+               ReferencedContainer = "container:VellPhotoTweaks.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,27 +29,28 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CBD5FA6B1A28425300D4D520"
-               BuildableName = "PhotoTweaksTests.xctest"
-               BlueprintName = "PhotoTweaksTests"
-               ReferencedContainer = "container:PhotoTweaks.xcodeproj">
+               BuildableName = "VellPhotoTweaksTests.xctest"
+               BlueprintName = "VellPhotoTweaksTests"
+               ReferencedContainer = "container:VellPhotoTweaks.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug">
+      language = ""
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CBD5FA6B1A28425300D4D520"
-               BuildableName = "PhotoTweaksTests.xctest"
-               BlueprintName = "PhotoTweaksTests"
-               ReferencedContainer = "container:PhotoTweaks.xcodeproj">
+               BuildableName = "VellPhotoTweaksTests.xctest"
+               BlueprintName = "VellPhotoTweaksTests"
+               ReferencedContainer = "container:VellPhotoTweaks.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,46 +58,52 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CBD5FA521A28425300D4D520"
-            BuildableName = "PhotoTweaks.app"
-            BlueprintName = "PhotoTweaks"
-            ReferencedContainer = "container:PhotoTweaks.xcodeproj">
+            BuildableName = "VellPhotoTweaks.app"
+            BlueprintName = "VellPhotoTweaks"
+            ReferencedContainer = "container:VellPhotoTweaks.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </TestAction>
    <LaunchAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CBD5FA521A28425300D4D520"
-            BuildableName = "PhotoTweaks.app"
-            BlueprintName = "PhotoTweaks"
-            ReferencedContainer = "container:PhotoTweaks.xcodeproj">
+            BuildableName = "VellPhotoTweaks.app"
+            BlueprintName = "VellPhotoTweaks"
+            ReferencedContainer = "container:VellPhotoTweaks.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CBD5FA521A28425300D4D520"
-            BuildableName = "PhotoTweaks.app"
-            BlueprintName = "PhotoTweaks"
-            ReferencedContainer = "container:PhotoTweaks.xcodeproj">
+            BuildableName = "VellPhotoTweaks.app"
+            BlueprintName = "VellPhotoTweaks"
+            ReferencedContainer = "container:VellPhotoTweaks.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
