@@ -70,6 +70,8 @@
  */
 @property (nonatomic, strong) UIColor *sliderTintColor;
 
+@property (nonatomic, strong) UIButton *cancelBtn; // cancel button
+@property (nonatomic, strong) UIButton *saveBtn; // save button
 /**
  Creates a photo tweaks view controller with the image to process.
  */

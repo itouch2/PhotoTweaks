@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00B1B9281ACAA90100A8E285 /* PhotoTweaks.strings in Resources */ = {isa = PBXBuildFile; fileRef = 00B1B92A1ACAA90100A8E285 /* PhotoTweaks.strings */; };
+		4AC917421FC6AE420017D3F2 /* vellPhotoTweaks.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AC917411FC6AE420017D3F2 /* vellPhotoTweaks.xcassets */; };
 		B71706151A32A18D00A6CC10 /* UIColor+Tweak.m in Sources */ = {isa = PBXBuildFile; fileRef = B71706141A32A18D00A6CC10 /* UIColor+Tweak.m */; };
 		CB3496FC1A3207E800C7EB0E /* VellPhotoTweaksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB3496FB1A3207E800C7EB0E /* VellPhotoTweaksViewController.m */; };
 		CBD5FA591A28425300D4D520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA581A28425300D4D520 /* main.m */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		00B1B9291ACAA90100A8E285 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/PhotoTweaks.strings; sourceTree = "<group>"; };
 		00B1B9361ACAA98400A8E285 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PhotoTweaks.strings"; sourceTree = "<group>"; };
+		4AC917411FC6AE420017D3F2 /* vellPhotoTweaks.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = vellPhotoTweaks.xcassets; sourceTree = "<group>"; };
 		B71706131A32A18D00A6CC10 /* UIColor+Tweak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Tweak.h"; sourceTree = "<group>"; };
 		B71706141A32A18D00A6CC10 /* UIColor+Tweak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Tweak.m"; sourceTree = "<group>"; };
 		CB3496FA1A3207E800C7EB0E /* VellPhotoTweaksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VellPhotoTweaksViewController.h; sourceTree = "<group>"; };
@@ -69,6 +71,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4AC917401FC6AE130017D3F2 /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				4AC917411FC6AE420017D3F2 /* vellPhotoTweaks.xcassets */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
 		CBD5FA4A1A28425300D4D520 = {
 			isa = PBXGroup;
 			children = (
@@ -137,6 +147,7 @@
 				CBDE57B61A2CAA0600285CFF /* VellPhotoTweakView.m */,
 				B71706131A32A18D00A6CC10 /* UIColor+Tweak.h */,
 				B71706141A32A18D00A6CC10 /* UIColor+Tweak.m */,
+				4AC917401FC6AE130017D3F2 /* resource */,
 			);
 			path = VellPhotoTweaks;
 			sourceTree = "<group>";
@@ -227,6 +238,7 @@
 				00B1B9281ACAA90100A8E285 /* PhotoTweaks.strings in Resources */,
 				CBD5FA621A28425300D4D520 /* Main.storyboard in Resources */,
 				CBD5FA671A28425300D4D520 /* LaunchScreen.xib in Resources */,
+				4AC917421FC6AE420017D3F2 /* vellPhotoTweaks.xcassets in Resources */,
 				CBD5FA641A28425300D4D520 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

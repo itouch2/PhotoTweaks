@@ -36,7 +36,7 @@
     VellPhotoTweaksViewController *photoTweaksViewController = [[VellPhotoTweaksViewController alloc] initWithImage:image];
     photoTweaksViewController.delegate = self;
     photoTweaksViewController.autoSaveToLibray = YES;
-    photoTweaksViewController.maxRotationAngle = M_PI_4;
+    photoTweaksViewController.maxRotationAngle = M_PI;
     [picker pushViewController:photoTweaksViewController animated:YES];
 }
 

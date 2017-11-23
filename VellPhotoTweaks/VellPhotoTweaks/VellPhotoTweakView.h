@@ -38,7 +38,8 @@ extern const CGFloat kMaxRotationAngle;
 @property (nonatomic, strong, readonly) PhotoContentView *photoContentView;
 @property (nonatomic, strong, readonly) UISlider *slider;
 @property (nonatomic, strong, readonly) UIButton *resetBtn;
-
+@property (nonatomic, strong, readonly) UIButton *aspectBtn;
+@property (nonatomic, strong, readonly) UIButton *rotationBtn;
 
 - (instancetype)initWithFrame:(CGRect)frame
                         image:(UIImage *)image
@@ -48,5 +49,7 @@ extern const CGFloat kMaxRotationAngle;
                         image:(UIImage *)image;
 
 - (CGPoint)photoTranslation;
+
+- (void)setAspectRatio;
 
 @end
