@@ -50,6 +50,4 @@ extern const CGFloat kMaxRotationAngle;
 
 - (CGPoint)photoTranslation;
 
-- (void)setAspectRatio;
-
 @end

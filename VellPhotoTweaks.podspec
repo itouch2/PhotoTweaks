@@ -1,11 +1,11 @@
 Pod::Spec.new do |spec|
   spec.name             = 'VellPhotoTweaks'
-  spec.version          = '1.0.4'
+  spec.version          = '2.0.0'
   spec.license          = 'MIT' 
-  spec.homepage         = 'https://github.com/vrlljp/VellPhotoTweaks'
+  spec.homepage         = 'https://github.com/velljp/VellPhotoTweaks'
   spec.authors          = {'Tu You' => 'yoututouch@gmail.com'}
   spec.summary          = 'Drag, Rotate, Scale and Crop.'
-  spec.source           = {:git => 'https://github.com/velljp/VellPhotoTweaks.git', :tag => '1.0.4'}
+  spec.source           = {:git => 'https://github.com/velljp/VellPhotoTweaks.git', :tag => '2.0.0'}
   spec.source_files     = 'VellPhotoTweaks/VellPhotoTweaks/*.{h,m}'
   spec.framework        = 'Foundation', 'CoreGraphics', 'UIKit'
   spec.requires_arc     = true
