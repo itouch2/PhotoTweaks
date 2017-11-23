@@ -544,7 +544,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     
     _resetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _resetBtn.frame = CGRectMake(2*self.btnOriginX + self.btnMargin, CGRectGetHeight(self.frame)*(1-0.08), self.btnMargin, self.btnMargin);
-    UIImage *img = [UIImage imageNamed:@"reset"];
+    UIImage *img = [UIImage imageNamed:@"reset" inBundle:[NSBundle bundleForClass:self] compatibleWithTraitCollection:nil];
     [_resetBtn setImage:img forState:UIControlStateNormal];
     _resetBtn.tintColor = [UIColor whiteColor];
     [_resetBtn addTarget:self action:@selector(resetBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -552,7 +552,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     
     _aspectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _aspectBtn.frame = CGRectMake(3*self.btnOriginX + 2*self.btnMargin, CGRectGetHeight(self.frame)*(1-0.08), self.btnMargin, self.btnMargin);
-    img = [UIImage imageNamed:@"reshape_4by3"];
+    img = [UIImage imageNamed:@"reshape_4by3" inBundle:[NSBundle bundleForClass:self] compatibleWithTraitCollection:nil];
     [_aspectBtn setImage:img forState:UIControlStateNormal];
     _aspectBtn.tintColor = [UIColor whiteColor];
     [_aspectBtn addTarget:self action:@selector(setAspectRatio:) forControlEvents:UIControlEventTouchUpInside];
@@ -560,7 +560,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     
     _rotationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _rotationBtn.frame = CGRectMake(4*self.btnOriginX + 3*self.btnMargin, CGRectGetHeight(self.frame)*(1-0.08), self.btnMargin, self.btnMargin);
-    img = [UIImage imageNamed:@"rotation"];
+    img = [UIImage imageNamed:@"rotation" inBundle:[NSBundle bundleForClass:self] compatibleWithTraitCollection:nil];
     [_rotationBtn setImage:img forState:UIControlStateNormal];
     _rotationBtn.tintColor = [UIColor whiteColor];
     [_rotationBtn addTarget:self action:@selector(rotateImage:) forControlEvents:UIControlEventTouchUpInside];

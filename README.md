@@ -38,7 +38,7 @@ Get the cropped image
 ## Installation
 PhotoTweaks is available on [CocoaPods](http://cocoapods.org). Add the follwing to your Podfile:
 ```ruby
-pod 'PhotoTweaks', '~> 1.0.4'
+pod 'VellPhotoTweaks',:git => 'https://github.com/velljp/VellPhotoTweaks.git'
 ```
 Alternatively, you can manually drag the ```PhotoTweaks``` folder into your Xcode project.
 

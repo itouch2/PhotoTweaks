@@ -56,7 +56,7 @@
   
   UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
   cancelBtn.frame = CGRectMake(self.btnOriginX, CGRectGetHeight(self.view.frame)*(1-0.08), self.btnMargin, self.btnMargin);
-  UIImage *img = [UIImage imageNamed:@"back"];
+  UIImage *img = [UIImage imageNamed:@"back" inBundle:[NSBundle bundleForClass:self] compatibleWithTraitCollection:nil];
   [cancelBtn setImage:img forState:UIControlStateNormal];
   cancelBtn.tintColor = [UIColor whiteColor];
   [cancelBtn addTarget:self action:@selector(cancelBtnTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -66,7 +66,7 @@
   
   UIButton *cropBtn = [UIButton buttonWithType:UIButtonTypeCustom];
   cropBtn.frame = CGRectMake(5*self.btnOriginX + 4*self.btnMargin, CGRectGetHeight(self.view.frame)*(1-0.08), self.btnMargin, self.btnMargin);
-  img = [UIImage imageNamed:@"save"];
+  img = [UIImage imageNamed:@"save" inBundle:[NSBundle bundleForClass:self] compatibleWithTraitCollection:nil];
   [cropBtn setImage:img forState:UIControlStateNormal];
   cropBtn.tintColor = [UIColor whiteColor];
   [cropBtn addTarget:self action:@selector(saveBtnTapped) forControlEvents:UIControlEventTouchUpInside];
