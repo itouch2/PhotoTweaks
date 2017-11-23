@@ -6,7 +6,7 @@ Pod::Spec.new do |spec|
   spec.authors          = {'Tu You' => 'yoututouch@gmail.com'}
   spec.summary          = 'Drag, Rotate, Scale and Crop.'
   spec.source           = {:git => 'https://github.com/velljp/VellPhotoTweaks.git', :tag => '2.0.0'}
-  spec.source_files     = 'VellPhotoTweaks/VellPhotoTweaks/*.{h,m}'
+  spec.source_files     = 'VellPhotoTweaks/VellPhotoTweaks/*'
   spec.framework        = 'Foundation', 'CoreGraphics', 'UIKit'
   spec.requires_arc     = true
   spec.platform         = :ios, '7.0'
