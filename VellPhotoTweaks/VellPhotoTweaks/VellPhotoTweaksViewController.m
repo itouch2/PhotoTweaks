@@ -53,8 +53,7 @@
   self.btnMargin = self.view.frame.size.width * 0.07;
   
   [self setupPhotoViews];
-  
-  NSBundle *bundle = [NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:@"VellPhotoTweaks" withExtension:@"bundle"]];
+  NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"VellPhotoTweaks" ofType:@"bundle"]];
   
   UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
   cancelBtn.frame = CGRectMake(self.btnOriginX, CGRectGetHeight(self.view.frame)*(1-0.08), self.btnMargin, self.btnMargin);

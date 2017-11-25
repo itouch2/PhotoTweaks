@@ -542,7 +542,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     [_slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_slider];
     
-    NSBundle *bundle = [NSBundle bundleWithURL:[[NSBundle mainBundle] URLForResource:@"VellPhotoTweaks" withExtension:@"bundle"]];
+    NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"VellPhotoTweaks" ofType:@"bundle"]];
     
     
     _resetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
