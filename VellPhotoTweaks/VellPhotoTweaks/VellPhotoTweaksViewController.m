@@ -53,11 +53,14 @@
   self.btnMargin = self.view.frame.size.width * 0.07;
   
   [self setupPhotoViews];
-  NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"VellPhotoTweaks" ofType:@"bundle"]];
+//  NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"VellPhotoTweaks" ofType:@"bundle"]];
+  NSBundle *bundle = [NSBundle bundleForClass:self.classForCoder];
+  NSURL *bundleURL = [[bundle resourceURL] URLByAppendingPathComponent:@"VellPhotoTweaks.bundle"];
+  NSBundle *resourceBundle = [NSBundle bundleWithURL:bundleURL];
   
   UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
   cancelBtn.frame = CGRectMake(self.btnOriginX, CGRectGetHeight(self.view.frame)*(1-0.08), self.btnMargin, self.btnMargin);
-  NSString *imagePath = [bundle pathForResource:@"back_default" ofType:@"png"];
+  NSString *imagePath = [resourceBundle pathForResource:@"back_default" ofType:@"png"];
   UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
 //  UIImage *img = [UIImage imageNamed:@"VellPhotoTweaks.bundle/back_dafault.png"];
   [cancelBtn setImage:img forState:UIControlStateNormal];
@@ -69,7 +72,7 @@
   
   UIButton *cropBtn = [UIButton buttonWithType:UIButtonTypeCustom];
   cropBtn.frame = CGRectMake(5*self.btnOriginX + 4*self.btnMargin, CGRectGetHeight(self.view.frame)*(1-0.08), self.btnMargin, self.btnMargin);
-  imagePath = [bundle pathForResource:@"save_default" ofType:@"png"];
+  imagePath = [resourceBundle pathForResource:@"save_default" ofType:@"png"];
   img = [UIImage imageWithContentsOfFile:imagePath];
   [cropBtn setImage:img forState:UIControlStateNormal];
   cropBtn.tintColor = [UIColor whiteColor];

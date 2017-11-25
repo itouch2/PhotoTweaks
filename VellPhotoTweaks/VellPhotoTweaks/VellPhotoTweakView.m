@@ -542,12 +542,14 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     [_slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_slider];
     
-    NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"VellPhotoTweaks" ofType:@"bundle"]];
-    
+//    NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"VellPhotoTweaks" ofType:@"bundle"]];
+    NSBundle *bundle = [NSBundle bundleForClass:self.classForCoder];
+    NSURL *bundleURL = [[bundle resourceURL] URLByAppendingPathComponent:@"VellPhotoTweaks.bundle"];
+    NSBundle *resourceBundle = [NSBundle bundleWithURL:bundleURL];
     
     _resetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _resetBtn.frame = CGRectMake(2*self.btnOriginX + self.btnMargin, CGRectGetHeight(self.frame)*(1-0.08), self.btnMargin, self.btnMargin);
-    NSString *imagePath = [bundle pathForResource:@"reset_default" ofType:@"png"];
+    NSString *imagePath = [resourceBundle pathForResource:@"reset_default" ofType:@"png"];
     UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
     [_resetBtn setImage:img forState:UIControlStateNormal];
     _resetBtn.tintColor = [UIColor whiteColor];
@@ -556,7 +558,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     
     _aspectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _aspectBtn.frame = CGRectMake(3*self.btnOriginX + 2*self.btnMargin, CGRectGetHeight(self.frame)*(1-0.08), self.btnMargin, self.btnMargin);
-    imagePath = [bundle pathForResource:@"aspect_4by3" ofType:@"png"];
+    imagePath = [resourceBundle pathForResource:@"aspect_4by3" ofType:@"png"];
     img = [UIImage imageWithContentsOfFile:imagePath];
     [_aspectBtn setImage:img forState:UIControlStateNormal];
     _aspectBtn.tintColor = [UIColor whiteColor];
@@ -565,7 +567,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     
     _rotationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _rotationBtn.frame = CGRectMake(4*self.btnOriginX + 3*self.btnMargin, CGRectGetHeight(self.frame)*(1-0.08), self.btnMargin, self.btnMargin);
-    imagePath = [bundle pathForResource:@"rotation_default" ofType:@"png"];
+    imagePath = [resourceBundle pathForResource:@"rotation_default" ofType:@"png"];
     img = [UIImage imageWithContentsOfFile:imagePath];
     [_rotationBtn setImage:img forState:UIControlStateNormal];
     _rotationBtn.tintColor = [UIColor whiteColor];
