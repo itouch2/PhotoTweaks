@@ -7,7 +7,8 @@ Pod::Spec.new do |spec|
   spec.summary          = 'Drag, Rotate, Scale and Crop.'
   spec.source           = {:git => 'https://github.com/velljp/VellPhotoTweaks.git', :tag => '2.0.0'}
   spec.source_files     = 'VellPhotoTweaks/VellPhotoTweaks/*'
-  spec.resources        = ['VellPhotoTweaks/VellPhotoTweaks/resource/VellPhotoTweaks.xcassets']
+  spec.resources        = ['VellPhotoTweaks/VellPhotoTweaks/resource/*']
+  spec.resource_bundles = {'VellPhotoTweaks' => ['VellPhotoTweaks/VellPhotoTweaks/resource/*']}
   spec.framework        = 'Foundation', 'CoreGraphics', 'UIKit'
   spec.requires_arc     = true
   spec.platform         = :ios, '7.0'
