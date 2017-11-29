@@ -433,10 +433,6 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 @property (nonatomic, strong) CropView *cropView;
 
 @property (nonatomic, strong) UIImage *image;
-@property (nonatomic, strong) UISlider *slider;
-@property (nonatomic, strong) UIButton *resetBtn;
-@property (nonatomic, strong) UIButton *aspectBtn;
-@property (nonatomic, strong) UIButton *rotationBtn;
 @property (nonatomic, assign) CGSize originalSize;
 @property (nonatomic, assign) CGFloat angle;
 
@@ -609,6 +605,41 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
   self.manualZoomed = YES;
 }
 
+#pragma mark - setup views if changed
+
+- (void)resetSlider:(UISlider *)slider
+{
+  [_slider removeFromSuperview];
+  _slider = slider;
+  [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+  [_slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
+  [self addSubview:_slider];
+}
+
+- (void)resetRotationBtn:(UIButton *)button
+{
+  [_rotationBtn removeFromSuperview];
+  _rotationBtn = button;
+  [_rotationBtn addTarget:self action:@selector(rotateImage:) forControlEvents:UIControlEventTouchUpInside];
+  [self addSubview:_rotationBtn];
+}
+
+- (void)resetAspectBtn:(UIButton *)button
+{
+  [_aspectBtn removeFromSuperview];
+  _aspectBtn = button;
+  [_aspectBtn addTarget:self action:@selector(setAspectRatio:) forControlEvents:UIControlEventTouchUpInside];
+  [self addSubview:_aspectBtn];
+}
+
+- (void)resetResetBtn:(UIButton *)button
+{
+  [_resetBtn removeFromSuperview];
+  _resetBtn = button;
+  [_resetBtn addTarget:self action:@selector(resetBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
+  [self addSubview:_resetBtn];
+}
+
 #pragma mark - Crop View Delegate
 
 - (void)cropMoved:(CropView *)cropView
@@ -713,7 +744,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
   // rotate the image by 90 deg
   self.angle += M_PI_2;
   if (self.angle > M_PI) {
-    self.angle = -M_PI_2;
+    self.angle = self.angle - 2 * M_PI;
   }
   
   [self.slider setValue:self.angle animated:YES];

@@ -42,18 +42,11 @@
   [picker pushViewController:photoTweaksViewController animated:YES];
   photoTweaksViewController.sliderTintColor = [UIColor whiteColor];
   
-  // set canselBtn
-//  NSBundle *bundle = [NSBundle bundleForClass:self.classForCoder];
-//  NSURL *bundleURL = [[bundle resourceURL] URLByAppendingPathComponent:@"VellPhotoTweaks.bundle"];
-//  NSBundle *resourceBundle = [NSBundle bundleWithURL:bundleURL];
-//  UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//  cancelBtn.frame = CGRectMake(0, 0, 50, 50);
-//  NSString *imagePath = [resourceBundle pathForResource:@"back_default" ofType:@"png"];
-//  UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
-//  //  UIImage *img = [UIImage imageNamed:@"VellPhotoTweaks.bundle/back_dafault.png"];
-//  [cancelBtn setImage:img forState:UIControlStateNormal];
-//  cancelBtn.tintColor = [UIColor whiteColor];
-//  photoTweaksViewController.cancelBtn = cancelBtn;
+//  UISlider *slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 260, 20)];
+//  slider.center = CGPointMake(150, 600);
+//  slider.minimumValue = -M_PI_2;
+//  slider.maximumValue = M_PI_2;
+//  photoTweaksViewController.slider = slider;
 }
 
 - (void)vellPhotoTweaksController:(VellPhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage

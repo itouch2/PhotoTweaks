@@ -92,6 +92,20 @@
   pv.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   pv.slider.alpha = self.sliderAlpha;
   
+  // change views
+  if (self.slider){
+    [pv resetSlider:self.slider];
+  }
+  if (self.resetBtn){
+    [pv resetResetBtn:self.resetBtn];
+  }
+  if (self.aspectBtn){
+    [pv resetAspectBtn:self.aspectBtn];
+  }
+  if (self.rotationBtn){
+    [pv resetRotationBtn:self.rotationBtn];
+  }
+  
   self.photoView = pv;
   [self.view addSubview:self.photoView];
 }

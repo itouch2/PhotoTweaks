@@ -79,6 +79,11 @@
 
 @property (nonatomic, strong) UIButton *cancelBtn; // cancel button
 @property (nonatomic, strong) UIButton *saveBtn; // save button
+@property (nonatomic, strong) UISlider *slider; // slider to rotate image
+@property (nonatomic, strong) UIButton *resetBtn; // reset button
+@property (nonatomic, strong) UIButton *aspectBtn; // change aspect ratio of image
+@property (nonatomic, strong) UIButton *rotationBtn; // rotate image by 90 degree
+
 /**
  Creates a photo tweaks view controller with the image to process.
  */
