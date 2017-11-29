@@ -542,7 +542,6 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     [_slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_slider];
     
-//    NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"VellPhotoTweaks" ofType:@"bundle"]];
     NSBundle *bundle = [NSBundle bundleForClass:self.classForCoder];
     NSURL *bundleURL = [[bundle resourceURL] URLByAppendingPathComponent:@"VellPhotoTweaks.bundle"];
     NSBundle *resourceBundle = [NSBundle bundleWithURL:bundleURL];

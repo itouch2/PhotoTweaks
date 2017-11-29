@@ -7,13 +7,11 @@
 //
 
 #import "VellPhotoTweaksViewController.h"
-#import "VellPhotoTweakView.h"
 #import "UIColor+Tweak.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
 @interface VellPhotoTweaksViewController ()
 
-@property (strong, nonatomic) VellPhotoTweakView *photoView;
 @property (assign, nonatomic) CGFloat btnOriginX;
 @property (assign, nonatomic) CGFloat btnMargin;
 
@@ -27,6 +25,8 @@
     _image = image;
     _autoSaveToLibray = YES;
     _maxRotationAngle = kMaxRotationAngle;
+    _backGroundColor= [UIColor photoTweakCanvasBackgroundColor];
+    _sliderAlpha = 0.0;
   }
   return self;
 }
@@ -42,7 +42,7 @@
   }
   
   self.view.clipsToBounds = YES;
-  self.view.backgroundColor = [UIColor photoTweakCanvasBackgroundColor];
+  self.view.backgroundColor = self.backGroundColor;
   
   [self setupSubviews];
 }
@@ -53,31 +53,36 @@
   self.btnMargin = self.view.frame.size.width * 0.07;
   
   [self setupPhotoViews];
-//  NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"VellPhotoTweaks" ofType:@"bundle"]];
+  
   NSBundle *bundle = [NSBundle bundleForClass:self.classForCoder];
   NSURL *bundleURL = [[bundle resourceURL] URLByAppendingPathComponent:@"VellPhotoTweaks.bundle"];
   NSBundle *resourceBundle = [NSBundle bundleWithURL:bundleURL];
   
-  UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-  cancelBtn.frame = CGRectMake(self.btnOriginX, CGRectGetHeight(self.view.frame)*(1-0.08), self.btnMargin, self.btnMargin);
-  NSString *imagePath = [resourceBundle pathForResource:@"back_default" ofType:@"png"];
-  UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
-//  UIImage *img = [UIImage imageNamed:@"VellPhotoTweaks.bundle/back_dafault.png"];
-  [cancelBtn setImage:img forState:UIControlStateNormal];
-  cancelBtn.tintColor = [UIColor whiteColor];
-  [cancelBtn addTarget:self action:@selector(cancelBtnTapped) forControlEvents:UIControlEventTouchUpInside];
-  
-  self.cancelBtn = cancelBtn;
+  if (!self.cancelBtn){
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancelBtn.frame = CGRectMake(self.btnOriginX, CGRectGetHeight(self.view.frame)*(1-0.08), self.btnMargin, self.btnMargin);
+    NSString *imagePath = [resourceBundle pathForResource:@"back_default" ofType:@"png"];
+    UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
+  //  UIImage *img = [UIImage imageNamed:@"VellPhotoTweaks.bundle/back_dafault.png"];
+    [cancelBtn setImage:img forState:UIControlStateNormal];
+    cancelBtn.tintColor = [UIColor whiteColor];
+    
+    self.cancelBtn = cancelBtn;
+  }
+  [self.cancelBtn addTarget:self action:@selector(cancelBtnTapped) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview:self.cancelBtn];
   
-  UIButton *cropBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-  cropBtn.frame = CGRectMake(5*self.btnOriginX + 4*self.btnMargin, CGRectGetHeight(self.view.frame)*(1-0.08), self.btnMargin, self.btnMargin);
-  imagePath = [resourceBundle pathForResource:@"save_default" ofType:@"png"];
-  img = [UIImage imageWithContentsOfFile:imagePath];
-  [cropBtn setImage:img forState:UIControlStateNormal];
-  cropBtn.tintColor = [UIColor whiteColor];
-  [cropBtn addTarget:self action:@selector(saveBtnTapped) forControlEvents:UIControlEventTouchUpInside];
-  self.saveBtn = cropBtn;
+  if (!self.saveBtn){
+    UIButton *cropBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    cropBtn.frame = CGRectMake(5*self.btnOriginX + 4*self.btnMargin, CGRectGetHeight(self.view.frame)*(1-0.08), self.btnMargin, self.btnMargin);
+    NSString *imagePath = [resourceBundle pathForResource:@"save_default" ofType:@"png"];
+    UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
+    [cropBtn setImage:img forState:UIControlStateNormal];
+    cropBtn.tintColor = [UIColor whiteColor];
+    self.saveBtn = cropBtn;
+    
+  }
+  [self.saveBtn addTarget:self action:@selector(saveBtnTapped) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview:self.saveBtn];
 }
 
@@ -85,10 +90,10 @@
 {
   VellPhotoTweakView *pv = [[VellPhotoTweakView alloc] initWithFrame:self.view.bounds image:self.image maxRotationAngle:self.maxRotationAngle];
   pv.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-  pv.slider.alpha = 0.0;
+  pv.slider.alpha = self.sliderAlpha;
   
   self.photoView = pv;
-  [self.view addSubview:pv];
+  [self.view addSubview:self.photoView];
 }
 
 - (void)cancelBtnTapped

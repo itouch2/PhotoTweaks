@@ -18,58 +18,74 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    picker.delegate = self;
-    picker.allowsEditing = NO;
-    picker.navigationBarHidden = YES;
-    self.window.rootViewController = picker;
-    
-    return YES;
+  // Override point for customization after application launch.
+  
+  UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+  picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+  picker.delegate = self;
+  picker.allowsEditing = NO;
+  picker.navigationBarHidden = YES;
+  self.window.rootViewController = picker;
+  
+  return YES;
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    VellPhotoTweaksViewController *photoTweaksViewController = [[VellPhotoTweaksViewController alloc] initWithImage:image];
-    photoTweaksViewController.delegate = self;
-    photoTweaksViewController.autoSaveToLibray = YES;
-    photoTweaksViewController.maxRotationAngle = M_PI;
-    [picker pushViewController:photoTweaksViewController animated:YES];
+  UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+  VellPhotoTweaksViewController *photoTweaksViewController = [[VellPhotoTweaksViewController alloc] initWithImage:image];
+  photoTweaksViewController.delegate = self;
+  photoTweaksViewController.autoSaveToLibray = YES;
+  photoTweaksViewController.maxRotationAngle = M_PI;
+  photoTweaksViewController.backGroundColor = [UIColor redColor];
+  photoTweaksViewController.sliderAlpha = 1.0;
+  [picker pushViewController:photoTweaksViewController animated:YES];
+  photoTweaksViewController.sliderTintColor = [UIColor whiteColor];
+  
+  // set canselBtn
+//  NSBundle *bundle = [NSBundle bundleForClass:self.classForCoder];
+//  NSURL *bundleURL = [[bundle resourceURL] URLByAppendingPathComponent:@"VellPhotoTweaks.bundle"];
+//  NSBundle *resourceBundle = [NSBundle bundleWithURL:bundleURL];
+//  UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//  cancelBtn.frame = CGRectMake(0, 0, 50, 50);
+//  NSString *imagePath = [resourceBundle pathForResource:@"back_default" ofType:@"png"];
+//  UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
+//  //  UIImage *img = [UIImage imageNamed:@"VellPhotoTweaks.bundle/back_dafault.png"];
+//  [cancelBtn setImage:img forState:UIControlStateNormal];
+//  cancelBtn.tintColor = [UIColor whiteColor];
+//  photoTweaksViewController.cancelBtn = cancelBtn;
 }
 
 - (void)vellPhotoTweaksController:(VellPhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage
 {
-    [controller.navigationController popViewControllerAnimated:YES];
+  [controller.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)vellPhotoTweaksControllerDidCancel:(VellPhotoTweaksViewController *)controller
 {
-    [controller.navigationController popViewControllerAnimated:YES];
+  [controller.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+  // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+  // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+  // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+  // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+  // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+  // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+  // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 @end

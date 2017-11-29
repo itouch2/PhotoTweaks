@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VellPhotoTweakView.h"
 
 @protocol VellPhotoTweaksViewControllerDelegate;
 
@@ -14,6 +15,8 @@
  The photo tweaks controller.
  */
 @interface VellPhotoTweaksViewController : UIViewController
+
+@property (strong, nonatomic) VellPhotoTweakView *photoView;
 
 /**
  Image to process.
@@ -69,6 +72,10 @@
  Slider tint color
  */
 @property (nonatomic, strong) UIColor *sliderTintColor;
+
+@property (nonatomic, assign) CGFloat sliderAlpha;
+
+@property (nonatomic, strong) UIColor *backGroundColor;
 
 @property (nonatomic, strong) UIButton *cancelBtn; // cancel button
 @property (nonatomic, strong) UIButton *saveBtn; // save button
