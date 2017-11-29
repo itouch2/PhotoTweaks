@@ -14,20 +14,20 @@ PhotoTweaks is an interface to crop photos. It can let user drag, rotate, scale 
 
 PhotoTweaksViewController offers all the operations to crop the photo, which includes translation, rotate and scale.
 
-To use it,
+- To use it,
 
 ```objective-c
 UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
 PhotoTweaksViewController *photoTweaksViewController = [[PhotoTweaksViewController alloc] initWithImage:image];
 photoTweaksViewController.delegate = self;
 photoTweaksViewController.autoSaveToLibray = YES;
-photoTweaksViewController.maxRotationAngle = M_PI_4;
+photoTweaksViewController.maxRotationAngle = M_PI;
 [picker pushViewController:photoTweaksViewController animated:YES];
 ```
 
-```maxRotationAngle``` is the property to set the maximum supported rotation angle.
+```maxRotationAngle``` is the property to set the maximum supported rotation angle and the default value is 180 degree.
 
-Get the cropped image
+- Get the cropped image
 ```objective-c
 - (void)photoTweaksController:(PhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage
 {
@@ -35,6 +35,25 @@ Get the cropped image
     // cropped image
 }
 ```
+
+### application usage
+
+- change slider UI
+```objective-c
+UISlider *slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 260, 20)];
+slider.center = CGPointMake(150, 600);
+slider.minimumValue = -M_PI_2;
+slider.maximumValue = M_PI_2;
+photoTweaksViewController.slider = slider;
+```
+
+You can change icons (reset button, save button, ...) like slider.
+
+- change photo tweaks background color
+```objective-c
+photoTweaksViewController.backGroundColor = [UIColor redColor];
+```
+
 ## Installation
 Add the follwing to your Podfile:
 ```ruby
