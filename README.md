@@ -1,9 +1,9 @@
 <p align="center"><img src="https://cloud.githubusercontent.com/assets/4316898/6525211/cef0bbce-c43d-11e4-9b64-deb65c64c683.png" height="200"/>
 
 </p>
-<h1 align="center">PhotoTweaks</h1>
+<h1 align="center">VellPhotoTweaks</h1>
 
-PhotoTweaks is an interface to crop photos. It can let user drag, rotate, scale the image, and crop it. You will find it mimics the interaction of Photos.app on iOS 8. :]
+VellPhotoTweaks is an interface to crop photos. It can let user drag, rotate, scale the image, and crop it. You will find it mimics the interaction of Photos.app on iOS 8. :]
 
 [![Build Status](https://travis-ci.org/itouch2/PhotoTweaks.svg)](https://travis-ci.org/itouch2/PhotoTweaks)
 [![Pod Version](http://img.shields.io/cocoapods/v/PhotoTweaks.svg?style=flat)](http://cocoapods.org/?q=PhotoTweaks)
