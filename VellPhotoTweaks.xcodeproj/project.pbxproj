@@ -8,15 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		00B1B9281ACAA90100A8E285 /* PhotoTweaks.strings in Resources */ = {isa = PBXBuildFile; fileRef = 00B1B92A1ACAA90100A8E285 /* PhotoTweaks.strings */; };
+		4A7571611FC9642D006482D5 /* VellPhotoTweaks.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4A7571601FC9642D006482D5 /* VellPhotoTweaks.bundle */; };
 		B71706151A32A18D00A6CC10 /* UIColor+Tweak.m in Sources */ = {isa = PBXBuildFile; fileRef = B71706141A32A18D00A6CC10 /* UIColor+Tweak.m */; };
-		CB3496FC1A3207E800C7EB0E /* PhotoTweaksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB3496FB1A3207E800C7EB0E /* PhotoTweaksViewController.m */; };
+		CB3496FC1A3207E800C7EB0E /* VellPhotoTweaksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB3496FB1A3207E800C7EB0E /* VellPhotoTweaksViewController.m */; };
 		CBD5FA591A28425300D4D520 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA581A28425300D4D520 /* main.m */; };
 		CBD5FA5C1A28425300D4D520 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA5B1A28425300D4D520 /* AppDelegate.m */; };
 		CBD5FA621A28425300D4D520 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBD5FA601A28425300D4D520 /* Main.storyboard */; };
 		CBD5FA641A28425300D4D520 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBD5FA631A28425300D4D520 /* Images.xcassets */; };
 		CBD5FA671A28425300D4D520 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBD5FA651A28425300D4D520 /* LaunchScreen.xib */; };
-		CBD5FA731A28425300D4D520 /* PhotoTweaksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA721A28425300D4D520 /* PhotoTweaksTests.m */; };
-		CBDE57B71A2CAA0700285CFF /* PhotoTweakView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDE57B61A2CAA0600285CFF /* PhotoTweakView.m */; };
+		CBD5FA731A28425300D4D520 /* VellPhotoTweaksTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD5FA721A28425300D4D520 /* VellPhotoTweaksTests.m */; };
+		CBDE57B71A2CAA0700285CFF /* VellPhotoTweakView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDE57B61A2CAA0600285CFF /* VellPhotoTweakView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,11 +33,12 @@
 /* Begin PBXFileReference section */
 		00B1B9291ACAA90100A8E285 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/PhotoTweaks.strings; sourceTree = "<group>"; };
 		00B1B9361ACAA98400A8E285 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PhotoTweaks.strings"; sourceTree = "<group>"; };
+		4A7571601FC9642D006482D5 /* VellPhotoTweaks.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = VellPhotoTweaks.bundle; sourceTree = "<group>"; };
 		B71706131A32A18D00A6CC10 /* UIColor+Tweak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Tweak.h"; sourceTree = "<group>"; };
 		B71706141A32A18D00A6CC10 /* UIColor+Tweak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Tweak.m"; sourceTree = "<group>"; };
-		CB3496FA1A3207E800C7EB0E /* PhotoTweaksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTweaksViewController.h; sourceTree = "<group>"; };
-		CB3496FB1A3207E800C7EB0E /* PhotoTweaksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTweaksViewController.m; sourceTree = "<group>"; };
-		CBD5FA531A28425300D4D520 /* PhotoTweaks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoTweaks.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB3496FA1A3207E800C7EB0E /* VellPhotoTweaksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VellPhotoTweaksViewController.h; sourceTree = "<group>"; };
+		CB3496FB1A3207E800C7EB0E /* VellPhotoTweaksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VellPhotoTweaksViewController.m; sourceTree = "<group>"; };
+		CBD5FA531A28425300D4D520 /* VellPhotoTweaks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VellPhotoTweaks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBD5FA571A28425300D4D520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CBD5FA581A28425300D4D520 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CBD5FA5A1A28425300D4D520 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -44,11 +46,11 @@
 		CBD5FA611A28425300D4D520 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CBD5FA631A28425300D4D520 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CBD5FA661A28425300D4D520 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		CBD5FA6C1A28425300D4D520 /* PhotoTweaksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoTweaksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBD5FA6C1A28425300D4D520 /* VellPhotoTweaksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VellPhotoTweaksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBD5FA711A28425300D4D520 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CBD5FA721A28425300D4D520 /* PhotoTweaksTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoTweaksTests.m; sourceTree = "<group>"; };
-		CBDE57B51A2CAA0600285CFF /* PhotoTweakView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTweakView.h; sourceTree = "<group>"; };
-		CBDE57B61A2CAA0600285CFF /* PhotoTweakView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTweakView.m; sourceTree = "<group>"; };
+		CBD5FA721A28425300D4D520 /* VellPhotoTweaksTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VellPhotoTweaksTests.m; sourceTree = "<group>"; };
+		CBDE57B51A2CAA0600285CFF /* VellPhotoTweakView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VellPhotoTweakView.h; sourceTree = "<group>"; };
+		CBDE57B61A2CAA0600285CFF /* VellPhotoTweakView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VellPhotoTweakView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,11 +71,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A7571521FC96006006482D5 /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				4A7571601FC9642D006482D5 /* VellPhotoTweaks.bundle */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
 		CBD5FA4A1A28425300D4D520 = {
 			isa = PBXGroup;
 			children = (
-				CBD5FA551A28425300D4D520 /* PhotoTweaks */,
-				CBD5FA6F1A28425300D4D520 /* PhotoTweaksTests */,
+				CBD5FA551A28425300D4D520 /* VellPhotoTweaks */,
+				CBD5FA6F1A28425300D4D520 /* VellPhotoTweaksTests */,
 				CBD5FA541A28425300D4D520 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -81,16 +91,16 @@
 		CBD5FA541A28425300D4D520 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CBD5FA531A28425300D4D520 /* PhotoTweaks.app */,
-				CBD5FA6C1A28425300D4D520 /* PhotoTweaksTests.xctest */,
+				CBD5FA531A28425300D4D520 /* VellPhotoTweaks.app */,
+				CBD5FA6C1A28425300D4D520 /* VellPhotoTweaksTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CBD5FA551A28425300D4D520 /* PhotoTweaks */ = {
+		CBD5FA551A28425300D4D520 /* VellPhotoTweaks */ = {
 			isa = PBXGroup;
 			children = (
-				CBDE57B41A2CA9EE00285CFF /* PhotoTweaks */,
+				CBDE57B41A2CA9EE00285CFF /* VellPhotoTweaks */,
 				CBD5FA5A1A28425300D4D520 /* AppDelegate.h */,
 				CBD5FA5B1A28425300D4D520 /* AppDelegate.m */,
 				CBD5FA601A28425300D4D520 /* Main.storyboard */,
@@ -98,7 +108,7 @@
 				CBD5FA651A28425300D4D520 /* LaunchScreen.xib */,
 				CBD5FA561A28425300D4D520 /* Supporting Files */,
 			);
-			path = PhotoTweaks;
+			path = VellPhotoTweaks;
 			sourceTree = "<group>";
 		};
 		CBD5FA561A28425300D4D520 /* Supporting Files */ = {
@@ -111,13 +121,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		CBD5FA6F1A28425300D4D520 /* PhotoTweaksTests */ = {
+		CBD5FA6F1A28425300D4D520 /* VellPhotoTweaksTests */ = {
 			isa = PBXGroup;
 			children = (
-				CBD5FA721A28425300D4D520 /* PhotoTweaksTests.m */,
+				CBD5FA721A28425300D4D520 /* VellPhotoTweaksTests.m */,
 				CBD5FA701A28425300D4D520 /* Supporting Files */,
 			);
-			path = PhotoTweaksTests;
+			path = VellPhotoTweaksTests;
 			sourceTree = "<group>";
 		};
 		CBD5FA701A28425300D4D520 /* Supporting Files */ = {
@@ -128,25 +138,26 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		CBDE57B41A2CA9EE00285CFF /* PhotoTweaks */ = {
+		CBDE57B41A2CA9EE00285CFF /* VellPhotoTweaks */ = {
 			isa = PBXGroup;
 			children = (
-				CB3496FA1A3207E800C7EB0E /* PhotoTweaksViewController.h */,
-				CB3496FB1A3207E800C7EB0E /* PhotoTweaksViewController.m */,
-				CBDE57B51A2CAA0600285CFF /* PhotoTweakView.h */,
-				CBDE57B61A2CAA0600285CFF /* PhotoTweakView.m */,
+				CB3496FA1A3207E800C7EB0E /* VellPhotoTweaksViewController.h */,
+				CB3496FB1A3207E800C7EB0E /* VellPhotoTweaksViewController.m */,
+				CBDE57B51A2CAA0600285CFF /* VellPhotoTweakView.h */,
+				CBDE57B61A2CAA0600285CFF /* VellPhotoTweakView.m */,
 				B71706131A32A18D00A6CC10 /* UIColor+Tweak.h */,
 				B71706141A32A18D00A6CC10 /* UIColor+Tweak.m */,
+				4A7571521FC96006006482D5 /* resource */,
 			);
-			path = PhotoTweaks;
+			path = VellPhotoTweaks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CBD5FA521A28425300D4D520 /* PhotoTweaks */ = {
+		CBD5FA521A28425300D4D520 /* VellPhotoTweaks */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CBD5FA761A28425300D4D520 /* Build configuration list for PBXNativeTarget "PhotoTweaks" */;
+			buildConfigurationList = CBD5FA761A28425300D4D520 /* Build configuration list for PBXNativeTarget "VellPhotoTweaks" */;
 			buildPhases = (
 				CBD5FA4F1A28425300D4D520 /* Sources */,
 				CBD5FA501A28425300D4D520 /* Frameworks */,
@@ -156,14 +167,14 @@
 			);
 			dependencies = (
 			);
-			name = PhotoTweaks;
+			name = VellPhotoTweaks;
 			productName = PhotoTweaks;
-			productReference = CBD5FA531A28425300D4D520 /* PhotoTweaks.app */;
+			productReference = CBD5FA531A28425300D4D520 /* VellPhotoTweaks.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CBD5FA6B1A28425300D4D520 /* PhotoTweaksTests */ = {
+		CBD5FA6B1A28425300D4D520 /* VellPhotoTweaksTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CBD5FA791A28425300D4D520 /* Build configuration list for PBXNativeTarget "PhotoTweaksTests" */;
+			buildConfigurationList = CBD5FA791A28425300D4D520 /* Build configuration list for PBXNativeTarget "VellPhotoTweaksTests" */;
 			buildPhases = (
 				CBD5FA681A28425300D4D520 /* Sources */,
 				CBD5FA691A28425300D4D520 /* Frameworks */,
@@ -174,9 +185,9 @@
 			dependencies = (
 				CBD5FA6E1A28425300D4D520 /* PBXTargetDependency */,
 			);
-			name = PhotoTweaksTests;
+			name = VellPhotoTweaksTests;
 			productName = PhotoTweaksTests;
-			productReference = CBD5FA6C1A28425300D4D520 /* PhotoTweaksTests.xctest */;
+			productReference = CBD5FA6C1A28425300D4D520 /* VellPhotoTweaksTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -190,14 +201,16 @@
 				TargetAttributes = {
 					CBD5FA521A28425300D4D520 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 6T6CV9S3R2;
 					};
 					CBD5FA6B1A28425300D4D520 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 6T6CV9S3R2;
 						TestTargetID = CBD5FA521A28425300D4D520;
 					};
 				};
 			};
-			buildConfigurationList = CBD5FA4E1A28425300D4D520 /* Build configuration list for PBXProject "PhotoTweaks" */;
+			buildConfigurationList = CBD5FA4E1A28425300D4D520 /* Build configuration list for PBXProject "VellPhotoTweaks" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -211,8 +224,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CBD5FA521A28425300D4D520 /* PhotoTweaks */,
-				CBD5FA6B1A28425300D4D520 /* PhotoTweaksTests */,
+				CBD5FA521A28425300D4D520 /* VellPhotoTweaks */,
+				CBD5FA6B1A28425300D4D520 /* VellPhotoTweaksTests */,
 			);
 		};
 /* End PBXProject section */
@@ -222,6 +235,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A7571611FC9642D006482D5 /* VellPhotoTweaks.bundle in Resources */,
 				00B1B9281ACAA90100A8E285 /* PhotoTweaks.strings in Resources */,
 				CBD5FA621A28425300D4D520 /* Main.storyboard in Resources */,
 				CBD5FA671A28425300D4D520 /* LaunchScreen.xib in Resources */,
@@ -246,8 +260,8 @@
 				CBD5FA5C1A28425300D4D520 /* AppDelegate.m in Sources */,
 				B71706151A32A18D00A6CC10 /* UIColor+Tweak.m in Sources */,
 				CBD5FA591A28425300D4D520 /* main.m in Sources */,
-				CB3496FC1A3207E800C7EB0E /* PhotoTweaksViewController.m in Sources */,
-				CBDE57B71A2CAA0700285CFF /* PhotoTweakView.m in Sources */,
+				CB3496FC1A3207E800C7EB0E /* VellPhotoTweaksViewController.m in Sources */,
+				CBDE57B71A2CAA0700285CFF /* VellPhotoTweakView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,7 +269,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBD5FA731A28425300D4D520 /* PhotoTweaksTests.m in Sources */,
+				CBD5FA731A28425300D4D520 /* VellPhotoTweaksTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,7 +278,7 @@
 /* Begin PBXTargetDependency section */
 		CBD5FA6E1A28425300D4D520 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CBD5FA521A28425300D4D520 /* PhotoTweaks */;
+			target = CBD5FA521A28425300D4D520 /* VellPhotoTweaks */;
 			targetProxy = CBD5FA6D1A28425300D4D520 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -380,7 +394,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = PhotoTweaks/Info.plist;
+				DEVELOPMENT_TEAM = 6T6CV9S3R2;
+				INFOPLIST_FILE = VellPhotoTweaks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -392,7 +407,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = PhotoTweaks/Info.plist;
+				DEVELOPMENT_TEAM = 6T6CV9S3R2;
+				INFOPLIST_FILE = VellPhotoTweaks/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -404,6 +420,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 6T6CV9S3R2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -412,10 +429,10 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = PhotoTweaksTests/Info.plist;
+				INFOPLIST_FILE = VellPhotoTweaksTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoTweaks.app/PhotoTweaks";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VellPhotoTweaks.app/VellPhotoTweaks";
 			};
 			name = Debug;
 		};
@@ -423,21 +440,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 6T6CV9S3R2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = PhotoTweaksTests/Info.plist;
+				INFOPLIST_FILE = VellPhotoTweaksTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoTweaks.app/PhotoTweaks";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VellPhotoTweaks.app/VellPhotoTweaks";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CBD5FA4E1A28425300D4D520 /* Build configuration list for PBXProject "PhotoTweaks" */ = {
+		CBD5FA4E1A28425300D4D520 /* Build configuration list for PBXProject "VellPhotoTweaks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CBD5FA741A28425300D4D520 /* Debug */,
@@ -446,7 +464,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CBD5FA761A28425300D4D520 /* Build configuration list for PBXNativeTarget "PhotoTweaks" */ = {
+		CBD5FA761A28425300D4D520 /* Build configuration list for PBXNativeTarget "VellPhotoTweaks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CBD5FA771A28425300D4D520 /* Debug */,
@@ -455,7 +473,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CBD5FA791A28425300D4D520 /* Build configuration list for PBXNativeTarget "PhotoTweaksTests" */ = {
+		CBD5FA791A28425300D4D520 /* Build configuration list for PBXNativeTarget "VellPhotoTweaksTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CBD5FA7A1A28425300D4D520 /* Debug */,

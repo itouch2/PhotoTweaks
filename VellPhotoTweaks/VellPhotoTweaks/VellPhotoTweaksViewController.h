@@ -7,13 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VellPhotoTweakView.h"
 
-@protocol PhotoTweaksViewControllerDelegate;
+@protocol VellPhotoTweaksViewControllerDelegate;
 
 /**
  The photo tweaks controller.
  */
-@interface PhotoTweaksViewController : UIViewController
+@interface VellPhotoTweaksViewController : UIViewController
+
+@property (strong, nonatomic) VellPhotoTweakView *photoView;
 
 /**
  Image to process.
@@ -33,7 +36,7 @@
 /**
  The optional photo tweaks controller delegate.
  */
-@property (nonatomic, weak) id<PhotoTweaksViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<VellPhotoTweaksViewControllerDelegate> delegate;
 
 /**
  Save action button's default title color
@@ -70,6 +73,17 @@
  */
 @property (nonatomic, strong) UIColor *sliderTintColor;
 
+@property (nonatomic, assign) CGFloat sliderAlpha;
+
+@property (nonatomic, strong) UIColor *backGroundColor;
+
+@property (nonatomic, strong) UIButton *cancelBtn; // cancel button
+@property (nonatomic, strong) UIButton *saveBtn; // save button
+@property (nonatomic, strong) UISlider *slider; // slider to rotate image
+@property (nonatomic, strong) UIButton *resetBtn; // reset button
+@property (nonatomic, strong) UIButton *aspectBtn; // change aspect ratio of image
+@property (nonatomic, strong) UIButton *rotationBtn; // rotate image by 90 degree
+
 /**
  Creates a photo tweaks view controller with the image to process.
  */
@@ -80,16 +94,16 @@
 /**
  The photo tweaks controller delegate
  */
-@protocol PhotoTweaksViewControllerDelegate <NSObject>
+@protocol VellPhotoTweaksViewControllerDelegate <NSObject>
 
 /**
  Called on image cropped.
  */
-- (void)photoTweaksController:(PhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage;
+- (void)vellPhotoTweaksController:(VellPhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage;
 
 /**
  Called on cropping image canceled
  */
-- (void)photoTweaksControllerDidCancel:(PhotoTweaksViewController *)controller;
+- (void)vellPhotoTweaksControllerDidCancel:(VellPhotoTweaksViewController *)controller;
 
 @end

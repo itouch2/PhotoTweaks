@@ -29,16 +29,17 @@ extern const CGFloat kMaxRotationAngle;
 @interface CropView : UIView
 @end
 
-@interface PhotoTweakView : UIView
+@interface VellPhotoTweakView : UIView
 
 @property (nonatomic, assign, readonly) CGFloat angle;
 @property (nonatomic, assign, readonly) CGPoint photoContentOffset;
 
 @property (nonatomic, strong, readonly) CropView *cropView;
 @property (nonatomic, strong, readonly) PhotoContentView *photoContentView;
-@property (nonatomic, strong, readonly) UISlider *slider;
-@property (nonatomic, strong, readonly) UIButton *resetBtn;
-
+@property (nonatomic, strong) UISlider *slider;
+@property (nonatomic, strong) UIButton *resetBtn;
+@property (nonatomic, strong) UIButton *aspectBtn;
+@property (nonatomic, strong) UIButton *rotationBtn;
 
 - (instancetype)initWithFrame:(CGRect)frame
                         image:(UIImage *)image
@@ -48,5 +49,10 @@ extern const CGFloat kMaxRotationAngle;
                         image:(UIImage *)image;
 
 - (CGPoint)photoTranslation;
+
+- (void)resetSlider:(UISlider *)slider;
+- (void)resetRotationBtn:(UIButton *)button;
+- (void)resetAspectBtn:(UIButton *)button;
+- (void)resetResetBtn:(UIButton *)button;
 
 @end

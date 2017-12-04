@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:PhotoTweaks.xcodeproj">
+      location = "self:/Users/skagami/code_vell/PhotoTweaks/VellPhotoTweaks.xcodeproj">
    </FileRef>
 </Workspace>
