@@ -10,7 +10,7 @@
 #import "UIColor+Tweak.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
-@interface VellPhotoTweaksViewController ()
+@interface VellPhotoTweaksViewController () <VellPhotoTweakViewDelegate>
 
 @property (assign, nonatomic) CGFloat btnOriginX;
 @property (assign, nonatomic) CGFloat btnMargin;
@@ -107,12 +107,18 @@
   }
   
   self.photoView = pv;
+  self.photoView.delegate = self;
   [self.view addSubview:self.photoView];
 }
 
 - (void)cancelBtnTapped
 {
   [self.delegate vellPhotoTweaksControllerDidCancel:self];
+}
+
+- (void)aspectBtnTapped
+{
+  [self.delegate vellPhotoTweaksControllerAspectTapped:self];
 }
 
 - (void)saveBtnTapped
@@ -262,6 +268,10 @@
 - (void)didReceiveMemoryWarning
 {
   [super didReceiveMemoryWarning];
+}
+
+- (void)vellPhotoTweakAspectTapped:(VellPhotoTweakView *)photoTweaksView {
+  [self.delegate vellPhotoTweaksControllerAspectTapped:self];
 }
 
 @end

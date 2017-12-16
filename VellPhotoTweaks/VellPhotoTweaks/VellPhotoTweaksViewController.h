@@ -106,4 +106,6 @@
  */
 - (void)vellPhotoTweaksControllerDidCancel:(VellPhotoTweaksViewController *)controller;
 
+- (void)vellPhotoTweaksControllerAspectTapped:(VellPhotoTweaksViewController *)controller;
+
 @end

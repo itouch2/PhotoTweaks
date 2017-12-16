@@ -29,8 +29,10 @@ extern const CGFloat kMaxRotationAngle;
 @interface CropView : UIView
 @end
 
+@protocol VellPhotoTweakViewDelegate;
 @interface VellPhotoTweakView : UIView
 
+@property (nonatomic, weak) id<VellPhotoTweakViewDelegate> delegate;
 @property (nonatomic, assign, readonly) CGFloat angle;
 @property (nonatomic, assign, readonly) CGPoint photoContentOffset;
 
@@ -54,5 +56,15 @@ extern const CGFloat kMaxRotationAngle;
 - (void)resetRotationBtn:(UIButton *)button;
 - (void)resetAspectBtn:(UIButton *)button;
 - (void)resetResetBtn:(UIButton *)button;
+
+- (void)setAspectRatio:(NSInteger)tag;
+@end
+
+/**
+ The photo tweaks controller delegate
+ */
+@protocol VellPhotoTweakViewDelegate <NSObject>
+
+- (void)vellPhotoTweakAspectTapped:(VellPhotoTweakView *)photoTweaksView;
 
 @end

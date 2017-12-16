@@ -437,6 +437,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 @property (nonatomic, assign) CGFloat angle;
 
 @property (nonatomic, assign) BOOL manualZoomed;
+@property (nonatomic, assign) BOOL isSetAspect;
 
 // masks
 @property (nonatomic, strong) UIView *topMask;
@@ -557,7 +558,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     img = [UIImage imageWithContentsOfFile:imagePath];
     [_aspectBtn setImage:img forState:UIControlStateNormal];
     _aspectBtn.tintColor = [UIColor whiteColor];
-    [_aspectBtn addTarget:self action:@selector(setAspectRatio:) forControlEvents:UIControlEventTouchUpInside];
+    [_aspectBtn addTarget:self action:@selector(aspectBtnTapped) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_aspectBtn];
     
     _rotationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -595,6 +596,70 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
   return self.scrollView;
 }
 
+- (void)aspectBtnTapped
+{
+  self.isSetAspect = false;
+  [self.delegate vellPhotoTweakAspectTapped:self];
+  if (!(_isSetAspect)){
+    [self setAspectRatio:0];
+  }
+}
+
+- (void)setAspectRatio:(NSInteger)tag
+{
+  
+  NSBundle *bundle = [NSBundle bundleForClass:self.classForCoder];
+  NSURL *bundleURL = [[bundle resourceURL] URLByAppendingPathComponent:@"VellPhotoTweaks.bundle"];
+  NSBundle *resourceBundle = [NSBundle bundleWithURL:bundleURL];
+  
+  self.isSetAspect = true;
+  
+  // ration = width / height
+  CGFloat ratio = 0.75;
+  NSString *imagePath = [resourceBundle pathForResource:@"aspect_4by3" ofType:@"png"];
+  UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
+  switch (tag) {
+    
+    case 1:
+      ratio = 1.0;
+      imagePath = [resourceBundle pathForResource:@"aspect_1by1" ofType:@"png"];
+      img = [UIImage imageWithContentsOfFile:imagePath];
+      [self setAspectBtnFromImage:img];
+      break;
+      
+    default:
+      [self setAspectBtnFromImage:img];
+      break;
+  }
+  
+  CGFloat width = self.originalSize.width;
+  CGFloat height = self.originalSize.height;
+  if(width > height * ratio){
+    width = height * ratio;
+  }else{
+    height = width / ratio;
+  }
+  CGFloat originX = (self.originalSize.width - width) / 2.0;
+  CGFloat originY = (self.originalSize.height - height) / 2.0;
+  self.scrollView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
+  self.scrollView.bounds = CGRectMake(originX, originY, width, height);
+  self.scrollView.minimumZoomScale = 1;
+  [self.scrollView setZoomScale:1 animated:NO];
+  
+  self.cropView.frame = self.scrollView.frame;
+  self.cropView.center = self.scrollView.center;
+  [self updateMasks:NO];
+}
+
+- (void)setAspectBtnFromImage:(UIImage *)image
+{
+  UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+  btn.frame = CGRectMake(3*self.btnOriginX + 2*self.btnMargin, CGRectGetHeight(self.frame)*(1-0.08), self.btnMargin, self.btnMargin);
+  [btn setImage:image forState:UIControlStateNormal];
+  _aspectBtn.tintColor = [UIColor whiteColor];
+  [self resetAspectBtn:btn];
+}
+
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
   return self.photoContentView;
@@ -628,7 +693,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 {
   [_aspectBtn removeFromSuperview];
   _aspectBtn = button;
-  [_aspectBtn addTarget:self action:@selector(setAspectRatio:) forControlEvents:UIControlEventTouchUpInside];
+  [_aspectBtn addTarget:self action:@selector(aspectBtnTapped) forControlEvents:UIControlEventTouchUpInside];
   [self addSubview:_aspectBtn];
 }
 
@@ -811,28 +876,6 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     
     [self.slider setValue:0.5 animated:YES];
   }];
-}
-
-- (void)setAspectRatio:(id)sender{
-  // ration = width / height
-  CGFloat ratio = 0.75;
-  
-  CGFloat width = self.originalSize.width;
-  CGFloat height = self.originalSize.height;
-  if(width > height * ratio){
-    width = height * ratio;
-  }else{
-    height = width / ratio;
-  }
-  
-  self.scrollView.center = CGPointMake(CGRectGetWidth(self.frame) / 2, self.centerY);
-  self.scrollView.bounds = CGRectMake(0, 0, width, height);
-  self.scrollView.minimumZoomScale = 1;
-  [self.scrollView setZoomScale:1 animated:NO];
-  
-  self.cropView.frame = self.scrollView.frame;
-  self.cropView.center = self.scrollView.center;
-  [self updateMasks:NO];
 }
 
 - (CGPoint)photoTranslation
