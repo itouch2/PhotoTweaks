@@ -600,9 +600,9 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 {
   self.isSetAspect = false;
   [self.delegate vellPhotoTweakAspectTapped:self];
-  if (!(_isSetAspect)){
-    [self setAspectRatio:0];
-  }
+//  if (!(_isSetAspect)){
+//    [self setAspectRatio:0];
+//  }
 }
 
 - (void)setAspectRatio:(NSInteger)tag
