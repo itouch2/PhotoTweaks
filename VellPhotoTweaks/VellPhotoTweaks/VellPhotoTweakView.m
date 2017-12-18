@@ -605,7 +605,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 //  }
 }
 
-- (void)setAspectRatio:(NSInteger)tag
+- (void)setAspectRatio:(VPTAspectRatioType)aspectRatioType
 {
   
   NSBundle *bundle = [NSBundle bundleForClass:self.classForCoder];
@@ -618,9 +618,9 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
   CGFloat ratio = 0.75;
   NSString *imagePath = [resourceBundle pathForResource:@"aspect_4by3" ofType:@"png"];
   UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
-  switch (tag) {
+  switch (aspectRatioType) {
     
-    case 1:
+    case VPTAspectRatioType_1_1:
       ratio = 1.0;
       imagePath = [resourceBundle pathForResource:@"aspect_1by1" ofType:@"png"];
       img = [UIImage imageWithContentsOfFile:imagePath];

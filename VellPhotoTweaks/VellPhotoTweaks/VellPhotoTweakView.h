@@ -12,6 +12,12 @@ extern const CGFloat kMaxRotationAngle;
 
 @class CropView;
 
+typedef NS_ENUM (NSUInteger, VPTAspectRatioType) {
+  VPTAspectRatioType_1_1
+  ,VPTAspectRatioType_4_3
+//  ,VPTAspectRatioType_Original
+};
+
 @interface PhotoContentView : UIView
 
 @property (strong, nonatomic) UIImageView *imageView;
@@ -57,7 +63,7 @@ extern const CGFloat kMaxRotationAngle;
 - (void)resetAspectBtn:(UIButton *)button;
 - (void)resetResetBtn:(UIButton *)button;
 
-- (void)setAspectRatio:(NSInteger)tag;
+- (void)setAspectRatio:(VPTAspectRatioType)aspectRatioType;
 @end
 
 /**

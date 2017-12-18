@@ -40,24 +40,7 @@
   photoTweaksViewController.backGroundColor = [UIColor redColor];
   photoTweaksViewController.sliderAlpha = 1.0;
   [picker pushViewController:photoTweaksViewController animated:YES];
-  photoTweaksViewController.sliderTintColor = [UIColor whiteColor];
-  
-  NSBundle *bundle = [NSBundle bundleForClass:self.classForCoder];
-  NSURL *bundleURL = [[bundle resourceURL] URLByAppendingPathComponent:@"VellPhotoTweaks.bundle"];
-  NSBundle *resourceBundle = [NSBundle bundleWithURL:bundleURL];
-  
-  UIButton *hoge = [UIButton buttonWithType:UIButtonTypeCustom];
-  hoge.frame = CGRectMake(0, 0, 260, 20);
-  NSString *imagePath = [resourceBundle pathForResource:@"reset_default" ofType:@"png"];
-  UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
-  [hoge setImage:img forState:UIControlStateNormal];
-  hoge.tintColor = [UIColor whiteColor];
-  
-//  UISlider *slider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 260, 20)];
-//  slider.center = CGPointMake(150, 600);
-//  slider.minimumValue = -M_PI_2;
-//  slider.maximumValue = M_PI_2;
-//  photoTweaksViewController.slider = slider;
+  photoTweaksViewController.sliderTintColor = [UIColor whiteColor];  
 }
 
 - (void)vellPhotoTweaksController:(VellPhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage
