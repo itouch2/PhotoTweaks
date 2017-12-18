@@ -12,11 +12,9 @@ extern const CGFloat kMaxRotationAngle;
 
 @class CropView;
 
-typedef NS_ENUM (NSUInteger, VPTAspectRatioType) {
-  VPTAspectRatioType_1_1
-  ,VPTAspectRatioType_4_3
-//  ,VPTAspectRatioType_Original
-};
+//NS_ENUMで指定したいがswiftから呼べない
+extern const NSInteger VPTAspectRatioTypeOneByOne;
+extern const NSInteger VPTAspectRatioTypeFourByThree;
 
 @interface PhotoContentView : UIView
 
@@ -63,7 +61,7 @@ typedef NS_ENUM (NSUInteger, VPTAspectRatioType) {
 - (void)resetAspectBtn:(UIButton *)button;
 - (void)resetResetBtn:(UIButton *)button;
 
-- (void)setAspectRatio:(VPTAspectRatioType)aspectRatioType;
+- (void)setAspectRatio:(NSInteger)aspectRatioType;
 @end
 
 /**

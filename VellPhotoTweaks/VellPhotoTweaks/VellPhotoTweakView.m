@@ -10,6 +10,9 @@
 #import "UIColor+Tweak.h"
 #import <math.h>
 
+const NSInteger VPTAspectRatioTypeOneByOne = 0;
+const NSInteger VPTAspectRatioTypeFourByThree = 1;
+
 const CGFloat kMaxRotationAngle = M_PI;
 static const NSUInteger kCropLines = 2;
 static const NSUInteger kGridLines = 9;
@@ -605,7 +608,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 //  }
 }
 
-- (void)setAspectRatio:(VPTAspectRatioType)aspectRatioType
+- (void)setAspectRatio:(NSInteger)aspectRatioType
 {
   
   NSBundle *bundle = [NSBundle bundleForClass:self.classForCoder];
@@ -620,7 +623,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
   UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
   switch (aspectRatioType) {
     
-    case VPTAspectRatioType_1_1:
+    case VPTAspectRatioTypeOneByOne:
       ratio = 1.0;
       imagePath = [resourceBundle pathForResource:@"aspect_1by1" ofType:@"png"];
       img = [UIImage imageWithContentsOfFile:imagePath];
