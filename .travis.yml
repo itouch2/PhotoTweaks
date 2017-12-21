@@ -1,5 +1,6 @@
 language: objective-c
 xcode_project: PhotoTweaks.xcodeproj
 xcode_scheme: PhotoTweaks
+script: xcodebuild clean && xcodebuild build -sdk iphonesimulator11 -project PhotoTweaks.xcodeproj -scheme PhotoTweaks CODE_SIGNING_REQUIRED=NO
 xcode_sdk:
   - iphonesimulator11
