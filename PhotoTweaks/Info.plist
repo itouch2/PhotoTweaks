@@ -44,6 +44,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>PhotoTweaks needs to use Photo Library</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>PhotoTweaks needs to use Photo Library</string>
 </dict>
 </plist>
