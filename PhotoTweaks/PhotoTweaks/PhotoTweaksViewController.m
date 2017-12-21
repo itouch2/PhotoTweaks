@@ -121,9 +121,9 @@
     [self.delegate photoTweaksController:self didFinishWithCroppedImage:image];
 }
 
-- (void)image:(UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo {
+- (void)image:(UIImage *)image finishedSavingWithError:(NSError *) error contextInfo:(void *) contextInfo {
     if(error != nil) {
-        NSLog(@"ERROR :%@",[error localizedDescription]);
+        NSLog(@"ERROR: %@",[error localizedDescription]);
     }
 }
 
