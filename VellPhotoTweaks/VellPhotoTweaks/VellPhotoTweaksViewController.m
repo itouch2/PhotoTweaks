@@ -47,6 +47,7 @@
   [self setupSubviews];
 }
 
+#pragma mark - Views
 - (void)setupSubviews
 {
   self.btnOriginX = self.view.frame.size.width * 0.10;
@@ -111,6 +112,29 @@
   [self.view addSubview:self.photoView];
 }
 
+#pragma mark - Reset Button
+- (void)setAspectBtn:(UIButton *)btn
+{
+  VellPhotoTweakView *pv = self.photoView;
+  [pv resetAspectBtn:btn];
+  self.photoView = pv;
+}
+
+- (void)setResetBtn:(UIButton *)btn
+{
+  VellPhotoTweakView *pv = self.photoView;
+  [pv resetResetBtn:btn];
+  self.photoView = pv;
+}
+
+- (void)setRotationBtn:(UIButton *)btn
+{
+  VellPhotoTweakView *pv = self.photoView;
+  [pv resetRotationBtn:btn];
+  self.photoView = pv;
+}
+
+#pragma mark - Tapped
 - (void)cancelBtnTapped
 {
   [self.delegate vellPhotoTweaksControllerDidCancel:self];
@@ -160,6 +184,7 @@
   [self.delegate vellPhotoTweaksController:self didFinishWithCroppedImage:image];
 }
 
+# pragma mark - others
 - (CGImageRef)newScaledImage:(CGImageRef)source withOrientation:(UIImageOrientation)orientation toSize:(CGSize)size withQuality:(CGInterpolationQuality)quality
 {
   CGSize srcSize = size;
@@ -270,6 +295,7 @@
   [super didReceiveMemoryWarning];
 }
 
+#pragma mark - VellPhotoTweaksDelegate
 - (void)vellPhotoTweakAspectTapped:(VellPhotoTweakView *)photoTweaksView {
   [self.delegate vellPhotoTweaksControllerAspectTapped:self];
 }

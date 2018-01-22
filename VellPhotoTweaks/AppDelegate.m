@@ -40,7 +40,7 @@
   photoTweaksViewController.backGroundColor = [UIColor redColor];
   photoTweaksViewController.sliderAlpha = 1.0;
   [picker pushViewController:photoTweaksViewController animated:YES];
-  photoTweaksViewController.sliderTintColor = [UIColor whiteColor];  
+  photoTweaksViewController.sliderTintColor = [UIColor whiteColor];
 }
 
 - (void)vellPhotoTweaksController:(VellPhotoTweaksViewController *)controller didFinishWithCroppedImage:(UIImage *)croppedImage
@@ -51,6 +51,7 @@
 - (void)vellPhotoTweaksControllerAspectTapped:(VellPhotoTweaksViewController *)controller
 {
   [controller.photoView setAspectRatio:1];
+  [controller setRotationBtn:nil];
   
 }
 
