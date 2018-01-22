@@ -84,6 +84,10 @@
 @property (nonatomic, strong) UIButton *aspectBtn; // change aspect ratio of image
 @property (nonatomic, strong) UIButton *rotationBtn; // rotate image by 90 degree
 
+- (void)setAspectBtn:(UIButton *)aspectBtn;
+- (void)setResetBtn:(UIButton *)resetBtn;
+- (void)setRotationBtn:(UIButton *)rotationBtn;
+
 /**
  Creates a photo tweaks view controller with the image to process.
  */
