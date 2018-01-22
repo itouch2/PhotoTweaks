@@ -51,7 +51,6 @@
 - (void)vellPhotoTweaksControllerAspectTapped:(VellPhotoTweaksViewController *)controller
 {
   [controller.photoView setAspectRatio:1];
-  [controller setRotationBtn:nil];
   
 }
 
