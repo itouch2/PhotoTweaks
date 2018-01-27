@@ -49,6 +49,11 @@ extern const NSInteger VPTAspectRatioTypeFourByThree;
 
 - (instancetype)initWithFrame:(CGRect)frame
                         image:(UIImage *)image
+             maxRotationAngle:(CGFloat)maxRotationAngle
+          isFixCropViewAspect:(BOOL)isFixCropAspect;
+
+- (instancetype)initWithFrame:(CGRect)frame
+                        image:(UIImage *)image
              maxRotationAngle:(CGFloat)maxRotationAngle;
 
 - (instancetype)initWithFrame:(CGRect)frame

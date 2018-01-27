@@ -83,6 +83,7 @@
 @property (nonatomic, strong) UIButton *resetBtn; // reset button
 @property (nonatomic, strong) UIButton *aspectBtn; // change aspect ratio of image
 @property (nonatomic, strong) UIButton *rotationBtn; // rotate image by 90 degree
+@property (assign, nonatomic) BOOL fixCropViewAspect;
 
 - (void)setAspectBtn:(UIButton *)aspectBtn;
 - (void)setResetBtn:(UIButton *)resetBtn;
