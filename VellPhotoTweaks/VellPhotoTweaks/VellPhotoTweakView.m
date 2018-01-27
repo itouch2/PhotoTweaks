@@ -154,6 +154,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 @property (nonatomic, assign) BOOL cropLinesDismissed;
 @property (nonatomic, assign) BOOL gridLinesDismissed;
+@property (assign, nonatomic) BOOL isFixAspect;
 
 @end
 
@@ -233,70 +234,14 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
   if ([touches count] == 1) {
-    CGPoint location = [[touches anyObject] locationInView:self];
-    CGRect frame = self.frame;
-    
-    CGPoint p0 = CGPointMake(0, 0);
-    CGPoint p1 = CGPointMake(self.frame.size.width, 0);
-    CGPoint p2 = CGPointMake(0, self.frame.size.height);
-    CGPoint p3 = CGPointMake(self.frame.size.width, self.frame.size.height);
-    
-    BOOL canChangeWidth = frame.size.width > kMinimumCropArea;
-    BOOL canChangeHeight = frame.size.height > kMinimumCropArea;
-    
-    if (distanceBetweenPoints(location, p0) < kCropViewHotArea) {
-      if (canChangeWidth) {
-        frame.origin.x += location.x;
-        frame.size.width -= location.x;
-      }
-      if (canChangeHeight) {
-        frame.origin.y += location.y;
-        frame.size.height -= location.y;
-      }
-    } else if (distanceBetweenPoints(location, p1) < kCropViewHotArea) {
-      if (canChangeWidth) {
-        frame.size.width = location.x;
-      }
-      if (canChangeHeight) {
-        frame.origin.y += location.y;
-        frame.size.height -= location.y;
-      }
-    } else if (distanceBetweenPoints(location, p2) < kCropViewHotArea) {
-      if (canChangeWidth) {
-        frame.origin.x += location.x;
-        frame.size.width -= location.x;
-      }
-      if (canChangeHeight) {
-        frame.size.height = location.y;
-      }
-    } else if (distanceBetweenPoints(location, p3) < kCropViewHotArea) {
-      if (canChangeWidth) {
-        frame.size.width = location.x;
-      }
-      if (canChangeHeight) {
-        frame.size.height = location.y;
-      }
-    } else if (fabs(location.x - p0.x) < kCropViewHotArea) {
-      if (canChangeWidth) {
-        frame.origin.x += location.x;
-        frame.size.width -= location.x;
-      }
-    } else if (fabs(location.x - p1.x) < kCropViewHotArea) {
-      if (canChangeWidth) {
-        frame.size.width = location.x;
-      }
-    } else if (fabs(location.y - p0.y) < kCropViewHotArea) {
-      if (canChangeHeight) {
-        frame.origin.y += location.y;
-        frame.size.height -= location.y;
-      }
-    } else if (fabs(location.y - p2.y) < kCropViewHotArea) {
-      if (canChangeHeight) {
-        frame.size.height = location.y;
-      }
+    if (_isFixAspect){
+      CGRect frame = [self updateFrameWithFixAspect:touches];
+      self.frame = frame;
     }
-    
-    self.frame = frame;
+    else{
+      CGRect frame = [self updateFrame:touches];
+      self.frame = frame;
+    }
     
     // update crop lines
     [self updateCropLines:NO];
@@ -317,6 +262,162 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
   
+}
+
+- (CGRect)updateFrame:(NSSet *)touches{
+  CGPoint location = [[touches anyObject] locationInView:self];
+  CGRect frame = self.frame;
+  
+  CGPoint p0 = CGPointMake(0, 0);
+  CGPoint p1 = CGPointMake(self.frame.size.width, 0);
+  CGPoint p2 = CGPointMake(0, self.frame.size.height);
+  CGPoint p3 = CGPointMake(self.frame.size.width, self.frame.size.height);
+  
+  BOOL canChangeWidth = frame.size.width > kMinimumCropArea;
+  BOOL canChangeHeight = frame.size.height > kMinimumCropArea;
+  
+  if (distanceBetweenPoints(location, p0) < kCropViewHotArea) {
+    if (canChangeWidth) {
+      frame.origin.x += location.x;
+      frame.size.width -= location.x;
+    }
+    if (canChangeHeight) {
+      frame.origin.y += location.y;
+      frame.size.height -= location.y;
+    }
+  } else if (distanceBetweenPoints(location, p1) < kCropViewHotArea) {
+    if (canChangeWidth) {
+      frame.size.width = location.x;
+    }
+    if (canChangeHeight) {
+      frame.origin.y += location.y;
+      frame.size.height -= location.y;
+    }
+  } else if (distanceBetweenPoints(location, p2) < kCropViewHotArea) {
+    if (canChangeWidth) {
+      frame.origin.x += location.x;
+      frame.size.width -= location.x;
+    }
+    if (canChangeHeight) {
+      frame.size.height = location.y;
+    }
+  } else if (distanceBetweenPoints(location, p3) < kCropViewHotArea) {
+    if (canChangeWidth) {
+      frame.size.width = location.x;
+    }
+    if (canChangeHeight) {
+      frame.size.height = location.y;
+    }
+  } else if (fabs(location.x - p0.x) < kCropViewHotArea) {
+    if (canChangeWidth) {
+      frame.origin.x += location.x;
+      frame.size.width -= location.x;
+    }
+  } else if (fabs(location.x - p1.x) < kCropViewHotArea) {
+    if (canChangeWidth) {
+      frame.size.width = location.x;
+    }
+  } else if (fabs(location.y - p0.y) < kCropViewHotArea) {
+    if (canChangeHeight) {
+      frame.origin.y += location.y;
+      frame.size.height -= location.y;
+    }
+  } else if (fabs(location.y - p2.y) < kCropViewHotArea) {
+    if (canChangeHeight) {
+      frame.size.height = location.y;
+    }
+  }
+  
+  return frame;
+}
+
+- (CGRect)updateFrameWithFixAspect:(NSSet *)touches{
+  CGPoint location = [[touches anyObject] locationInView:self];
+  CGRect frame = self.frame;
+  
+  CGPoint p0 = CGPointMake(0, 0);
+  CGPoint p1 = CGPointMake(self.frame.size.width, 0);
+  CGPoint p2 = CGPointMake(0, self.frame.size.height);
+  CGPoint p3 = CGPointMake(self.frame.size.width, self.frame.size.height);
+  
+  BOOL canChange = frame.size.width > kMinimumCropArea;
+  
+  if (distanceBetweenPoints(location, p0) < kCropViewHotArea) {
+    if (canChange) {
+      if (location.x < location.y){
+        frame.origin.x += location.x;
+        frame.origin.y += location.x;
+        frame.size.width -= location.x;
+        frame.size.height -= location.x;
+      }
+      else{
+        frame.origin.x += location.y;
+        frame.origin.y += location.y;
+        frame.size.width -= location.y;
+        frame.size.height -= location.y;
+      }
+    }
+  } else if (distanceBetweenPoints(location, p1) < kCropViewHotArea) {
+    if (canChange) {
+      if (location.x < location.y){
+        frame.size.width = location.x;
+        frame.size.height = location.x;
+      }
+      else{
+        frame.size.width -= location.y;
+        frame.origin.y += location.y;
+        frame.size.height -= location.y;
+      }
+    }
+  } else if (distanceBetweenPoints(location, p2) < kCropViewHotArea) {
+    if (canChange) {
+      if (location.x < location.y){
+        frame.origin.x += location.x;
+        frame.size.width -= location.x;
+        frame.size.height -= location.x;
+      }
+      else{
+        frame.origin.x += location.y;
+        frame.size.width -= location.y;
+        frame.size.height -= location.y;
+      }
+    }
+  } else if (distanceBetweenPoints(location, p3) < kCropViewHotArea) {
+    if (canChange) {
+      if (location.x < location.y){
+        frame.size.width = location.x;
+        frame.size.height = location.x;
+      }
+      else{
+        frame.size.width = location.y;
+        frame.size.height = location.y;
+      }
+    }
+  }else if (fabs(location.x - p0.x) < kCropViewHotArea) {
+    if (canChange) {
+      frame.origin.x += location.x;
+      frame.size.width -= location.x;
+      frame.size.height -= location.x;
+    }
+  } else if (fabs(location.x - p1.x) < kCropViewHotArea) {
+    if (canChange) {
+      frame.size.width = location.x;
+      frame.size.height = location.x;
+    }
+  } else if (fabs(location.y - p0.y) < kCropViewHotArea) {
+    if (canChange) {
+      frame.origin.y += location.y;
+      frame.size.height -= location.y;
+      frame.size.width -= location.y;
+    }
+  } else if (fabs(location.y - p2.y) < kCropViewHotArea) {
+    if (canChange) {
+      frame.size.width = location.y;
+      frame.size.height = location.y;
+    }
+  }
+  
+  return frame;
 }
 
 - (void)updateCropLines:(BOOL)animate
@@ -441,6 +542,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 @property (nonatomic, assign) BOOL manualZoomed;
 @property (nonatomic, assign) BOOL isSetAspect;
+@property (nonatomic, assign) BOOL isFixCropAspect;
 
 // masks
 @property (nonatomic, strong) UIView *topMask;
@@ -514,8 +616,26 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
     _scrollView.photoContentView = self.photoContentView;
     [self.scrollView addSubview:_photoContentView];
     
-    _cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
-    _cropView.center = self.scrollView.center;
+    if (_isFixCropAspect){
+      // cropView aspect ratio: 1:1
+      CGFloat width = self.scrollView.frame.size.width;
+      CGFloat height = self.scrollView.frame.size.height;
+      if (width < height){
+        CGRect cropViewFrame = CGRectMake(self.scrollView.center.x - width/2, self.scrollView.center.y - width/2, width, width);
+        _cropView = [[CropView alloc] initWithFrame:cropViewFrame];
+        _cropView.isFixAspect = YES;
+      }
+      else{
+        CGRect cropViewFrame = CGRectMake(self.scrollView.center.x - height/2, self.scrollView.center.y - height/2, height, height);
+        _cropView = [[CropView alloc] initWithFrame:cropViewFrame];
+        _cropView.isFixAspect = YES;
+      }
+    }
+    else{
+      _cropView = [[CropView alloc] initWithFrame:self.scrollView.frame];
+      _cropView.center = self.scrollView.center;
+      _cropView.isFixAspect = NO;
+    }
     _cropView.delegate = self;
     [self addSubview:_cropView];
     
@@ -580,6 +700,12 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 - (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image
 {
+  return [self initWithFrame:frame image:image maxRotationAngle:kMaxRotationAngle];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image maxRotationAngle:(CGFloat)maxRotationAngle isFixCropViewAspect:(BOOL)isFixCropAspect
+{
+  _isFixCropAspect = true;
   return [self initWithFrame:frame image:image maxRotationAngle:kMaxRotationAngle];
 }
 

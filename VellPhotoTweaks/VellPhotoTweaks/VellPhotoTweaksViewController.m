@@ -89,7 +89,7 @@
 
 - (void)setupPhotoViews
 {
-  VellPhotoTweakView *pv = [[VellPhotoTweakView alloc] initWithFrame:self.view.bounds image:self.image maxRotationAngle:self.maxRotationAngle];
+  VellPhotoTweakView *pv = [[VellPhotoTweakView alloc] initWithFrame:self.view.bounds image:self.image maxRotationAngle:self.maxRotationAngle isFixCropViewAspect:self.fixCropViewAspect];
   pv.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   pv.slider.alpha = self.sliderAlpha;
   
