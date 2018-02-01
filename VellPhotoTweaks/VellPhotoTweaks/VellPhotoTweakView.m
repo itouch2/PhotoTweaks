@@ -705,7 +705,7 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 
 - (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image maxRotationAngle:(CGFloat)maxRotationAngle isFixCropViewAspect:(BOOL)isFixCropAspect
 {
-  _isFixCropAspect = true;
+  _isFixCropAspect = isFixCropAspect;
   return [self initWithFrame:frame image:image maxRotationAngle:kMaxRotationAngle];
 }
 
