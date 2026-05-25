@@ -10,6 +10,7 @@
 #import "PhotoTweakView.h"
 #import "UIColor+Tweak.h"
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <Photos/Photos.h>
 
 @interface PhotoTweaksViewController ()
 
@@ -115,7 +116,19 @@
     CGImageRelease(imageRef);
 
     if (self.autoSaveToLibray) {
-        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:finishedSavingWithError:contextInfo:), nil);
+    __block PHObjectPlaceholder *placeholder;
+    
+     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+         PHAssetChangeRequest* createAssetRequest = [PHAssetChangeRequest creationRequestForAssetFromImage:image];
+         placeholder = [createAssetRequest placeholderForCreatedAsset];
+    
+     } completionHandler:^(BOOL success, NSError *error) {
+         if (success) {
+             NSLog(@"didFinishRecordingToOutputFileAtURL - success");
+         } else {
+             NSLog(@"%@", error);
+         }
+     }];
     }
 
     [self.delegate photoTweaksController:self didFinishWithCroppedImage:image];
